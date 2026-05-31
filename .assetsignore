@@ -1,0 +1,10 @@
+﻿.git/
+.git/**
+.env
+*.env
+*.log
+*.jsonl
+__pycache__/
+.venv/
+venv/
+node_modules/
