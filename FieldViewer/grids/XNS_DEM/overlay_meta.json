@@ -1,0 +1,22 @@
+{
+  "name": "XNS_DEM",
+  "utm_extent": [
+    261950.0,
+    289850.0,
+    2699700.0,
+    2730100.0
+  ],
+  "merc_extent": [
+    6083353.953502082,
+    6114529.495340787,
+    2801312.3343955427,
+    2835378.1712168623
+  ],
+  "display_mode": "mercator",
+  "raster_px": [
+    559,
+    305
+  ],
+  "display_url": "grids/XNS_DEM/overlay.png",
+  "display_json_url": "grids/XNS_DEM/grid_display.json"
+}

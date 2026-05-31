@@ -1,0 +1,30 @@
+{
+  "name": "XNS_DEM",
+  "utm_extent": [
+    261950.0,
+    289850.0,
+    2699700.0,
+    2730100.0
+  ],
+  "merc_extent": [
+    6083353.953502082,
+    6114529.495340787,
+    2801312.3343955427,
+    2835378.1712168623
+  ],
+  "display_mode": "mercator",
+  "nrows": 305,
+  "ncols": 559,
+  "dx": 50.0,
+  "dy": 100.0,
+  "null": 1e+30,
+  "z_range": [
+    -160.9985,
+    261.7349
+  ],
+  "processing": {
+    "flipud": true,
+    "negate_z": true,
+    "upscale": null
+  }
+}

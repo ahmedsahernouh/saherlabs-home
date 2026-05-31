@@ -1,0 +1,40 @@
+{
+  "grids": [
+    {
+      "name": "BCU",
+      "base_url": "grids/BCU/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    },
+    {
+      "name": "XNS_DEM",
+      "base_url": "grids/XNS_DEM/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    },
+    {
+      "name": "XSEtive_D",
+      "base_url": "grids/XSEtive_D/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    },
+    {
+      "name": "XSNess_D",
+      "base_url": "grids/XSNess_D/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    },
+    {
+      "name": "XSTarbert_D",
+      "base_url": "grids/XSTarbert_D/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    },
+    {
+      "name": "XSTarbert_D2",
+      "base_url": "grids/XSTarbert_D2/",
+      "overlay_meta": "overlay_meta.json",
+      "grid_meta": "grid_meta.json"
+    }
+  ]
+}

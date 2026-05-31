@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Field Status Dashboard</title>
+    <style>
+      html, body {
+        box-sizing: border-box;
+        display: flow-root;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.9.0.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.9.0.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.9.0.min.js"></script>
+<script>
+Bokeh.set_log_level("info");
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- FIELDVIEWER_UI_THEME_ASSETS -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+  :root {
+    --fv-surface: #f7f9fb;
+    --fv-surface-container: #ffffff;
+    --fv-surface-soft: #f1f5f9;
+    --fv-border: #e2e8f0;
+    --fv-border-strong: #c3c6ce;
+    --fv-text: #191c1e;
+    --fv-muted: #64748b;
+    --fv-primary: #1b3b5a;
+    --fv-action: #378add;
+    --fv-action-hover: #2a6db5;
+    --fv-action-soft: #eef5ff;
+    --fv-oil: #1d9e75;
+    --fv-water: #378add;
+    --fv-gas: #d64f4f;
+    --fv-radius-md: 8px;
+    --fv-radius-lg: 12px;
+    --fv-font-ui: 'DM Sans', Arial, sans-serif;
+    --fv-font-data: 'Space Mono', Consolas, monospace;
+  }
+  html, body {
+    min-height: 100%;
+    margin: 0;
+    background: var(--fv-surface) !important;
+    color: var(--fv-text);
+    font-family: var(--fv-font-ui);
+  }
+  body.fv-dark {
+    --fv-surface: #0b1a2e;
+    --fv-surface-container: #10243b;
+    --fv-surface-soft: #142d48;
+    --fv-border: #294563;
+    --fv-border-strong: #3a5d7f;
+    --fv-text: #edf5ff;
+    --fv-muted: #a9bdd2;
+    --fv-primary: #abc9ef;
+    --fv-action-soft: #12395d;
+    background: #0b1a2e !important;
+  }
+  body.fv-dark .bk-root,
+  body.fv-dark .bk-Column,
+  body.fv-dark .bk-Row {
+    color: var(--fv-text);
+  }
+  body.fv-dark .bk-input,
+  body.fv-dark .bk-select,
+  body.fv-dark .bk-input-group label,
+  body.fv-dark .bk-clearfix,
+  body.fv-dark .bk {
+    color: var(--fv-text);
+  }
+  .bk-root, .bk, .bk-input, .bk-btn, .bk-select, .bk-input-group label {
+    font-family: var(--fv-font-ui) !important;
+  }
+  .bk-input, .bk-select {
+    min-height: 38px !important;
+    border-radius: var(--fv-radius-md) !important;
+    border-color: var(--fv-border) !important;
+    background: #ffffff !important;
+    color: #191c1e !important;
+  }
+  .bk-input:focus, .bk-select:focus {
+    border-color: var(--fv-action) !important;
+    box-shadow: 0 0 0 2px rgba(55, 138, 221, 0.16) !important;
+  }
+  .bk-btn {
+    min-height: 38px !important;
+    border-radius: var(--fv-radius-md) !important;
+    font-weight: 700 !important;
+  }
+  .bk-btn-primary {
+    background-color: var(--fv-primary) !important;
+    border-color: var(--fv-primary) !important;
+    color: #ffffff !important;
+  }
+  body.fv-dark .bk-btn-primary {
+    background-color: #d1e4ff !important;
+    border-color: #d1e4ff !important;
+    color: #0b1a2e !important;
+  }
+  .bk-input-group input[type="checkbox"] {
+    accent-color: var(--fv-action);
+  }
+  .fieldviewer-side-panel,
+  .fv-generated-panel {
+    background: var(--fv-surface-container) !important;
+    border: 1px solid var(--fv-border) !important;
+    border-radius: var(--fv-radius-lg) !important;
+    color: var(--fv-text) !important;
+    box-shadow: none !important;
+  }
+  .fieldviewer-side-panel {
+    max-height: calc(100vh - 116px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: sticky !important;
+    top: 86px !important;
+  }
+  .fieldviewer-section-block {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-section-toggle .bk-btn,
+  .fieldviewer-section-toggle button {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    background: var(--fv-action) !important;
+    border: 1px solid var(--fv-action) !important;
+    border-radius: var(--fv-radius-md) !important;
+    color: #ffffff !important;
+    font-family: var(--fv-font-ui) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+    min-height: 36px !important;
+    padding: 8px 10px !important;
+    text-transform: uppercase !important;
+    box-shadow: none !important;
+  }
+  .fieldviewer-section-toggle .bk-btn:hover,
+  .fieldviewer-section-toggle button:hover {
+    background: var(--fv-action-hover) !important;
+    border-color: var(--fv-action-hover) !important;
+  }
+  .fieldviewer-section-content {
+    padding: 8px 0 2px 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-section-header,
+  .section-header,
+  .sidebar-section {
+    background: var(--fv-surface-soft) !important;
+    border-left: 4px solid var(--fv-primary) !important;
+    color: var(--fv-primary) !important;
+    border-radius: 0 var(--fv-radius-md) var(--fv-radius-md) 0 !important;
+    font-family: var(--fv-font-ui) !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+  }
+  body.fv-dark .fieldviewer-section-header,
+  body.fv-dark .section-header,
+  body.fv-dark .sidebar-section {
+    color: #edf5ff !important;
+  }
+  .fv-shell-theme-toggle {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 10000;
+    min-height: 34px;
+    padding: 7px 11px;
+    border-radius: var(--fv-radius-md);
+    border: 1px solid var(--fv-border-strong);
+    background: rgba(255, 255, 255, 0.92);
+    color: #1b3b5a;
+    font-family: var(--fv-font-ui);
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(27, 59, 90, 0.12);
+    box-sizing: border-box;
+  }
+  body.fv-dark .fv-shell-theme-toggle {
+    background: #d1e4ff;
+    color: #0b1a2e;
+    border-color: #d1e4ff;
+  }
+  body.fv-shell-ready {
+    background: var(--fv-surface) !important;
+  }
+  .fv-app-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    background: var(--fv-surface);
+    color: var(--fv-text);
+    font-family: var(--fv-font-ui);
+  }
+  body.fv-sidebar-expanded .fv-app-shell {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+  .fv-app-sidebar {
+    background: linear-gradient(180deg, #1b3b5a, #102a43);
+    color: #ffffff;
+    padding: 14px 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .fv-app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 8px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  body:not(.fv-sidebar-expanded) .fv-app-brand {
+    justify-content: center;
+    padding: 8px 0 16px;
+  }
+  .fv-app-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #378add, #1d9e75);
+    font-family: var(--fv-font-data);
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .fv-app-brand-title {
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .fv-app-brand-subtitle {
+    color: #b9cbe0;
+    font-size: 12px;
+  }
+  .fv-sidebar-toggle {
+    width: 100%;
+    min-height: 34px;
+    margin-top: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--fv-radius-md);
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    cursor: pointer;
+    font-family: var(--fv-font-ui);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .fv-app-nav {
+    display: grid;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .fv-app-nav a {
+    text-decoration: none;
+    color: #dbeafe;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 10px 12px;
+    border-radius: var(--fv-radius-md);
+    font-weight: 700;
+  }
+  body:not(.fv-sidebar-expanded) .fv-app-brand-copy,
+  body:not(.fv-sidebar-expanded) .fv-app-nav span:not(.fv-app-dot) {
+    display: none;
+  }
+  body:not(.fv-sidebar-expanded) .fv-app-nav a {
+    justify-content: center;
+    padding: 10px;
+  }
+  body:not(.fv-sidebar-expanded) .fv-app-dot {
+    width: 12px;
+    height: 12px;
+  }
+  .fv-app-nav a.active,
+  .fv-app-nav a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+  .fv-app-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: #378add;
+    flex: none;
+  }
+  .fv-app-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .fv-app-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .fv-app-btn {
+    min-height: 38px;
+    border-radius: var(--fv-radius-md);
+    border: 1px solid #b9d8f6;
+    background: var(--fv-action-soft);
+    color: #164e84;
+    font: inherit;
+    font-weight: 800;
+    padding: 8px 11px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .fv-app-btn.primary {
+    background: var(--fv-primary);
+    border-color: var(--fv-primary);
+    color: #ffffff;
+  }
+  .fv-panel-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 0;
+    margin: 0 0 8px;
+  }
+  .fv-panel-actions .fv-app-btn {
+    width: 100%;
+    min-width: 0;
+  }
+  body.fv-dark .fv-app-btn.primary {
+    background: #d1e4ff;
+    border-color: #d1e4ff;
+    color: #0b1a2e;
+  }
+  body.fv-dark .fv-app-btn {
+    background: #12395d;
+    border-color: #6f9ed1;
+    color: #d1e4ff;
+  }
+  .fieldviewer-chart-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-chart-row > .bk-Figure:first-child {
+    flex: 2 1 0 !important;
+  }
+  .fieldviewer-chart-row > .bk-Figure:nth-child(2) {
+    flex: 1 1 0 !important;
+  }
+  .fv-app-content {
+    padding: 22px 24px 28px;
+    min-width: 0;
+  }
+  .fv-bokeh-stage {
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .fv-mobile-titlebar {
+    display: none;
+  }
+  .fv-mobile-bar {
+    display: none;
+  }
+  .fv-mobile-controls-toggle {
+    display: none;
+    position: fixed;
+    left: 12px;
+    bottom: 10px;
+    z-index: 10001;
+    min-height: 42px;
+    padding: 9px 13px;
+    border-radius: var(--fv-radius-md);
+    border: 1px solid var(--fv-primary);
+    background: var(--fv-primary);
+    color: #ffffff;
+    font-family: var(--fv-font-ui);
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(27, 59, 90, 0.24);
+  }
+  body.fv-mobile-layout {
+    overflow-x: hidden !important;
+    padding-bottom: 68px;
+  }
+  body.fv-mobile-layout .fv-mobile-controls-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  body.fv-mobile-controls-open .fv-mobile-controls-toggle {
+    left: calc(100vw - 132px);
+    right: auto;
+    width: 120px;
+    bottom: calc(98px + 62vh - 54px);
+  }
+  .bk-figure, .bk-canvas, canvas {
+    color-scheme: light;
+  }
+  .fieldviewer-responsive-root {
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-main-plot-panel {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .fieldviewer-map-figure {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-key-map-panel {
+    background: #ffffff !important;
+    border: 1px solid var(--fv-border) !important;
+    border-radius: var(--fv-radius-lg) !important;
+    padding: 8px !important;
+  }
+  .fieldviewer-chart-legend {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 74px !important;
+    max-height: 130px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    border: 1px solid var(--fv-border) !important;
+    border-radius: var(--fv-radius-md) !important;
+    color: #142334 !important;
+  }
+  body.fv-mobile-layout .fieldviewer-mobile-hide {
+    display: none !important;
+  }
+  body.fv-mobile-layout .fieldviewer-timeline-slider-row,
+  body.fv-mobile-layout .fieldviewer-timeline-slider {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  body.fv-mobile-layout .fieldviewer-timeline-time-info {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+  }
+  body.fv-mobile-layout .fieldviewer-timeline-time-info .fieldviewer-timeline-date {
+    font-size: 15px !important;
+  }
+  body.fv-dark .fv-ai-page,
+  body.fv-dark .fv-ai-page *,
+  body.fv-dark .fv-db-page,
+  body.fv-dark .fv-db-page * {
+    color: #142334 !important;
+  }
+  body.fv-dark .fv-ai-page button.bk-btn-primary,
+  body.fv-dark .fv-ai-page .fv-ai-home,
+  body.fv-dark .fv-db-page button:not(.secondary) {
+    color: #ffffff !important;
+  }
+  body.fv-dark .fieldviewer-key-map-panel,
+  body.fv-dark .fieldviewer-key-map-panel *,
+  body.fv-dark .fieldviewer-main-plot-panel,
+  body.fv-dark .fieldviewer-main-plot-panel * {
+    color: #1f2937 !important;
+  }
+  body.fv-dark .fieldviewer-key-map-panel .bk,
+  body.fv-dark .fieldviewer-main-plot-panel .bk {
+    color: #1f2937 !important;
+  }
+  @media (max-width: 760px) {
+    .fv-app-shell {
+      display: block;
+      padding-bottom: 106px;
+    }
+    .fv-app-sidebar {
+      display: none;
+    }
+    .fv-app-content {
+      padding: 8px 8px 18px;
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+    }
+    .fv-mobile-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      margin: 0 0 8px;
+      padding: 9px 10px;
+      border: 1px solid var(--fv-border);
+      border-radius: var(--fv-radius-md);
+      background: #ffffff;
+      box-sizing: border-box;
+      color: #102033;
+      box-shadow: 0 6px 18px rgba(16, 32, 51, 0.06);
+    }
+    body.fv-dark .fv-mobile-titlebar {
+      background: #10243b;
+      color: #edf5ff;
+    }
+    .fv-mobile-titlebar strong {
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.15;
+      color: inherit;
+    }
+    .fv-mobile-titlebar span {
+      color: var(--fv-muted);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.15;
+      text-align: right;
+    }
+    .fv-app-actions {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      justify-content: start;
+      overflow-x: auto;
+      width: 100%;
+    }
+    .fv-app-actions > * {
+      flex: 0 0 auto;
+      min-width: 132px;
+      width: auto;
+      font-size: 13px;
+    }
+    .fv-mobile-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10002;
+      height: 98px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(2, 49px);
+      grid-auto-columns: minmax(72px, 1fr);
+      overflow-x: auto;
+      background: #ffffff;
+      border-top: 1px solid var(--fv-border);
+    }
+    body.fv-dark .fv-mobile-bar {
+      background: #10243b;
+    }
+    .fv-mobile-bar a {
+      display: grid;
+      place-items: center;
+      color: var(--fv-primary);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .fv-shell-theme-toggle {
+      top: auto;
+      right: 10px;
+      bottom: 108px;
+    }
+    .fv-mobile-controls-toggle {
+      left: 12px;
+      right: auto;
+      bottom: 108px;
+      z-index: 10004;
+    }
+    body.fv-mobile-controls-open .fv-mobile-controls-toggle {
+      left: calc(100vw - 132px);
+      right: auto;
+      width: 120px;
+      bottom: calc(98px + 62vh - 54px);
+    }
+    .fv-bokeh-stage {
+      overflow-x: auto;
+      padding-bottom: 8px;
+      max-width: 100vw;
+      min-height: 320px;
+    }
+    body.fv-mobile-main-fullscreen {
+      overflow-y: hidden !important;
+      padding-bottom: 0 !important;
+    }
+    body.fv-mobile-main-fullscreen .fv-app-shell {
+      padding-bottom: 0 !important;
+      min-height: 100vh;
+    }
+    body.fv-mobile-main-fullscreen .fv-bokeh-stage {
+      overflow-y: hidden !important;
+      padding-bottom: 0 !important;
+      min-height: auto !important;
+    }
+    .fieldviewer-responsive-root {
+      min-height: 320px !important;
+    }
+    .fieldviewer-main-plot-row,
+    .fieldviewer-chart-first-panel {
+      min-height: 320px !important;
+    }
+    body:not(.fv-mobile-controls-open) .fieldviewer-main-plot-row,
+    body:not(.fv-mobile-controls-open) .fieldviewer-chart-first-panel {
+      min-height: 560px !important;
+    }
+    body.fv-mobile-layout .fieldviewer-timeline-speed-input,
+    body.fv-mobile-layout .fieldviewer-timeline-date-edge,
+    body.fv-mobile-layout .fieldviewer-timeline-slider {
+      display: none !important;
+    }
+    body.fv-mobile-layout .fieldviewer-timeline-play-row,
+    body.fv-mobile-layout .fieldviewer-timeline-slider-row {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      width: 100% !important;
+      max-width: calc(100vw - 16px) !important;
+      min-height: 42px !important;
+      box-sizing: border-box !important;
+    }
+    body.fv-mobile-layout .fieldviewer-timeline-play-button,
+    body.fv-mobile-layout .fieldviewer-timeline-pause-button,
+    body.fv-mobile-layout .fieldviewer-timeline-step-button {
+      width: 74px !important;
+      min-width: 54px !important;
+      max-width: 88px !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      padding: 5px 8px !important;
+      font-size: 13px !important;
+      line-height: 1 !important;
+    }
+    body.fv-mobile-layout .fieldviewer-timeline-step-button {
+      width: 48px !important;
+      min-width: 48px !important;
+      max-width: 48px !important;
+      font-size: 17px !important;
+    }
+    body.fv-mobile-layout .fieldviewer-chart-legend {
+      min-height: 78px !important;
+      max-height: 118px !important;
+      font-size: 12px !important;
+      line-height: 1.25 !important;
+      margin-top: 6px !important;
+    }
+    body.fv-mobile-layout:not(.fv-mobile-controls-open) .fieldviewer-chart-legend {
+      max-height: 150px !important;
+    }
+  }
+  @media (min-width: 761px) and (max-width: 1100px) {
+    .fv-app-shell {
+      grid-template-columns: 72px minmax(0, 1fr);
+    }
+    .fv-app-sidebar {
+      padding: 14px 8px;
+    }
+    .fv-app-brand {
+      justify-content: center;
+      padding: 8px 0 16px;
+    }
+    .fv-app-brand-copy,
+    .fv-app-nav span:not(.fv-app-dot) {
+      display: none;
+    }
+    .fv-app-nav a {
+      justify-content: center;
+      padding: 10px;
+    }
+    .fv-app-dot {
+      width: 12px;
+      height: 12px;
+    }
+  }
+</style>
+
+</head>
+  <body>
+    <div id="e8b819c3-32d1-465b-b936-c69e2195df21" data-root-id="p3241" style="display: contents;"></div>
+  
+    <script type="application/json" id="e9f33f2c-291f-49b9-87f1-51edee79a0a8">
+      {"65c039b5-d5c3-41ba-90ff-d75e1660971f":{"version":"3.9.0","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p3243","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p3244"}}},"roots":[{"type":"object","name":"Column","id":"p3241","attributes":{"js_event_callbacks":{"type":"map","entries":[["document_ready",[{"type":"object","name":"CustomJS","id":"p3242","attributes":{"args":{"type":"map","entries":[["counts_div",{"type":"object","name":"Div","id":"p3218","attributes":{"css_classes":["fieldviewer-status-current-card-wrapper"],"width":280,"height":640,"text":"\n&lt;div class=\"fs-current-status-card\" style=\"font-family:'DM Sans', Arial, sans-serif; background:#02040a; color:#ffffff; border:1px solid #172033; border-radius:8px; padding:16px; box-shadow:0 16px 36px rgba(0,0,0,0.26); height:640px; max-height:640px; overflow:auto; box-sizing:border-box;\"&gt;\n  &lt;div style=\"font-size:20px; font-weight:700; line-height:1.2; margin:0 0 8px 0; color:#ffffff;\"&gt;Current Status&lt;/div&gt;\n  &lt;div style=\"font-size:20px; font-weight:700; line-height:1.2; margin:0 0 14px 0; color:#ffffff;\"&gt;Today: &lt;span class=\"fs-today-value\" style=\"font-size:20px; font-weight:700; color:#ffffff;\"&gt;2026-05-31&lt;/span&gt;&lt;/div&gt;\n  \n  &lt;details ontoggle=\"window.dispatchEvent(new Event('resize'))\" style=\"border-top:1px solid rgba(148,163,184,0.45); padding-top:10px; margin-top:12px;\"&gt;\n    &lt;summary style=\"list-style:none; cursor:pointer; color:#ffffff;\"&gt;\n      &lt;span style=\"display:flex; align-items:center; justify-content:space-between; gap:10px; color:#ffffff;\"&gt;\n        &lt;span style=\"font-size:16px; font-weight:700; line-height:1.25; color:#ffffff;\"&gt;RIGS&lt;/span&gt;\n        &lt;span style=\"font-size:11px; font-weight:700; color:#93a4b8;\"&gt;Click for details&lt;/span&gt;\n      &lt;/span&gt;\n      &lt;span style=\"display:block; margin-top:5px;\"&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:500;color:#ffffff;'&gt;Drilling&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;2&lt;/span&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:500;color:#ffffff;'&gt;Workover&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;3&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;\n    &lt;/summary&gt;\n    &lt;div style=\"margin-top:8px; padding-top:8px; border-top:1px solid rgba(148,163,184,0.22); max-height:190px; overflow:auto;\"&gt;\n      &lt;ul style='list-style:none;margin:6px 0 0 0;padding:0;'&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;DY-1 | XS500-1 | Moving&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;DY-2 | XS501-1 | drilling&lt;/li&gt;&lt;/ul&gt;&lt;ul style='list-style:none;margin:6px 0 0 0;padding:0;'&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;WY-1 | XS37-1 | installing&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;WY-2 | XS44-1 | installing&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;WY-3 | XS39-1 | installing&lt;/li&gt;&lt;/ul&gt;\n    &lt;/div&gt;\n  &lt;/details&gt;\n  \n  &lt;details ontoggle=\"window.dispatchEvent(new Event('resize'))\" style=\"border-top:1px solid rgba(148,163,184,0.45); padding-top:10px; margin-top:12px;\"&gt;\n    &lt;summary style=\"list-style:none; cursor:pointer; color:#ffffff;\"&gt;\n      &lt;span style=\"display:flex; align-items:center; justify-content:space-between; gap:10px; color:#ffffff;\"&gt;\n        &lt;span style=\"font-size:16px; font-weight:700; line-height:1.25; color:#ffffff;\"&gt;WELLS&lt;/span&gt;\n        &lt;span style=\"font-size:11px; font-weight:700; color:#93a4b8;\"&gt;Click for details&lt;/span&gt;\n      &lt;/span&gt;\n      &lt;span style=\"display:block; margin-top:5px;\"&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;'&gt;Active wells&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;11&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;\n    &lt;/summary&gt;\n    &lt;div style=\"margin-top:8px; padding-top:8px; border-top:1px solid rgba(148,163,184,0.22); max-height:190px; overflow:auto;\"&gt;\n      &lt;ul style='list-style:none;margin:6px 0 0 0;padding:0;'&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS11-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS22-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS25-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS31-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS34-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS38-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS46-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS56-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS65-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS88H-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS90H-1 | Oil 100 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;/ul&gt;\n    &lt;/div&gt;\n  &lt;/details&gt;\n  \n  &lt;details ontoggle=\"window.dispatchEvent(new Event('resize'))\" style=\"border-top:1px solid rgba(148,163,184,0.45); padding-top:10px; margin-top:12px;\"&gt;\n    &lt;summary style=\"list-style:none; cursor:pointer; color:#ffffff;\"&gt;\n      &lt;span style=\"display:flex; align-items:center; justify-content:space-between; gap:10px; color:#ffffff;\"&gt;\n        &lt;span style=\"font-size:16px; font-weight:700; line-height:1.25; color:#ffffff;\"&gt;TODAY PRODUCTION&lt;/span&gt;\n        &lt;span style=\"font-size:11px; font-weight:700; color:#93a4b8;\"&gt;Click for details&lt;/span&gt;\n      &lt;/span&gt;\n      &lt;span style=\"display:block; margin-top:5px;\"&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;'&gt;Oil&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;1,100 bbl&lt;/span&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;'&gt;Water&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;550 bbl&lt;/span&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;'&gt;Gas&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;11,000 Mscf&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;\n    &lt;/summary&gt;\n    &lt;div style=\"margin-top:8px; padding-top:8px; border-top:1px solid rgba(148,163,184,0.22); max-height:190px; overflow:auto;\"&gt;\n      &lt;ul style='list-style:none;margin:6px 0 0 0;padding:0;'&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS11-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS22-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS25-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS31-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS34-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS38-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS46-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS56-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS65-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS88H-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;li style='padding:5px 0;border-top:1px solid rgba(148,163,184,0.16);font-size:12px;line-height:1.35;color:#dbeafe;'&gt;XS90H-1 | Oil 100 bbl | Water 50 bbl | Gas 1,000 Mscf&lt;/li&gt;&lt;/ul&gt;\n    &lt;/div&gt;\n  &lt;/details&gt;\n  \n  &lt;details ontoggle=\"window.dispatchEvent(new Event('resize'))\" style=\"border-top:1px solid rgba(148,163,184,0.45); padding-top:10px; margin-top:12px;\"&gt;\n    &lt;summary style=\"list-style:none; cursor:pointer; color:#ffffff;\"&gt;\n      &lt;span style=\"display:flex; align-items:center; justify-content:space-between; gap:10px; color:#ffffff;\"&gt;\n        &lt;span style=\"font-size:16px; font-weight:700; line-height:1.25; color:#ffffff;\"&gt;MONTH PRODUCTION&lt;/span&gt;\n        &lt;span style=\"font-size:11px; font-weight:700; color:#93a4b8;\"&gt;Click for details&lt;/span&gt;\n      &lt;/span&gt;\n      &lt;span style=\"display:block; margin-top:5px;\"&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:500;color:#ffffff;'&gt;Cum.Oil&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:500;color:#ffffff;'&gt;Cum.Water&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;0&lt;/span&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;column-gap:22px;align-items:baseline;font-size:14px;line-height:1.35;margin:2px 0;color:#ffffff;'&gt;&lt;span style='font-size:14px;font-weight:500;color:#ffffff;'&gt;Cum.Gas&lt;/span&gt;&lt;span style='font-size:14px;font-weight:700;color:#ffffff;text-align:right;white-space:nowrap;'&gt;0&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;\n    &lt;/summary&gt;\n    &lt;div style=\"margin-top:8px; padding-top:8px; border-top:1px solid rgba(148,163,184,0.22); max-height:190px; overflow:auto;\"&gt;\n      &lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;gap:12px;font-size:12px;line-height:1.35;color:#dbeafe;padding:3px 0;'&gt;&lt;span style='color:#b9c6d6;'&gt;Source&lt;/span&gt;&lt;strong style='color:#ffffff;text-align:right;font-weight:700;'&gt;cum_info.xlsx placeholder&lt;/strong&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;gap:12px;font-size:12px;line-height:1.35;color:#dbeafe;padding:3px 0;'&gt;&lt;span style='color:#b9c6d6;'&gt;Oil&lt;/span&gt;&lt;strong style='color:#ffffff;text-align:right;font-weight:700;'&gt;0&lt;/strong&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;gap:12px;font-size:12px;line-height:1.35;color:#dbeafe;padding:3px 0;'&gt;&lt;span style='color:#b9c6d6;'&gt;Water&lt;/span&gt;&lt;strong style='color:#ffffff;text-align:right;font-weight:700;'&gt;0&lt;/strong&gt;&lt;/div&gt;&lt;div style='display:grid;grid-template-columns:minmax(0, 1fr) auto;gap:12px;font-size:12px;line-height:1.35;color:#dbeafe;padding:3px 0;'&gt;&lt;span style='color:#b9c6d6;'&gt;Gas&lt;/span&gt;&lt;strong style='color:#ffffff;text-align:right;font-weight:700;'&gt;0&lt;/strong&gt;&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/details&gt;\n&lt;/div&gt;\n"}}]]},"code":"\n            const d = new Date();\n            const yyyy = d.getFullYear();\n            const mm = String(d.getMonth() + 1).padStart(2, \"0\");\n            const dd = String(d.getDate()).padStart(2, \"0\");\n            counts_div.text = counts_div.text.replace(\n              /&lt;span class=\"fs-today-value\"([^&gt;]*)&gt;[^&lt;]*&lt;\\/span&gt;/,\n              `&lt;span class=\"fs-today-value\"$1&gt;${yyyy}-${mm}-${dd}&lt;/span&gt;`\n            );\n            "}}]]]},"width":1800,"sizing_mode":"stretch_width","children":[{"type":"object","name":"Div","id":"p3217","attributes":{"width":0,"height":0,"text":"\n&lt;style&gt;\n  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;display=swap');\n  body { background: #f4f7fb; }\n  .fs-shell { font-family: \"DM Sans\", Arial, sans-serif; color: #102033; }\n  .fs-sidebar {\n    background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);\n    border: 1px solid #d9e6f2;\n    border-radius: 10px;\n    padding: 16px;\n    box-shadow: 0 12px 34px rgba(16, 32, 51, 0.08);\n  }\n  .fs-title { font-size: 22px; font-weight: 800; letter-spacing: 0; margin-bottom: 4px; }\n  .fs-sub { color: #5c7188; font-size: 12.5px; line-height: 1.35; }\n  .fs-counts-panel { background: #02040a; border: 1px solid #172033; border-radius: 8px; padding: 16px; box-shadow: 0 16px 36px rgba(0,0,0,0.26); }\n  .fs-counts-title { color: #ffffff; font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }\n  .fs-counts-date { color: #ffffff; font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }\n  .fs-today-value { color: #ffffff; }\n  .fs-count-section { margin-top: 12px; }\n  .fs-section-title { color: #ffffff; font-size: 16px; font-weight: 700; letter-spacing: 0; line-height: 1.25; margin-bottom: 5px; }\n  .fs-count-row { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; color: #ffffff; font-size: 14px; line-height: 1.35; padding: 1px 0; margin-bottom: 2px; }\n  .fs-count-row span { color: #ffffff; font-size: 14px; font-weight: 500; }\n  .fs-count-row.row-bold span { font-weight: 700; }\n  .fs-count-row strong { color: #ffffff; font-size: 14px; font-weight: 700; text-align: right; white-space: nowrap; }\n  .fs-status-shell { background: #02040a; border: 1px solid #172033; border-radius: 10px; padding: 12px; box-shadow: 0 14px 32px rgba(0,0,0,0.22); }\n  .fs-status-title { color: #ffffff; font-size: 18px; font-weight: 900; letter-spacing: 0.04em; margin: 0; }\n  .fs-panel { background: #ffffff; border: 1px solid #dbe7f2; border-radius: 9px; padding: 12px; box-shadow: 0 8px 22px rgba(16, 32, 51, 0.05); }\n  .fs-panel h3 { font-size: 14px; margin: 0 0 8px; color: #102033; font-weight: 800; }\n  .fs-panel h4 { font-size: 12px; margin: 10px 0 4px; color: #354b63; font-weight: 800; }\n  .fs-muted { color: #71839a; font-size: 12px; }\n  .fs-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; max-height: 160px; overflow: auto; }\n  .fs-list li { padding: 5px 8px; border: 1px solid #dbe7f2; border-radius: 6px; background: #f8fbfe; color: #334155; font-size: 12px; font-weight: 700; }\n  .fs-list li:nth-child(odd) { background: #ffffff; }\n  .fs-source { font-size: 11px; color: #66798f; line-height: 1.4; margin-top: 8px; }\n  .fs-back-note { font-size: 11px; color: #66798f; margin-top: 8px; line-height: 1.35; }\n  .fs-control-title { font-size: 13px; font-weight: 800; color: #102033; margin: 0 0 5px; }\n  .fs-info-line { margin-bottom: 6px; }\n  .fs-info-line b { color: #102033; font-size: 12px; }\n&lt;/style&gt;\n"}},{"type":"object","name":"Row","id":"p3240","attributes":{"css_classes":["fieldviewer-responsive-root","fieldviewer-status-layout"],"sizing_mode":"stretch_width","children":[{"type":"object","name":"Column","id":"p3236","attributes":{"css_classes":["fieldviewer-side-panel"],"styles":{"type":"map","entries":[["overflow-y","auto"],["overflow-x","hidden"],["border","1px solid #e2e8f0"],["border-radius","12px"],["background","#ffffff"],["padding","0 12px 12px 12px"],["min-width","360px"],["max-width","360px"],["width","360px"]]},"width":360,"height":980,"sizing_mode":"fixed","children":[{"type":"object","name":"Div","id":"p3219","attributes":{"text":"&lt;div style=\"font-family:'DM Sans',Arial,sans-serif;padding:14px 16px;border-bottom:1px solid #e2e8f0;background:#ffffff;\"&gt;&lt;h2 style='margin:0;color:#191c1e;font-size:18px;font-weight:800;'&gt;Field Status Dashboard&lt;/h2&gt;&lt;div style='font-size:12px;margin-top:3px;color:#64748b;'&gt;Generated controls&lt;/div&gt;&lt;/div&gt;"}},{"type":"object","name":"Div","id":"p3220","attributes":{"text":"&lt;div style=\"font-family:'DM Sans',Arial,sans-serif;color:#64748b;line-height:1.4;padding:10px 16px 2px;\"&gt;Map and bubble controls.&lt;/div&gt;"}},{"type":"object","name":"Button","id":"p3221","attributes":{"button_type":"primary","js_event_callbacks":{"type":"map","entries":[["button_click",[{"type":"object","name":"CustomJS","id":"p3222","attributes":{"code":"window.location.href='menu.html';"}}]]]},"css_classes":["fieldviewer-nav-button"],"width":360,"label":"Back to menu"}},{"type":"object","name":"Div","id":"p3223","attributes":{"text":"&lt;div style='height:10px;'&gt;&lt;/div&gt;"}},{"type":"object","name":"Column","id":"p3227","attributes":{"css_classes":["fieldviewer-section-block"],"sizing_mode":"stretch_width","children":[{"type":"object","name":"Button","id":"p3225","attributes":{"js_event_callbacks":{"type":"map","entries":[["button_click",[{"type":"object","name":"CustomJS","id":"p3226","attributes":{"args":{"type":"map","entries":[["content",{"type":"object","name":"Column","id":"p3224","attributes":{"css_classes":["fieldviewer-section-content"],"visible":false,"width":360,"sizing_mode":"stretch_width","children":[{"type":"object","name":"CheckboxGroup","id":"p3119","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:active",[{"type":"object","name":"CustomJS","id":"p3120","attributes":{"args":{"type":"map","entries":[["tile_renderer",{"type":"object","name":"TileRenderer","id":"p3117","attributes":{"tile_source":{"type":"object","name":"WMTSTileSource","id":"p3116","attributes":{"url":"https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{Z}/{Y}/{X}","max_zoom":17,"attribution":"Powered by Esri | Sources: Esri and imagery providers"}}}}]]},"code":"tile_renderer.visible = cb_obj.active.includes(0);"}}]]]},"width":360,"labels":["Show ESRI World Imagery"],"active":[0]}}]}}],["header",{"id":"p3225"}],["title","BACKGROUND"]]},"code":"\n            content.visible = !content.visible;\n            header.label = (content.visible ? \"- \" : \"+ \") + title;\n            "}}]]]},"css_classes":["fieldviewer-section-toggle"],"width":360,"label":"+ BACKGROUND"}},{"id":"p3224"}]}},{"type":"object","name":"Column","id":"p3231","attributes":{"css_classes":["fieldviewer-section-block"],"sizing_mode":"stretch_width","children":[{"type":"object","name":"Button","id":"p3229","attributes":{"js_event_callbacks":{"type":"map","entries":[["button_click",[{"type":"object","name":"CustomJS","id":"p3230","attributes":{"args":{"type":"map","entries":[["content",{"type":"object","name":"Column","id":"p3228","attributes":{"css_classes":["fieldviewer-section-content"],"visible":false,"width":360,"sizing_mode":"stretch_width","children":[{"type":"object","name":"CheckboxGroup","id":"p3191","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:active",[{"type":"object","name":"CustomJS","id":"p3192","attributes":{"args":{"type":"map","entries":[["p",{"type":"object","name":"Figure","id":"p3075","attributes":{"tags":["fieldviewer_web_mercator_map",{"type":"map","entries":[["fieldviewer_tag","fieldviewer_utm_affine_transform"],["transform",{"type":"map","entries":[["u0x",272125.0],["u0y",2715125.0],["m0x",6094808.799708566],["m0y",2818523.1344998907],["a00",1.1012773704009597],["a01",0.0],["a10",0.0],["a11",1.1012773704009597]]}]]}],"css_classes":["fieldviewer-main-plot-panel","fieldviewer-map-figure","fieldviewer-map-aspect-1366","fieldviewer-status-map-panel"],"width":1120,"height":820,"aspect_ratio":1.3658536585365855,"sizing_mode":"scale_width","x_range":{"type":"object","name":"Range1d","id":"p3085","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:start",[{"type":"object","name":"CustomJS","id":"p3115","attributes":{"args":{"type":"map","entries":[["xr",{"id":"p3085"}],["yr",{"type":"object","name":"Range1d","id":"p3086","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:start",[{"id":"p3115"}]],["change:end",[{"id":"p3115"}]]]},"start":2806640.3516732645,"end":2830405.917326517}}],["plot",{"id":"p3075"}],["plot_frame_aspect",1.3658536585365855]]},"code":"\n        if (![xr.start, xr.end, yr.start, yr.end].every(Number.isFinite)) return;\n        let target_aspect = (Number.isFinite(plot_frame_aspect) &amp;&amp; plot_frame_aspect &gt; 0)\n            ? plot_frame_aspect\n            : 1.0;\n        try {\n            const frame_w = Number(plot.inner_width);\n            const frame_h = Number(plot.inner_height);\n            if (Number.isFinite(frame_w) &amp;&amp; Number.isFinite(frame_h) &amp;&amp; frame_w &gt; 20 &amp;&amp; frame_h &gt; 20) {\n                target_aspect = frame_w / frame_h;\n            }\n        } catch (_) {}\n        const current_w = xr.end - xr.start;\n        const current_h = yr.end - yr.start;\n        if (!Number.isFinite(current_w) || !Number.isFinite(current_h) || current_h === 0) return;\n        const current_aspect = current_w / current_h;\n        if (Math.abs(current_aspect - target_aspect) &lt;= 0.001) return;\n        if (current_aspect &gt; target_aspect) {\n            const h_needed = current_w / target_aspect;\n            const y_mid = (yr.start + yr.end) / 2.0;\n            yr.start = y_mid - h_needed / 2.0;\n            yr.end = y_mid + h_needed / 2.0;\n        } else {\n            const w_needed = current_h * target_aspect;\n            const x_mid = (xr.start + xr.end) / 2.0;\n            xr.start = x_mid - w_needed / 2.0;\n            xr.end = x_mid + w_needed / 2.0;\n        }\n        "}}]],["change:end",[{"id":"p3115"}]]]},"start":6078578.6573112225,"end":6111038.942105909}},"y_range":{"id":"p3086"},"x_scale":{"type":"object","name":"LinearScale","id":"p3087"},"y_scale":{"type":"object","name":"LinearScale","id":"p3088"},"title":{"type":"object","name":"Title","id":"p3078"},"renderers":[{"id":"p3117"},{"type":"object","name":"GlyphRenderer","id":"p3127","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3121","attributes":{"selected":{"type":"object","name":"Selection","id":"p3122","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3123"},"data":{"type":"map","entries":[["xs",[[6094671.140037266,6084759.643703657,6084759.643703657,6086962.198444459,6086962.198444459,6089164.753185261,6089164.753185261,6101829.442944872,6101829.442944872,6104857.955713474,6104857.955713474,6102765.528709712,6102765.528709712,6094671.140037266,6094671.140037266],[6094671.140037266,6094671.140037266,6104857.955713474,6104857.955713474,6094671.140037266]]],["ys",[[2815081.6427173875,2815081.6427173875,2820588.0295693926,2820588.0295693926,2824993.1390509964,2824993.1390509964,2829948.8872178006,2829948.8872178006,2820588.0295693926,2820588.0295693926,2809795.5113394633,2809795.5113394633,2807097.381781981,2807097.381781981,2815081.6427173875],[2808694.233969062,2819486.7521989914,2819486.7521989914,2808694.233969062,2808694.233969062]]],["line_color",["blue","black"]]]}}},"view":{"type":"object","name":"CDSView","id":"p3128","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3129"}}},"glyph":{"type":"object","name":"MultiLine","id":"p3124","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"line_color":{"type":"field","field":"line_color"},"line_alpha":{"type":"value","value":0.8},"line_width":{"type":"value","value":1.3}}},"nonselection_glyph":{"type":"object","name":"MultiLine","id":"p3125","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"line_color":{"type":"field","field":"line_color"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":1.3}}},"muted_glyph":{"type":"object","name":"MultiLine","id":"p3126","attributes":{"xs":{"type":"field","field":"xs"},"ys":{"type":"field","field":"ys"},"line_color":{"type":"field","field":"line_color"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":1.3}}}}},{"type":"object","name":"GlyphRenderer","id":"p3135","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3060","attributes":{"selected":{"type":"object","name":"Selection","id":"p3061","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3062"},"data":{"type":"map","entries":[["map_x",[6096340.533364736,6096635.224176281,6094994.012536719,6097039.503098955,6103218.197760042,6100646.42876804,6098189.677184602,6098988.202393106,6096538.498984839,6101803.551913894,6099500.274344795,6102924.354932072,6105085.964180242,6095118.390802933,6095011.478795814,6103428.057175746,6098756.581736563,6100482.6908486085,6103587.885560513,6102862.672386556,6098496.217740653,6105245.462181797,6100739.806076276,6099739.1854575295,6095440.029871732,6104216.648862368,6097881.198380379,6100500.013941645,6102902.902048896,6104905.905330182,6103562.853525883,6095384.547517811,6098290.906600489,6104242.7381232735,6104743.599071332,6102285.878363809,6103562.798462015,6104858.748633181,6099116.908679385,6095304.29743583,6104155.891389844,6095548.736960964,6096252.067753571,6102169.935882253,6099133.736197605,6100895.394543166,6095591.345382425,6100587.994990766,6099350.29137972,6104596.193095304,6099420.123377777,6101326.61071032,6103939.071901159,6104639.153925523,6096275.2606549915,6097805.067075763,6100668.927864717,6097023.050015042,6100227.778175682,6099484.052529129,6104570.269026005,6103493.594192059,6096627.702451841,6104919.572182348,6103828.668844776,6095983.85165001,6103717.36274095,6102894.642468618,6095593.625026582,6098557.646992374,6097012.356611774,6098440.294875784,6102451.246173748,6099944.518623241,6100354.40304773,6104573.429692058,6100131.68071234,6095906.7512213085,6095630.143384185,6095456.604096157,6101424.117808696,6100490.631058449,6098439.9424670255,6101006.238110497,6103378.257413057,6101561.821531091,6098824.772831338,6095473.82807423,6098899.208168804,6104941.520640341,6098325.784054809,6096012.9143598145,6097040.472223041,6098119.470752239,6101459.975399876,6097404.345278995,6096464.041621826,6102377.614768762,6103865.792904933,6098845.664063055,6100575.187134949,6095601.851568539,6102530.945617043,6096843.706995271,6096060.731823238]],["map_y",[2817334.9443194177,2816709.870296752,2821071.0938751455,2815776.548738111,2809495.5784476344,2810488.4130353723,2815399.185034369,2818464.3923649536,2818596.545649402,2808372.506798073,2811501.522139499,2812265.1038170396,2809427.21114848,2820159.9740682915,2820175.6232197247,2815295.224450603,2808904.302627466,2811306.4198405584,2810433.3051157575,2818188.3902303837,2813388.759143607,2813311.6366893584,2813817.6956666047,2813160.0458593224,2817902.6087527648,2815546.0623972593,2819058.8839150434,2819894.0596344345,2812324.1543096406,2818730.670220343,2811300.186610642,2810881.502979963,2808195.102026475,2813299.368459452,2814291.8286128836,2811889.7444381127,2818387.9306771266,2818566.1944450736,2813097.3501386256,2810690.993007657,2819406.3809764995,2812891.389244813,2819231.432053438,2818578.7269815486,2820955.768108917,2812188.807320819,2811698.1552139837,2820437.121531327,2816341.0414926307,2819823.082307912,2814555.7497347,2812981.9803213025,2817642.442986781,2818736.3307860265,2811171.5353882317,2810550.0295042456,2810817.7059818953,2820464.257005733,2808479.8813416874,2812508.475103125,2820262.007416659,2813888.5078015216,2819193.404945838,2809649.988547738,2820613.0285657006,2814739.8612854835,2809178.553731017,2814760.477197858,2814712.7147983033,2814735.0046522804,2821129.813984535,2817864.1961980853,2813381.523751284,2809025.6193425898,2816997.931418528,2812131.5078592366,2819930.9964774377,2809409.1061485102,2820417.672972965,2808710.1914781597,2817849.769464533,2817566.7521931133,2811803.7346754842,2815135.7594873696,2815685.41803571,2812952.311908944,2815315.036430497,2817789.7168095247,2810057.868647414,2817517.778388452,2816078.717223001,2810221.936950056,2820882.8635469964,2809029.143430175,2812641.0688985214,2814654.545327599,2815200.129149669,2819576.5723813213,2818288.342164521,2815255.2150437366,2813022.2430219646,2816563.0700232773,2813069.807191592,2819395.9188414807,2813057.241616796]],["well_name",["XE11-1","XE13-1","XE15-1","XE17-1","XE19-1","XE22-1","XE37-1","XE39-1","XE43-1","XE48-1","XE54-1","XE55-1","XE56-1","XE62-1","XE7-1","XE76-1","XE79-1","XE80-1","XE81-1","XE82-1","XE83-1","XE84-1","XE86-1","XE87-1","XE88-1","XE89-1","XE9-1","XE90-1","XE92-1","XE94-1","XE98-1","XK1-1","XN1-1","XN15-1","XN16-1","XN17-1","XN18-1","XN19-1","XN25-1","XN26-1","XN32-1","XN36-1","XN37-1","XN41-1","XN42-1","XN45-1","XN47-1","XN48-1","XN52-1","XN53-1","XN56-1","XN57-1","XN59-1","XN6-1","XN60-1","XN61-1","XN63-1","XN67-1","XN68-1","XN69-1","XN71-1","XN72-1","XN75H-1","XN76H-1","XN77H-1","XN78H-1","XN79H-1","XN8-1","XN80-1","XN80H-1","XN82H-1","XN85-2","XN85H-1","XN86H-1","XN87-2","XO1-1","XP1-1","XQ1-1","XS11-1","XS22-1","XS23XN-1","XS25-1","XS31-1","XS34-1","XS36-1","XS37-1","XS38-1","XS39-1","XS44-1","XS45-1","XS46-1","XS52-1","XS53-1","XS56-1","XS63-1","XS65-1","XS70-1","XS80-1","XS83-1","XS85-1","XS86-1","XS88H-1","XS89H-1","XS90H-1","XS93H-1"]],["status",["FLOWING","FLOWING","ESP","FLOWING","ESP","GI","FLOWING","FLOWING","High WC","FLOWING","FLOWING","FLOWING","FLOWING","GI","GI","GI","FLOWING","ESP","FLOWING","FLOWING","High WC","FLOWING","ESP","FLOWING","FLOWING","ESP","FLOWING","ESP","ESP","FLOWING","ESP","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Unknown","Oil  temp. abandoned","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil  temp. abandoned","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Unknown","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Oil","Unknown","Oil","Oil","Unknown","Oil","Unknown","Oil","Online","Online","OXS","Online","Online","Online","Fish in hole","Online","Online","Online","Online","String Rec'd","Online","Open Ended","Cut Back","Online","Rec. to Ness","Online","Open Ended","String Rec'd","String Rec'd","Fish in hole","Cut Back","Online","Plan for Ness","Online","Oil"]],["reservoir",["XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert","XS_Tarbert",{"type":"number","value":"nan"},"XN_UPPER_KALASH","XN_ARGUB_SANDSTONE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE",{"type":"number","value":"nan"},"XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE","XN_SANDSTONE","XN_Etive_PALEOCENE","XN_Etive_PALEOCENE",{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},"XN_Etive_PALEOCENE","XN_Etive_PALEOCENE",{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},{"type":"number","value":"nan"},"XN_UPPER_KALASH",{"type":"number","value":"nan"},"XN_ARGUB_SANDSTONE","XS_Etive","XS_Etive",{"type":"number","value":"nan"},"XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Ness","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","XS_Etive","Tarbert",{"type":"number","value":"nan"},"Tarbert",{"type":"number","value":"nan"}]]]}}},"view":{"type":"object","name":"CDSView","id":"p3136","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3137"}}},"glyph":{"type":"object","name":"Scatter","id":"p3132","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"line_color":{"type":"value","value":"#374151"},"line_alpha":{"type":"value","value":0.55},"fill_color":{"type":"value","value":"#6b7280"},"fill_alpha":{"type":"value","value":0.45}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3133","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"line_color":{"type":"value","value":"#374151"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#6b7280"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3134","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"line_color":{"type":"value","value":"#374151"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#6b7280"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p3142","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3063","attributes":{"selected":{"type":"object","name":"Selection","id":"p3064","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3065"},"data":{"type":"map","entries":[["map_x",[6095630.143384185,6095456.604096157,6100490.631058449,6098439.9424670255,6101006.238110497,6098824.772831338,6098325.784054809,6098119.470752239,6097404.345278995,6095601.851568539,6096843.706995271]],["map_y",[2820417.672972965,2808710.1914781597,2817566.7521931133,2811803.7346754842,2815135.7594873696,2815315.036430497,2816078.717223001,2809029.143430175,2814654.545327599,2816563.0700232773,2819395.9188414807]],["well_name",["XS11-1","XS22-1","XS25-1","XS31-1","XS34-1","XS38-1","XS46-1","XS56-1","XS65-1","XS88H-1","XS90H-1"]],["res_name",["Etive","Etive","Etive","Etive","Etive","Etive","Etive","Etive","Etive","Tarbert","Tarbert"]],["oil",[100,100,100,100,100,100,100,100,100,100,100]],["water",[50,50,50,50,50,50,50,50,50,50,50]],["gas",[1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000]],["h2s",[0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]],["month_cum_oil",[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]],["month_cum_water",[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]],["month_cum_gas",[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]],["last_workover",["Unkown","Unkown","Unkown","Unkown","Unkown","Unkown","Unkown","Unkown","Unkown","Unkown","Unkown"]],["last_test",["2026-04-01","2026-04-02","2026-04-03","2026-04-04","2026-04-05","2026-04-07","2026-04-10","2026-04-11","2026-04-12","2026-04-13","2026-04-14"]],["bubble_metric",["Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl","Oil, bbl"]],["bubble_value",[100,100,100,100,100,100,100,100,100,100,100]],["bubble_size",[42.0,42.0,42.0,42.0,42.0,42.0,42.0,42.0,42.0,42.0,42.0]]]}}},"view":{"type":"object","name":"CDSView","id":"p3143","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3144"}}},"glyph":{"type":"object","name":"Scatter","id":"p3139","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":9},"line_color":{"type":"value","value":"#065f46"},"fill_color":{"type":"value","value":"#16a34a"},"fill_alpha":{"type":"value","value":0.9}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3140","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":9},"line_color":{"type":"value","value":"#065f46"},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#16a34a"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3141","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":9},"line_color":{"type":"value","value":"#065f46"},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#16a34a"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p3149","attributes":{"data_source":{"id":"p3063"},"view":{"type":"object","name":"CDSView","id":"p3150","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3151"}}},"glyph":{"type":"object","name":"Scatter","id":"p3146","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"field","field":"bubble_size"},"line_color":{"type":"value","value":"#1e3a8a"},"line_alpha":{"type":"value","value":0.58},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"#2563eb"},"fill_alpha":{"type":"value","value":0.24}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3147","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"field","field":"bubble_size"},"line_color":{"type":"value","value":"#1e3a8a"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"#2563eb"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3148","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"field","field":"bubble_size"},"line_color":{"type":"value","value":"#1e3a8a"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"#2563eb"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2}}}}},{"type":"object","name":"GlyphRenderer","id":"p3156","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3066","attributes":{"selected":{"type":"object","name":"Selection","id":"p3067","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3068"},"data":{"type":"map","entries":[["map_x",[6102126.380362253,6095874.957343625]],["map_y",[2810521.924905753,2812637.1924021775]],["rig_name",["DY-1","DY-2"]],["well_name",["XS500-1","XS501-1"]],["operation_name",["nan","drilling"]],["start_date",["2026-05-01","2026-05-10"]],["current_status",["Moving","drilling"]],["depth",[2000,2000]],["formation",["Etive","Etive"]],["hole",["7 5/8\"","7 5/8\""]],["target_td",[3000,3000]],["type_label",["Drilling","Drilling"]]]}}},"view":{"type":"object","name":"CDSView","id":"p3157","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3158"}}},"glyph":{"type":"object","name":"Scatter","id":"p3153","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#7f1d1d"},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.95},"marker":{"type":"value","value":"triangle"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3154","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#7f1d1d"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"triangle"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3155","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#7f1d1d"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"triangle"}}}}},{"type":"object","name":"GlyphRenderer","id":"p3163","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3069","attributes":{"selected":{"type":"object","name":"Selection","id":"p3070","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3071"},"data":{"type":"map","entries":[["map_x",[6101561.821531091,6098899.208168804,6095473.82807423]],["map_y",[2812952.311908944,2810057.868647414,2817789.7168095247]],["rig_name",["WY-1","WY-2","WY-3"]],["well_name",["XS37-1","XS44-1","XS39-1"]],["operation_name",["nan","nan","Perf"]],["start_date",["2026-05-15","2026-05-15","2026-05-20"]],["current_status",["installing","installing","installing"]],["depth",[2000,2000,2000]],["formation",["Etive","Etive","Etive"]],["hole",["7 5/8\"","7 5/8\"","7 5/8\""]],["target_td",[3000,3000,3000]],["type_label",["Workover","Workover","Workover"]]]}}},"view":{"type":"object","name":"CDSView","id":"p3164","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3165"}}},"glyph":{"type":"object","name":"Scatter","id":"p3160","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#92400e"},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"orange"},"fill_alpha":{"type":"value","value":0.95},"marker":{"type":"value","value":"triangle"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3161","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#92400e"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"orange"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"triangle"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3162","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#92400e"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":1.4},"fill_color":{"type":"value","value":"orange"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"triangle"}}}}},{"type":"object","name":"GlyphRenderer","id":"p3170","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p3072","attributes":{"selected":{"type":"object","name":"Selection","id":"p3073","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3074"},"data":{"type":"map","entries":[["UWI",["YAS-S","YAS-N"]],["KB",[140.17,114.68]],["TD",[140.17,114.68]],["X",[276994.47,275492.75]],["Y",[2711504.0,2716661.23]],["TYPE",["Station","Station"]],["Note",[{"type":"number","value":"nan"},{"type":"number","value":"nan"}]],["Assigned",["[\"XS22-1\",\"XS56-1\",\"XS44-1\",\"XS31-1\",\"XS37-1\",\"XS34-1\",\"XS38-1\",\"XS46-1\",\"XS65-1\"]","[\"XS88H-1\",\"XS39-1\",\"XS25-1\",\"XS90H-1\",\"XS11-1\"]"]],["STATUS",["All","All"]],["UX",[276994.47,275492.75]],["UY",[2711504.0,2716661.23]],["station_name",["YAS-S","YAS-N"]],["x",[276994.47,275492.75]],["y",[2711504.0,2716661.23]],["map_x",[6100171.436825412,6098517.626572734]],["map_y",[2814535.409141669,2820214.949834622]],["assigned_wells",["XS22-1, XS56-1, XS44-1, XS31-1, XS37-1, XS34-1, XS38-1, XS46-1, XS65-1","XS88H-1, XS39-1, XS25-1, XS90H-1, XS11-1"]],["oil",[700.0,400.0]],["water",[350.0,200.0]],["gas",[7000.0,4000.0]]]}}},"view":{"type":"object","name":"CDSView","id":"p3171","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3172"}}},"glyph":{"type":"object","name":"Scatter","id":"p3167","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#164e63"},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.9},"marker":{"type":"value","value":"square_pin"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p3168","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#164e63"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.1},"hatch_alpha":{"type":"value","value":0.1},"marker":{"type":"value","value":"square_pin"}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p3169","attributes":{"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"size":{"type":"value","value":18},"line_color":{"type":"value","value":"#164e63"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":1.2},"fill_color":{"type":"value","value":"red"},"fill_alpha":{"type":"value","value":0.2},"hatch_alpha":{"type":"value","value":0.2},"marker":{"type":"value","value":"square_pin"}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p3084","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p3099"},{"type":"object","name":"WheelZoomTool","id":"p3100","attributes":{"renderers":"auto","zoom_on_axis":false}},{"type":"object","name":"BoxZoomTool","id":"p3101","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p3102","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p3108","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p3107","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},"match_aspect":true}},{"type":"object","name":"ResetTool","id":"p3109"},{"type":"object","name":"SaveTool","id":"p3110"},{"type":"object","name":"HoverTool","id":"p3182","attributes":{"renderers":[{"id":"p3135"}],"tooltips":[["Well","@well_name"],["Status","@status"],["Reservoir","@reservoir"]],"sort_by":null}},{"type":"object","name":"HoverTool","id":"p3183","attributes":{"renderers":[{"id":"p3142"},{"id":"p3149"}],"tooltips":[["Well","@well_name"],["Reservoir","@res_name"],["Oil","@oil{0,0.0} bbl"],["Water","@water{0,0.0} bbl"],["Gas","@gas{0,0.0} Mscf"],["H2S","@h2s{0.000} ppm"],["Bubble","@bubble_metric: @bubble_value{0,0.00}"]],"sort_by":null}},{"type":"object","name":"HoverTool","id":"p3184","attributes":{"renderers":[{"id":"p3163"}],"tooltips":[["Rig","@rig_name"],["Well","@well_name"],["Operation","@operation_name"],["Status","@current_status"],["Depth","@depth{0,0}"]],"sort_by":null}},{"type":"object","name":"HoverTool","id":"p3185","attributes":{"renderers":[{"id":"p3156"}],"tooltips":[["Rig","@rig_name"],["Well","@well_name"],["Start","@start_date"],["Status","@current_status"],["Current depth","@depth{0,0}"],["Formation","@formation"],["Hole","@hole"],["Target TD","@target_td{0,0}"]],"sort_by":null}},{"type":"object","name":"HoverTool","id":"p3186","attributes":{"renderers":[{"id":"p3170"}],"tooltips":[["Station","@station_name"],["Assigned wells","@assigned_wells"],["Oil","@oil{0,0.0} bbl"],["Water","@water{0,0.0} bbl"],["Gas","@gas{0,0.0} Mscf"]],"sort_by":null}}],"active_scroll":{"id":"p3100"}}},"left":[{"type":"object","name":"LinearAxis","id":"p3094","attributes":{"ticker":{"type":"object","name":"CustomJSTicker","id":"p3112","attributes":{"args":{"type":"map","entries":[["u0x",272125.0],["u0y",2715125.0],["m0x",6094808.799708566],["m0y",2818523.1344998907],["a00",1.1012773704009597],["a11",1.1012773704009597]]},"major_code":"\n        const start = Number(cb_data.start);\n        const end = Number(cb_data.end);\n        const scale = Number(a11);\n        if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(scale) || scale === 0) return [];\n\n        const uy0 = Number(u0y) + (Math.min(start, end) - Number(m0y)) / scale;\n        const uy1 = Number(u0y) + (Math.max(start, end) - Number(m0y)) / scale;\n        const ymin = Math.min(uy0, uy1);\n        const ymax = Math.max(uy0, uy1);\n        const dy = ymax - ymin;\n        if (!Number.isFinite(dy) || dy &lt;= 0) return [];\n\n        function interval(range) {\n            const raw = range / 5.0;\n            if (!Number.isFinite(raw) || raw &lt;= 1) return 1;\n            return Math.pow(10, Math.ceil(Math.log10(raw)));\n        }\n\n        const step = interval(dy);\n        const ticks = [];\n        const startUtm = Math.ceil(ymin / step) * step;\n        for (let uy = startUtm; uy &lt;= ymax + step * 1e-9; uy += step) {\n            ticks.push(Number(m0y) + scale * (uy - Number(u0y)));\n        }\n        return ticks;\n    ","minor_code":"return [];"}},"formatter":{"type":"object","name":"CustomJSTickFormatter","id":"p3114","attributes":{"args":{"type":"map","entries":[["u0x",272125.0],["u0y",2715125.0],["m0x",6094808.799708566],["m0y",2818523.1344998907],["a00",1.1012773704009597],["a11",1.1012773704009597]]},"code":"\n        const scale = Number(a11);\n        if (!Number.isFinite(scale) || scale === 0) return Math.round(tick).toString();\n        const uy = Number(u0y) + (Number(tick) - Number(m0y)) / scale;\n        return Number.isFinite(uy) ? Math.round(uy).toString() : \"\";\n        "}},"axis_label":"Y","major_label_policy":{"type":"object","name":"AllLabels","id":"p3097"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p3089","attributes":{"ticker":{"type":"object","name":"CustomJSTicker","id":"p3111","attributes":{"args":{"type":"map","entries":[["u0x",272125.0],["u0y",2715125.0],["m0x",6094808.799708566],["m0y",2818523.1344998907],["a00",1.1012773704009597],["a11",1.1012773704009597]]},"major_code":"\n        const start = Number(cb_data.start);\n        const end = Number(cb_data.end);\n        const scale = Number(a00);\n        if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(scale) || scale === 0) return [];\n\n        const ux0 = Number(u0x) + (Math.min(start, end) - Number(m0x)) / scale;\n        const ux1 = Number(u0x) + (Math.max(start, end) - Number(m0x)) / scale;\n        const xmin = Math.min(ux0, ux1);\n        const xmax = Math.max(ux0, ux1);\n        const dx = xmax - xmin;\n        if (!Number.isFinite(dx) || dx &lt;= 0) return [];\n\n        function interval(range) {\n            const raw = range / 5.0;\n            if (!Number.isFinite(raw) || raw &lt;= 1) return 1;\n            return Math.pow(10, Math.ceil(Math.log10(raw)));\n        }\n\n        const step = interval(dx);\n        const ticks = [];\n        const startUtm = Math.ceil(xmin / step) * step;\n        for (let ux = startUtm; ux &lt;= xmax + step * 1e-9; ux += step) {\n            ticks.push(Number(m0x) + scale * (ux - Number(u0x)));\n        }\n        return ticks;\n    ","minor_code":"return [];"}},"formatter":{"type":"object","name":"CustomJSTickFormatter","id":"p3113","attributes":{"args":{"type":"map","entries":[["u0x",272125.0],["u0y",2715125.0],["m0x",6094808.799708566],["m0y",2818523.1344998907],["a00",1.1012773704009597],["a11",1.1012773704009597]]},"code":"\n        const scale = Number(a00);\n        if (!Number.isFinite(scale) || scale === 0) return Math.round(tick).toString();\n        const ux = Number(u0x) + (Number(tick) - Number(m0x)) / scale;\n        return Number.isFinite(ux) ? Math.round(ux).toString() : \"\";\n        "}},"axis_label":"X","major_label_policy":{"type":"object","name":"AllLabels","id":"p3092"}}}],"center":[{"type":"object","name":"Grid","id":"p3093","attributes":{"axis":{"id":"p3089"},"grid_line_color":"#ffffff","grid_line_alpha":0.25}},{"type":"object","name":"Grid","id":"p3098","attributes":{"dimension":1,"axis":{"id":"p3094"},"grid_line_color":"#ffffff","grid_line_alpha":0.25}},{"type":"object","name":"Legend","id":"p3130","attributes":{"border_line_alpha":0.22,"background_fill_alpha":0.82,"click_policy":"hide","label_text_font_size":"8pt","items":[{"type":"object","name":"LegendItem","id":"p3131","attributes":{"label":{"type":"value","value":"Keymap polygons"},"renderers":[{"id":"p3127"}]}},{"type":"object","name":"LegendItem","id":"p3138","attributes":{"label":{"type":"value","value":"All wells"},"renderers":[{"id":"p3135"}]}},{"type":"object","name":"LegendItem","id":"p3145","attributes":{"label":{"type":"value","value":"Active online wells"},"renderers":[{"id":"p3142"}]}},{"type":"object","name":"LegendItem","id":"p3152","attributes":{"label":{"type":"value","value":"Production bubble"},"renderers":[{"id":"p3149"}]}},{"type":"object","name":"LegendItem","id":"p3159","attributes":{"label":{"type":"value","value":"Drilling rig"},"renderers":[{"id":"p3156"}]}},{"type":"object","name":"LegendItem","id":"p3166","attributes":{"label":{"type":"value","value":"Workover rig"},"renderers":[{"id":"p3163"}]}},{"type":"object","name":"LegendItem","id":"p3173","attributes":{"label":{"type":"value","value":"Station"},"renderers":[{"id":"p3170"}]}}]}},{"type":"object","name":"LabelSet","id":"p3174","attributes":{"source":{"id":"p3063"},"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"text":{"type":"field","field":"well_name"},"y_offset":{"type":"value","value":7},"text_color":{"type":"value","value":"#064e3b"},"text_font_size":{"type":"value","value":"7pt"}}},{"type":"object","name":"LabelSet","id":"p3178","attributes":{"source":{"id":"p3066"},"x":{"type":"field","field":"map_x"},"y":{"type":"field","field":"map_y"},"text":{"type":"field","field":"rig_name"},"y_offset":{"type":"value","value":9},"text_color":{"type":"value","value":"#7f1d1d"},"text_font_size":{"type":"value","value":"8pt"}}}],"match_aspect":true}}]]},"code":"\n            const show = (cb_obj.active || []).includes(0);\n            const legends = p.legend || [];\n            legends.forEach(leg =&gt; { leg.visible = show; });\n            p.center.forEach(obj =&gt; { if (obj.type === \"Legend\") obj.visible = show; });\n            p.right.forEach(obj =&gt; { if (obj.type === \"Legend\") obj.visible = show; });\n            "}}]]]},"width":360,"labels":["Show map legend"],"active":[0]}}]}}],["header",{"id":"p3229"}],["title","MAP DISPLAY"]]},"code":"\n            content.visible = !content.visible;\n            header.label = (content.visible ? \"- \" : \"+ \") + title;\n            "}}]]]},"css_classes":["fieldviewer-section-toggle"],"width":360,"label":"+ MAP DISPLAY"}},{"id":"p3228"}]}},{"type":"object","name":"Column","id":"p3235","attributes":{"css_classes":["fieldviewer-section-block"],"sizing_mode":"stretch_width","children":[{"type":"object","name":"Button","id":"p3233","attributes":{"js_event_callbacks":{"type":"map","entries":[["button_click",[{"type":"object","name":"CustomJS","id":"p3234","attributes":{"args":{"type":"map","entries":[["content",{"type":"object","name":"Column","id":"p3232","attributes":{"css_classes":["fieldviewer-section-content"],"visible":false,"width":360,"sizing_mode":"stretch_width","children":[{"type":"object","name":"CheckboxGroup","id":"p3188","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:active",[{"type":"object","name":"CustomJS","id":"p3190","attributes":{"args":{"type":"map","entries":[["source",{"id":"p3063"}],["bubble_r",{"id":"p3149"}],["bubble_select",{"type":"object","name":"Select","id":"p3187","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:value",[{"id":"p3190"}]]]},"width":360,"title":"Bubble metric","options":[["oil","Oil, bbl"],["water","Water, bbl"],["gas","Gas, Mscf"],["h2s","H2S, ppm"],["month_cum_oil","Month Cum.Oil"],["month_cum_water","Month Cum.Water"],["month_cum_gas","Month Cum.Gas"]],"value":"oil"}}],["bubble_scale",{"type":"object","name":"TextInput","id":"p3189","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:value",[{"id":"p3190"}]]]},"width":360,"title":"Bubble scale factor","value":"1"}}],["bubble_toggle",{"id":"p3188"}]]},"code":"\n            const metric = bubble_select.value || \"oil\";\n            const enabled = (bubble_toggle.active || []).includes(0);\n            bubble_r.visible = enabled;\n            const rawScale = Number(bubble_scale.value);\n            const scale = (Number.isFinite(rawScale) &amp;&amp; rawScale &gt; 0) ? rawScale : 1.0;\n            const d = source.data;\n            const vals = (d[metric] || []).map(v =&gt; Number(v) || 0);\n            const maxv = vals.reduce((m, v) =&gt; Math.max(m, v), 0);\n            const labels = {\n              oil: \"Oil, bbl\",\n              water: \"Water, bbl\",\n              gas: \"Gas, Mscf\",\n              h2s: \"H2S, ppm\",\n              month_cum_oil: \"Month Cum.Oil\",\n              month_cum_water: \"Month Cum.Water\",\n              month_cum_gas: \"Month Cum.Gas\"\n            };\n            d.bubble_metric = vals.map(_ =&gt; labels[metric] || metric);\n            d.bubble_value = vals;\n            d.bubble_size = vals.map(v =&gt; maxv &gt; 0 ? 7 + Math.sqrt(Math.max(v, 0) / maxv) * 35 * scale : 7);\n            source.change.emit();\n            const colors = {\n              oil: [\"#2563eb\", \"#1e3a8a\"],\n              water: [\"#0891b2\", \"#164e63\"],\n              gas: [\"#dc2626\", \"#7f1d1d\"],\n              h2s: [\"#7c3aed\", \"#4c1d95\"],\n              month_cum_oil: [\"#0f766e\", \"#134e4a\"],\n              month_cum_water: [\"#0284c7\", \"#075985\"],\n              month_cum_gas: [\"#b91c1c\", \"#7f1d1d\"]\n            };\n            const c = colors[metric] || colors.oil;\n            bubble_r.glyph.fill_color = c[0];\n            bubble_r.glyph.line_color = c[1];\n            "}}]]]},"width":360,"labels":["Enable bubbles"],"active":[0]}},{"id":"p3187"},{"id":"p3189"}]}}],["header",{"id":"p3233"}],["title","BUBBLE ANALYTICS"]]},"code":"\n            content.visible = !content.visible;\n            header.label = (content.visible ? \"- \" : \"+ \") + title;\n            "}}]]]},"css_classes":["fieldviewer-section-toggle"],"width":360,"label":"+ BUBBLE ANALYTICS"}},{"id":"p3232"}]}}]}},{"type":"object","name":"Row","id":"p3239","attributes":{"css_classes":["fieldviewer-main-plot-row","fieldviewer-status-main-panel"],"width":1422,"sizing_mode":"stretch_width","children":[{"id":"p3075"},{"type":"object","name":"Column","id":"p3238","attributes":{"css_classes":["fieldviewer-status-counts-panel"],"width":280,"children":[{"id":"p3218"},{"type":"object","name":"Div","id":"p3237","attributes":{"css_classes":["fieldviewer-status-online-wells-title"],"width":280,"text":"&lt;div class='fs-shell fs-status-shell'&gt;&lt;div class='fs-status-title'&gt;Online Wells&lt;/div&gt;&lt;/div&gt;"}},{"type":"object","name":"DataTable","id":"p3211","attributes":{"css_classes":["fieldviewer-status-online-wells-table"],"width":280,"height":235,"source":{"type":"object","name":"ColumnDataSource","id":"p3193","attributes":{"selected":{"type":"object","name":"Selection","id":"p3194","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p3195"},"data":{"type":"map","entries":[["well",["XS11-1","XS22-1","XS25-1","XS31-1","XS34-1","XS38-1","XS46-1","XS56-1","XS65-1","XS88H-1","XS90H-1"]],["oil",[100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0]],["water",[50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0]],["gas",[1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0]],["h2s",[0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]]]}}},"view":{"type":"object","name":"CDSView","id":"p3215","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p3216"}}},"columns":[{"type":"object","name":"TableColumn","id":"p3196","attributes":{"field":"well","title":"Online well","formatter":{"type":"object","name":"StringFormatter","id":"p3197"},"editor":{"type":"object","name":"StringEditor","id":"p3198"}}},{"type":"object","name":"TableColumn","id":"p3200","attributes":{"field":"oil","title":"Oil","formatter":{"type":"object","name":"NumberFormatter","id":"p3199"},"editor":{"type":"object","name":"StringEditor","id":"p3202"}}},{"type":"object","name":"TableColumn","id":"p3204","attributes":{"field":"water","title":"Water","formatter":{"type":"object","name":"NumberFormatter","id":"p3203"},"editor":{"type":"object","name":"StringEditor","id":"p3206"}}},{"type":"object","name":"TableColumn","id":"p3208","attributes":{"field":"gas","title":"Gas","formatter":{"type":"object","name":"NumberFormatter","id":"p3207"},"editor":{"type":"object","name":"StringEditor","id":"p3210"}}}],"index_position":null}}],"spacing":12}}]}}]}}]}}]}}
+    </script>
+    <script>
+      (function() {
+        const fn = function() {
+          Bokeh.safely(function() {
+            (function(root) {
+              function embed_document(root) {
+              const docs_json = document.getElementById('e9f33f2c-291f-49b9-87f1-51edee79a0a8').textContent;
+              const render_items = [{"docid":"65c039b5-d5c3-41ba-90ff-d75e1660971f","roots":{"p3241":"e8b819c3-32d1-465b-b936-c69e2195df21"},"root_ids":["p3241"]}];
+              root.Bokeh.embed.embed_items(docs_json, render_items);
+              }
+              if (root.Bokeh !== undefined) {
+                embed_document(root);
+              } else {
+                let attempts = 0;
+                const timer = setInterval(function(root) {
+                  if (root.Bokeh !== undefined) {
+                    clearInterval(timer);
+                    embed_document(root);
+                  } else {
+                    attempts++;
+                    if (attempts > 100) {
+                      clearInterval(timer);
+                      console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                    }
+                  }
+                }, 10, root)
+              }
+            })(window);
+          });
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+      })();
+    </script>
+  
+<script>
+(function FIELDVIEWER_UI_THEME_ASSETS() {
+  var key = "fieldviewer-shell-theme";
+  var instancePlatform = "{Y1 Demo} Operations Platform";
+  var controlsOpenKey = "fieldviewer-mobile-controls-open";
+  var mobileQuery = window.matchMedia("(max-width: 760px)");
+  var shadowStyleId = "fvShadowThemeStyle";
+  var shadowThemeCss = `
+    :host(.fieldviewer-section-toggle) button,
+    :host(.fieldviewer-section-toggle) .bk-btn,
+    .fieldviewer-section-toggle button,
+    .fieldviewer-section-toggle .bk-btn {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      text-align: left !important;
+      background: #378add !important;
+      border: 1px solid #378add !important;
+      border-radius: 8px !important;
+      color: #ffffff !important;
+      font-family: 'DM Sans', Arial, sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.04em !important;
+      min-height: 36px !important;
+      padding: 8px 10px !important;
+      text-transform: uppercase !important;
+      box-shadow: none !important;
+    }
+    :host(.fieldviewer-section-toggle) button:hover,
+    :host(.fieldviewer-section-toggle) .bk-btn:hover,
+    .fieldviewer-section-toggle button:hover,
+    .fieldviewer-section-toggle .bk-btn:hover {
+      background: #2a6db5 !important;
+      border-color: #2a6db5 !important;
+    }
+    :host(.fieldviewer-section-content),
+    .fieldviewer-section-content {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
+    :host(.fieldviewer-chart-legend),
+    .fieldviewer-chart-legend {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 74px !important;
+      max-height: 130px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+      background: #ffffff !important;
+      border: 1px solid #dbe7f2 !important;
+      border-radius: 8px !important;
+      color: #142334 !important;
+      font-size: 12px !important;
+      line-height: 1.25 !important;
+    }
+    :host(.fieldviewer-chart-row),
+    .fieldviewer-chart-row {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    :host(.fieldviewer-chart-row) .bk-Figure:first-of-type,
+    .fieldviewer-chart-row > .bk-Figure:first-child {
+      flex: 2 1 0 !important;
+      width: 66.666% !important;
+      max-width: 66.666% !important;
+    }
+    :host(.fieldviewer-chart-row) .bk-Figure:nth-of-type(2),
+    .fieldviewer-chart-row > .bk-Figure:nth-child(2) {
+      flex: 1 1 0 !important;
+      width: 33.333% !important;
+      max-width: 33.333% !important;
+    }
+    :host(.fieldviewer-timeline-slider),
+    .fieldviewer-timeline-slider {
+      display: block !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    :host(.fieldviewer-timeline-slider) .noUi-target,
+    .fieldviewer-timeline-slider .noUi-target {
+      background: #e7edf5 !important;
+      border: 1px solid #b8c7d9 !important;
+      height: 10px !important;
+    }
+    :host(.fieldviewer-timeline-slider) .noUi-connect,
+    .fieldviewer-timeline-slider .noUi-connect {
+      background: #378add !important;
+    }
+    :host(.fieldviewer-timeline-slider) .noUi-handle,
+    .fieldviewer-timeline-slider .noUi-handle {
+      border: 1px solid #2f6fad !important;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18) !important;
+    }
+  `;
+
+  function ensureShadowTheme(root) {
+    if (!root || !root.querySelector) return;
+    try {
+      if (root.querySelector("#" + shadowStyleId)) return;
+      var style = document.createElement("style");
+      style.id = shadowStyleId;
+      style.textContent = shadowThemeCss;
+      root.insertBefore(style, root.firstChild);
+    } catch (_) {}
+  }
+
+  function walkDeep(root, visitor) {
+    if (!root) return;
+    if (root instanceof ShadowRoot) ensureShadowTheme(root);
+    try { visitor(root); } catch (_) {}
+    var children = [];
+    try { children = Array.from(root.children || []); } catch (_) {}
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      if (child.shadowRoot) ensureShadowTheme(child.shadowRoot);
+      walkDeep(child, visitor);
+      if (child.shadowRoot) walkDeep(child.shadowRoot, visitor);
+    }
+  }
+
+  function textOf(el) {
+    var txt = "";
+    try { txt += String(el.innerText || el.textContent || ""); } catch (_) {}
+    try {
+      if (el && el.shadowRoot) {
+        txt += " " + textOf(el.shadowRoot);
+      }
+    } catch (_) {}
+    return txt;
+  }
+
+  function findDeep(selector, root) {
+    var found = null;
+    walkDeep(root || document.body, function (el) {
+      if (found || !(el instanceof Element)) return;
+      try {
+        if (el.matches(selector)) found = el;
+      } catch (_) {}
+    });
+    return found;
+  }
+
+  function isSidePanel(el) {
+    try {
+      if (el.classList && el.classList.contains("fieldviewer-side-panel")) return true;
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function isKeyMapPanel(el) {
+    try {
+      var txt = textOf(el);
+      return /Key Map/i.test(txt) && !/Grid Selection|Production Controls|Timeline Controls/i.test(txt);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function ensureControlsButton() {
+    var btn = document.getElementById("fvMobileControlsToggle");
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = "fvMobileControlsToggle";
+      btn.className = "fv-mobile-controls-toggle";
+      btn.type = "button";
+      btn.addEventListener("click", function () {
+        var open = !document.body.classList.contains("fv-mobile-controls-open");
+        try { localStorage.setItem(controlsOpenKey, open ? "1" : "0"); } catch (_) {}
+        applyResponsive();
+      });
+      document.body.appendChild(btn);
+    }
+    return btn;
+  }
+
+  function moduleLinks() {
+    return [["Menu", "menu.html", "menu"], ["Map", "FieldViewer.html", "map"], ["Time", "FieldViewer_timeline.html", "timeline"], ["Prod", "FieldViewer_production.html", "production"], ["Status", "FieldViewer_Field_Status_Dashboard.html", "status"], ["Completion", "FieldViewer_completions.html", "completion"], ["Test", "FieldViewer_well_testing.html", "well_testing"], ["Database", "FieldViewer_Database.html", "database"], ["AI Lab", "FieldViewer_AI_Lab.html", "ai_lab"]];
+  }
+
+  function currentModule() {
+    var path = "";
+    try { path = String(window.location.pathname || "").toLowerCase(); } catch (_) {}
+    if (/timeline/.test(path)) return "timeline";
+    if (/production/.test(path)) return "production";
+    if (/field_status|status/.test(path)) return "status";
+    if (/completion/.test(path)) return "completion";
+    if (/well_testing/.test(path)) return "well_testing";
+    if (/esp/.test(path)) return "esp";
+    if (/database/.test(path)) return "database";
+    if (/ai_lab/.test(path)) return "ai_lab";
+    return "map";
+  }
+
+  function pageTitleFor(moduleKey) {
+    var titles = {
+      map: "Surface & Subsurface Maps",
+      timeline: "Field Timeline",
+      production: "Production Profile",
+      status: "Field Status Dashboard",
+      completion: "Completion",
+      well_testing: "Well Testing",
+      esp: "ESP",
+      database: "Database",
+      ai_lab: "FieldViewer AI Lab"
+    };
+    return titles[moduleKey] || document.title || "FieldViewer";
+  }
+
+  function createNav(activeKey, mobile) {
+    var nav = document.createElement("nav");
+    nav.className = mobile ? "fv-mobile-bar" : "fv-app-nav";
+    nav.setAttribute("aria-label", mobile ? "Mobile app navigation" : "App navigation");
+    moduleLinks().forEach(function (item) {
+      var label = item[0], href = item[1], key = item[2];
+      var a = document.createElement("a");
+      a.href = href;
+      if (key === activeKey) a.className = "active";
+      if (mobile) {
+        a.textContent = label;
+      } else {
+        var dot = document.createElement("span");
+        dot.className = "fv-app-dot";
+        var text = document.createElement("span");
+        text.textContent = label;
+        a.appendChild(dot);
+        a.appendChild(text);
+      }
+      nav.appendChild(a);
+    });
+    return nav;
+  }
+
+  function ensureAppShell() {
+    if (document.querySelector(".fv-app-shell")) return;
+    var activeKey = currentModule();
+    var existing = Array.from(document.body.children).filter(function (el) {
+      if (!(el instanceof Element)) return false;
+      var tag = String(el.tagName || "").toLowerCase();
+      if (tag === "script" || tag === "style" || tag === "link" || tag === "meta") return false;
+      if (el.id === "fvShellThemeToggle" || el.id === "fvMobileControlsToggle") return false;
+      if (el.classList && (el.classList.contains("fv-app-shell") || el.classList.contains("fv-mobile-bar"))) return false;
+      return true;
+    });
+
+    var shell = document.createElement("div");
+    shell.className = "fv-app-shell";
+
+    var sidebar = document.createElement("aside");
+    sidebar.className = "fv-app-sidebar";
+    sidebar.innerHTML = '<div class="fv-app-brand"><div class="fv-app-logo">FV</div><div class="fv-app-brand-copy"><div class="fv-app-brand-title">FieldViewer</div><div class="fv-app-brand-subtitle"></div></div></div>';
+    var brandSubtitle = sidebar.querySelector(".fv-app-brand-subtitle");
+    if (brandSubtitle) brandSubtitle.textContent = instancePlatform;
+    var sidebarToggle = document.createElement("button");
+    sidebarToggle.className = "fv-sidebar-toggle";
+    sidebarToggle.type = "button";
+    sidebarToggle.setAttribute("aria-label", "Toggle application menu");
+    sidebarToggle.addEventListener("click", function () {
+      var expanded = !document.body.classList.contains("fv-sidebar-expanded");
+      try { localStorage.setItem("fieldviewer-sidebar-expanded", expanded ? "1" : "0"); } catch (_) {}
+      document.body.classList.toggle("fv-sidebar-expanded", expanded);
+      sidebarToggle.textContent = expanded ? "Collapse" : "Menu";
+    });
+    sidebar.appendChild(sidebarToggle);
+    sidebar.appendChild(createNav(activeKey, false));
+
+    var main = document.createElement("main");
+    main.className = "fv-app-main";
+    var content = document.createElement("section");
+    content.className = "fv-app-content";
+    var mobileTitle = document.createElement("div");
+    mobileTitle.className = "fv-mobile-titlebar";
+    mobileTitle.innerHTML = "<strong></strong><span></span>";
+    var mobileTitleStrong = mobileTitle.querySelector("strong");
+    var mobileTitleMeta = mobileTitle.querySelector("span");
+    if (mobileTitleStrong) mobileTitleStrong.textContent = pageTitleFor(activeKey);
+    if (mobileTitleMeta) mobileTitleMeta.textContent = instancePlatform;
+    var stage = document.createElement("div");
+    stage.className = "fv-bokeh-stage";
+    existing.forEach(function (el) { stage.appendChild(el); });
+    content.appendChild(mobileTitle);
+    content.appendChild(stage);
+
+    main.appendChild(content);
+    shell.appendChild(sidebar);
+    shell.appendChild(main);
+    document.body.insertBefore(shell, document.body.firstChild);
+    document.body.appendChild(createNav(activeKey, true));
+    document.body.classList.add("fv-shell-ready");
+  }
+
+  function setImportant(el, prop, value) {
+    try { el.style.setProperty(prop, value, "important"); } catch (_) {}
+  }
+
+  function createActionLink(label, href, primary) {
+    var a = document.createElement("a");
+    a.className = "fv-app-btn" + (primary ? " primary" : "");
+    a.href = href;
+    a.textContent = label;
+    a.style.cssText = [
+      "min-height:38px",
+      "border-radius:8px",
+      "border:1px solid " + (primary ? "#1b3b5a" : "#b9d8f6"),
+      "background:" + (primary ? "#1b3b5a" : "#eef5ff"),
+      "color:" + (primary ? "#ffffff" : "#164e84"),
+      "font:700 13px 'DM Sans',Arial,sans-serif",
+      "padding:8px 10px",
+      "text-decoration:none",
+      "display:inline-flex",
+      "align-items:center",
+      "justify-content:center",
+      "white-space:nowrap",
+      "box-sizing:border-box"
+    ].join(";");
+    return a;
+  }
+
+  function ensurePanelActions(activeKey) {
+    var panel = findDeep(".fieldviewer-side-panel", document.body);
+    if (!panel) return;
+    var panelRoot = panel.shadowRoot || panel;
+    if (panelRoot.querySelector && panelRoot.querySelector(".fv-panel-actions")) return;
+    var actions = document.createElement("div");
+    actions.className = "fv-panel-actions";
+    actions.style.cssText = [
+      "display:grid",
+      "grid-template-columns:repeat(2,minmax(0,1fr))",
+      "gap:8px",
+      "padding:10px 0",
+      "margin:0 0 8px",
+      "box-sizing:border-box"
+    ].join(";");
+    var panelText = textOf(panel);
+    if (!/Back to( Apps)? Menu|Back to menu/i.test(panelText)) {
+      actions.appendChild(createActionLink("Back to Menu", "menu.html", false));
+    }
+    if (activeKey !== "map") actions.appendChild(createActionLink("Open Map", "FieldViewer.html", true));
+    var themeBtn = document.getElementById("fvShellThemeToggle");
+    if (themeBtn) {
+      actions.appendChild(themeBtn);
+      themeBtn.classList.add("fv-app-btn");
+      themeBtn.classList.remove("fv-shell-theme-toggle");
+      themeBtn.style.cssText = [
+        "position:static",
+        "min-height:38px",
+        "border-radius:8px",
+        "border:1px solid #b9d8f6",
+        "background:#eef5ff",
+        "color:#164e84",
+        "font:700 13px 'DM Sans',Arial,sans-serif",
+        "padding:8px 10px",
+        "box-shadow:none",
+        "cursor:pointer",
+        "width:100%",
+        "box-sizing:border-box"
+      ].join(";");
+    }
+    var first = panelRoot.firstChild;
+    if (first && first.id === shadowStyleId) first = first.nextSibling;
+    panelRoot.insertBefore(actions, first || null);
+  }
+
+  function clearResponsiveStyles(el) {
+    try {
+      [
+        "width", "max-width", "min-width", "height", "min-height", "max-height", "overflow",
+        "overflow-y", "overflow-x",
+        "position", "left", "right", "bottom", "top", "z-index", "border-radius",
+        "box-shadow", "display", "flex-direction", "grid-template-columns",
+        "padding", "margin", "transform", "box-sizing", "order"
+      ].forEach(function (prop) { el.style.removeProperty(prop); });
+    } catch (_) {}
+  }
+
+  function applyPanelPolish(el, sidePanel, keyPanel) {
+    if (sidePanel) {
+      setImportant(el, "background", "var(--fv-surface-container)");
+      setImportant(el, "border", "1px solid var(--fv-border)");
+      setImportant(el, "border-radius", "12px");
+      setImportant(el, "box-sizing", "border-box");
+      setImportant(el, "max-height", "calc(100vh - 116px)");
+      setImportant(el, "overflow-y", "auto");
+      setImportant(el, "overflow-x", "hidden");
+      setImportant(el, "position", "sticky");
+      setImportant(el, "top", "86px");
+    }
+    if (keyPanel) {
+      setImportant(el, "background", "#ffffff");
+      setImportant(el, "border", "1px solid var(--fv-border)");
+      setImportant(el, "border-radius", "12px");
+      setImportant(el, "box-sizing", "border-box");
+      setImportant(el, "color", "#1f2937");
+      walkDeep(el, function (child) {
+        if (child instanceof Element) setImportant(child, "color", "#1f2937");
+      });
+    }
+  }
+
+  function bokehChildViews(view) {
+    var out = [];
+    if (!view) return out;
+    ["views", "_child_views", "_element_views", "children"].forEach(function (key) {
+      var obj = view[key];
+      if (!obj) return;
+      try {
+        if (obj instanceof Map) {
+          obj.forEach(function (v) { if (v) out.push(v); });
+        } else if (Array.isArray(obj)) {
+          obj.forEach(function (v) { if (v) out.push(v); });
+        } else if (typeof obj === "object") {
+          Object.keys(obj).forEach(function (k) { if (obj[k]) out.push(obj[k]); });
+        }
+      } catch (_) {}
+    });
+    return out;
+  }
+
+  function findBokehView(predicate) {
+    try {
+      if (!window.Bokeh || !window.Bokeh.index) return null;
+      var roots = Object.values(window.Bokeh.index);
+      var seen = new Set();
+      var stack = roots.slice();
+      while (stack.length) {
+        var view = stack.pop();
+        if (!view || seen.has(view)) continue;
+        seen.add(view);
+        try {
+          if (predicate(view)) return view;
+        } catch (_) {}
+        stack.push.apply(stack, bokehChildViews(view));
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function bokehFigureModelForElement(el) {
+    try {
+      if (!window.Bokeh || !window.Bokeh.documents || !el || !el.classList) return null;
+      var wanted = Array.from(el.classList).filter(function (cls) {
+        return cls === "fieldviewer-map-figure" || /^fieldviewer-map-aspect-/.test(cls);
+      });
+      if (!wanted.length) return null;
+      for (var d = 0; d < window.Bokeh.documents.length; d++) {
+        var doc = window.Bokeh.documents[d];
+        var models = doc && doc._all_models && doc._all_models.values ? Array.from(doc._all_models.values()) : [];
+        for (var i = 0; i < models.length; i++) {
+          var model = models[i];
+          if (!model || model.type !== "Figure") continue;
+          var classes = model.css_classes || [];
+          var matches = wanted.every(function (cls) { return classes.indexOf(cls) !== -1; });
+          if (matches) return model;
+        }
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function bokehFigureViewForElement(el) {
+    var model = bokehFigureModelForElement(el);
+    if (!model) return null;
+    return findBokehView(function (view) {
+      return view && view.model === model;
+    });
+  }
+
+  function resizeBokehFigureModel(el, width, height) {
+    var model = bokehFigureModelForElement(el);
+    if (!model) return false;
+    try {
+      if (!el.dataset.fvOriginalWidth && model.width != null) {
+        el.dataset.fvOriginalWidth = String(model.width);
+        el.dataset.fvOriginalHeight = String(model.height);
+        el.dataset.fvOriginalSizingMode = String(model.sizing_mode || "");
+      }
+      model.width = Math.round(width);
+      model.height = Math.round(height);
+      model.sizing_mode = "fixed";
+      if (model.change && model.change.emit) model.change.emit();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function restoreBokehFigureModel(el) {
+    if (!el || !el.dataset || !el.dataset.fvOriginalWidth) return;
+    var model = bokehFigureModelForElement(el);
+    if (!model) return;
+    try {
+      model.width = Number(el.dataset.fvOriginalWidth);
+      model.height = Number(el.dataset.fvOriginalHeight);
+      model.sizing_mode = el.dataset.fvOriginalSizingMode || null;
+      if (model.change && model.change.emit) model.change.emit();
+      delete el.dataset.fvOriginalWidth;
+      delete el.dataset.fvOriginalHeight;
+      delete el.dataset.fvOriginalSizingMode;
+    } catch (_) {}
+  }
+
+  function bokehFrameAspectForElement(el) {
+    try {
+      var view = bokehFigureViewForElement(el);
+      var bbox = view && view.frame && view.frame.bbox;
+      if (bbox) {
+        var fw = Number(bbox.x1) - Number(bbox.x0);
+        var fh = Number(bbox.y1) - Number(bbox.y0);
+        if (Number.isFinite(fw) && Number.isFinite(fh) && fw > 20 && fh > 20) {
+          return fw / fh;
+        }
+      }
+      var model = bokehFigureModelForElement(el);
+      var iw = Number(model && model.inner_width);
+      var ih = Number(model && model.inner_height);
+      if (Number.isFinite(iw) && Number.isFinite(ih) && iw > 20 && ih > 20) {
+        return iw / ih;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function enforceBokehRangeAspect(el, fallbackAspect) {
+    var model = bokehFigureModelForElement(el);
+    if (!model || !model.x_range || !model.y_range) return false;
+    var targetAspect = bokehFrameAspectForElement(el);
+    if (!Number.isFinite(targetAspect) || targetAspect <= 0) targetAspect = fallbackAspect;
+    if (!Number.isFinite(targetAspect) || targetAspect <= 0) return false;
+    var xr = model.x_range;
+    var yr = model.y_range;
+    var xs = Number(xr.start);
+    var xe = Number(xr.end);
+    var ys = Number(yr.start);
+    var ye = Number(yr.end);
+    if (![xs, xe, ys, ye].every(Number.isFinite) || xe === xs || ye === ys) return false;
+    var currentAspect = Math.abs((xe - xs) / (ye - ys));
+    if (!Number.isFinite(currentAspect) || currentAspect <= 0) return false;
+    if (Math.abs(currentAspect - targetAspect) <= 0.003) return true;
+    if (currentAspect > targetAspect) {
+      var hNeeded = Math.abs(xe - xs) / targetAspect;
+      var yMid = (ys + ye) / 2.0;
+      yr.start = yMid - hNeeded / 2.0;
+      yr.end = yMid + hNeeded / 2.0;
+    } else {
+      var wNeeded = Math.abs(ye - ys) * targetAspect;
+      var xMid = (xs + xe) / 2.0;
+      xr.start = xMid - wNeeded / 2.0;
+      xr.end = xMid + wNeeded / 2.0;
+    }
+    try { if (xr.change && xr.change.emit) xr.change.emit(); } catch (_) {}
+    try { if (yr.change && yr.change.emit) yr.change.emit(); } catch (_) {}
+    try { if (model.change && model.change.emit) model.change.emit(); } catch (_) {}
+    return true;
+  }
+
+  function scheduleBokehMapAspectRepair(el, fallbackAspect) {
+    [80, 260, 700].forEach(function (delay) {
+      window.setTimeout(function () {
+        enforceBokehRangeAspect(el, fallbackAspect);
+      }, delay);
+    });
+  }
+
+  function mapFallbackAspectForElement(el) {
+    if (!el || !el.classList) return 1200 / 850;
+    if (el.classList.contains("fieldviewer-map-aspect-1366")) return 1120 / 820;
+    if (el.classList.contains("fieldviewer-map-aspect-1500")) return 1.5;
+    return 1200 / 850;
+  }
+
+  function applyResponsive() {
+    var mobile = mobileQuery.matches;
+    var moduleKey = currentModule();
+    var mapDominantPage = moduleKey === "map" || moduleKey === "timeline";
+    var fullSurfacePage =
+      moduleKey === "map" ||
+      moduleKey === "timeline" ||
+      moduleKey === "production" ||
+      moduleKey === "well_testing" ||
+      moduleKey === "esp" ||
+      moduleKey === "completion" ||
+      moduleKey === "status";
+    var fullChartPage =
+      moduleKey === "production" ||
+      moduleKey === "well_testing" ||
+      moduleKey === "esp";
+    var requestedOpen = mobile && !fullSurfacePage;
+    try {
+      var storedOpen = localStorage.getItem(controlsOpenKey);
+      requestedOpen = storedOpen === null ? (mobile && !fullSurfacePage) : storedOpen === "1";
+    } catch (_) {}
+    var btn = ensureControlsButton();
+    document.body.classList.toggle("fv-mobile-layout", mobile);
+    document.body.classList.toggle("fv-mobile-controls-open", mobile && requestedOpen);
+    document.body.classList.toggle("fv-mobile-main-fullscreen", mobile && fullSurfacePage);
+    btn.textContent = requestedOpen ? "Hide Controls" : "Controls";
+    var viewportWidth = 390;
+    var viewportHeight = 844;
+    try {
+      viewportWidth = (window.visualViewport && window.visualViewport.width)
+        || window.innerWidth
+        || document.documentElement.clientWidth
+        || 390;
+      viewportHeight = (window.visualViewport && window.visualViewport.height)
+        || window.innerHeight
+        || document.documentElement.clientHeight
+        || 844;
+    } catch (_) {}
+    var mobileChromeReserve = 178;
+    var fullSurfaceHeightPx = Math.max(420, Math.round(viewportHeight - mobileChromeReserve));
+    var fullSurfaceHeight = fullSurfaceHeightPx + "px";
+    var compactPlotHeight = Math.max(240, Math.min(320, Math.round(viewportWidth * 0.68))) + "px";
+    var expandedPlotHeight = Math.max(420, Math.min(560, Math.round(viewportHeight - 244))) + "px";
+    var activePlotHeight = (mobile && !requestedOpen) ? expandedPlotHeight : compactPlotHeight;
+    var statusPhoneCardHeightPx = Math.max(360, Math.min(510, Math.round(viewportHeight - 334)));
+    var statusPhoneCardHeight = statusPhoneCardHeightPx + "px";
+    var statusPhoneTableHeightPx = Math.max(
+      96,
+      Math.min(180, Math.round((viewportHeight - 98) - 75 - statusPhoneCardHeightPx - 61))
+    );
+    var statusPhoneTableHeight = statusPhoneTableHeightPx + "px";
+    var statusPhoneStackHeightPx = Math.min(
+      fullSurfaceHeightPx,
+      Math.max(statusPhoneCardHeightPx, statusPhoneCardHeightPx + statusPhoneTableHeightPx + 66)
+    );
+    var statusPhoneStackHeight = statusPhoneStackHeightPx + "px";
+    if (mobile && requestedOpen) {
+      var buttonViewportWidth = Math.min(viewportWidth, 390);
+      var openButtonLeft = Math.max(12, buttonViewportWidth - 132);
+      setImportant(btn, "left", openButtonLeft + "px");
+      setImportant(btn, "right", "auto");
+      setImportant(btn, "width", "120px");
+      setImportant(btn, "bottom", "calc(98px + 62vh - 54px)");
+      setImportant(btn, "max-width", "calc(100vw - 24px)");
+    } else if (mobile) {
+      setImportant(btn, "left", "12px");
+      setImportant(btn, "right", "auto");
+      btn.style.removeProperty("top");
+      setImportant(btn, "bottom", "108px");
+      btn.style.removeProperty("width");
+      btn.style.removeProperty("max-width");
+    } else {
+      clearResponsiveStyles(btn);
+    }
+
+    walkDeep(document.body, function (el) {
+      if (!(el instanceof Element)) return;
+      var cls = "";
+      try { cls = String(el.className || ""); } catch (_) {}
+      var pageLayout = el.classList && (
+        el.classList.contains("fieldviewer-responsive-root") ||
+        el.classList.contains("fieldviewer-main-plot-row") ||
+        el.classList.contains("fieldviewer-main-plot-panel") ||
+        el.classList.contains("fieldviewer-map-figure") ||
+        el.classList.contains("fieldviewer-chart-row") ||
+        el.classList.contains("fieldviewer-primary-chart") ||
+        el.classList.contains("fieldviewer-secondary-plot-panel") ||
+        el.classList.contains("fieldviewer-secondary-chart") ||
+        el.classList.contains("fieldviewer-completion-viewer-panel") ||
+        el.classList.contains("fieldviewer-completion-toolbar") ||
+        el.classList.contains("fieldviewer-completion-title") ||
+        el.classList.contains("fieldviewer-completion-status") ||
+        el.classList.contains("fieldviewer-completion-image-div") ||
+        el.classList.contains("fieldviewer-completion-image-frame") ||
+        el.classList.contains("fieldviewer-status-main-panel") ||
+        el.classList.contains("fieldviewer-status-counts-panel") ||
+        el.classList.contains("fieldviewer-status-current-card-wrapper") ||
+        el.classList.contains("fs-current-status-card") ||
+        el.classList.contains("fieldviewer-status-online-wells-title") ||
+        el.classList.contains("fieldviewer-status-online-wells-table") ||
+        el.classList.contains("fieldviewer-status-map-panel") ||
+        el.classList.contains("fieldviewer-chart-legend") ||
+        el.classList.contains("fieldviewer-timeline-time-info") ||
+        el.classList.contains("fieldviewer-timeline-play-row") ||
+        el.classList.contains("fieldviewer-timeline-slider-row") ||
+        el.classList.contains("fieldviewer-timeline-slider") ||
+        el.classList.contains("fieldviewer-timeline-speed-input") ||
+        el.classList.contains("fieldviewer-timeline-date-edge") ||
+        el.classList.contains("fieldviewer-timeline-play-button") ||
+        el.classList.contains("fieldviewer-timeline-pause-button") ||
+        el.classList.contains("fieldviewer-timeline-step-button")
+      );
+      var isRow = pageLayout && (/bk-Row/.test(cls) || el.classList.contains("bk-Row"));
+      var isCol = pageLayout && (/bk-Column/.test(cls) || el.classList.contains("bk-Column"));
+      var isFigure = pageLayout && (/bk-Figure/.test(cls) || el.classList.contains("bk-Figure"));
+      var mainPlotPanel = el.classList && el.classList.contains("fieldviewer-main-plot-panel");
+      var primaryChart = el.classList && el.classList.contains("fieldviewer-primary-chart");
+      var secondaryChart = el.classList && (
+        el.classList.contains("fieldviewer-secondary-plot-panel") ||
+        el.classList.contains("fieldviewer-secondary-chart")
+      );
+      var completionViewer = el.classList && el.classList.contains("fieldviewer-completion-viewer-panel");
+      var completionToolbar = el.classList && el.classList.contains("fieldviewer-completion-toolbar");
+      var completionTitle = el.classList && el.classList.contains("fieldviewer-completion-title");
+      var completionStatus = el.classList && el.classList.contains("fieldviewer-completion-status");
+      var completionImageDiv = el.classList && el.classList.contains("fieldviewer-completion-image-div");
+      var completionImageFrame = el.classList && el.classList.contains("fieldviewer-completion-image-frame");
+      var mapFigure = el.classList && el.classList.contains("fieldviewer-map-figure");
+      var containsMapFigure = false;
+      try {
+        containsMapFigure = !!(el.querySelector && el.querySelector(".fieldviewer-map-figure"));
+      } catch (_) {}
+      var chartLegend = el.classList && el.classList.contains("fieldviewer-chart-legend");
+      var timelineTimeInfo = el.classList && el.classList.contains("fieldviewer-timeline-time-info");
+      var timelinePlayRow = el.classList && el.classList.contains("fieldviewer-timeline-play-row");
+      var timelineSliderRow = el.classList && el.classList.contains("fieldviewer-timeline-slider-row");
+      var timelineSlider = el.classList && el.classList.contains("fieldviewer-timeline-slider");
+      var timelineSpeedInput = el.classList && el.classList.contains("fieldviewer-timeline-speed-input");
+      var timelineDateEdge = el.classList && el.classList.contains("fieldviewer-timeline-date-edge");
+      var timelineActionButton = el.classList && (
+        el.classList.contains("fieldviewer-timeline-play-button") ||
+        el.classList.contains("fieldviewer-timeline-pause-button") ||
+        el.classList.contains("fieldviewer-timeline-step-button")
+      );
+      var statusCounts = el.classList && el.classList.contains("fieldviewer-status-counts-panel");
+      var statusCurrentCardWrapper = el.classList && el.classList.contains("fieldviewer-status-current-card-wrapper");
+      var statusMap = el.classList && el.classList.contains("fieldviewer-status-map-panel");
+      var currentStatusCard = el.classList && el.classList.contains("fs-current-status-card");
+      var statusOnlineWells = el.classList && (
+        el.classList.contains("fieldviewer-status-online-wells-title") ||
+        el.classList.contains("fieldviewer-status-online-wells-table")
+      );
+      var mobileHide = el.classList && el.classList.contains("fieldviewer-mobile-hide");
+      var sidePanel = isSidePanel(el);
+      var keyPanel = isKeyMapPanel(el) || (el.classList && el.classList.contains("fieldviewer-key-map-panel"));
+
+      if (!(isRow || isCol || isFigure || sidePanel || keyPanel || chartLegend || secondaryChart || completionViewer || completionToolbar || completionTitle || completionStatus || completionImageDiv || completionImageFrame || timelineTimeInfo || timelinePlayRow || timelineSliderRow || timelineSlider || timelineSpeedInput || timelineDateEdge || timelineActionButton || statusCounts || statusCurrentCardWrapper || statusMap || currentStatusCard || statusOnlineWells)) return;
+      if (!mobile && moduleKey === "completion" && (
+        completionViewer ||
+        completionToolbar ||
+        completionTitle ||
+        completionStatus ||
+        completionImageDiv ||
+        completionImageFrame
+      )) return;
+      if (currentStatusCard) {
+        if (mobile) {
+          setImportant(el, "min-height", "0");
+          setImportant(el, "height", statusPhoneCardHeight);
+          setImportant(el, "max-height", statusPhoneCardHeight);
+          setImportant(el, "overflow", "auto");
+        }
+        return;
+      }
+      if (statusCurrentCardWrapper) {
+        if (mobile) {
+          setImportant(el, "height", statusPhoneCardHeight);
+          setImportant(el, "min-height", statusPhoneCardHeight);
+          setImportant(el, "max-height", statusPhoneCardHeight);
+          setImportant(el, "overflow", "hidden");
+        }
+        return;
+      }
+      clearResponsiveStyles(el);
+      applyPanelPolish(el, sidePanel, keyPanel);
+
+      if (!mobile) {
+        if (mapFigure || primaryChart || secondaryChart) {
+          restoreBokehFigureModel(el);
+        }
+        if (mapFigure) {
+          scheduleBokehMapAspectRepair(el, mapFallbackAspectForElement(el));
+        }
+        return;
+      }
+
+      if (mobileHide) {
+        setImportant(el, "display", "none");
+        return;
+      }
+      if (statusOnlineWells && moduleKey === "status") {
+        if (el.classList && el.classList.contains("fieldviewer-status-online-wells-table")) {
+          setImportant(el, "height", statusPhoneTableHeight);
+          setImportant(el, "min-height", statusPhoneTableHeight);
+          setImportant(el, "max-height", statusPhoneTableHeight);
+          setImportant(el, "overflow", "auto");
+        }
+      }
+      if (secondaryChart && fullChartPage) {
+        setImportant(el, "display", "none");
+        return;
+      }
+      if (chartLegend && fullChartPage) {
+        setImportant(el, "display", "none");
+        return;
+      }
+      if (statusMap && moduleKey === "status") {
+        setImportant(el, "display", "none");
+        return;
+      }
+      if ((completionTitle || completionStatus) && moduleKey === "completion") {
+        setImportant(el, "display", "none");
+        return;
+      }
+      if (moduleKey === "timeline" && (timelineSpeedInput || timelineDateEdge || timelineSlider)) {
+        setImportant(el, "display", "none");
+        setImportant(el, "visibility", "hidden");
+        setImportant(el, "width", "0");
+        setImportant(el, "min-width", "0");
+        setImportant(el, "max-width", "0");
+        setImportant(el, "height", "0");
+        setImportant(el, "min-height", "0");
+        setImportant(el, "max-height", "0");
+        setImportant(el, "overflow", "hidden");
+        setImportant(el, "padding", "0");
+        setImportant(el, "margin", "0");
+        setImportant(el, "flex", "0 0 0");
+        return;
+      }
+
+      if (isRow || isCol || isFigure) {
+        setImportant(el, "max-width", "100vw");
+        setImportant(el, "width", "100%");
+        setImportant(el, "box-sizing", "border-box");
+      }
+      if ((isRow || isCol) && !(mapDominantPage && containsMapFigure)) {
+        setImportant(el, "min-height", fullSurfacePage ? fullSurfaceHeight : activePlotHeight);
+      }
+      if (primaryChart) {
+        if (fullChartPage) {
+          resizeBokehFigureModel(el, Math.max(280, Math.min(viewportWidth - 16, 900)), fullSurfaceHeightPx);
+        }
+        setImportant(el, "height", fullChartPage ? fullSurfaceHeight : activePlotHeight);
+        setImportant(el, "min-height", fullChartPage ? fullSurfaceHeight : activePlotHeight);
+      }
+      if (completionViewer && moduleKey === "completion") {
+        setImportant(el, "height", fullSurfaceHeight);
+        setImportant(el, "min-height", fullSurfaceHeight);
+        setImportant(el, "max-height", fullSurfaceHeight);
+        setImportant(el, "overflow", "hidden");
+      }
+      if (completionToolbar && moduleKey === "completion") {
+        setImportant(el, "height", "82px");
+        setImportant(el, "min-height", "82px");
+        setImportant(el, "max-height", "82px");
+        setImportant(el, "display", "flex");
+        setImportant(el, "flex-direction", "row");
+        setImportant(el, "flex-wrap", "wrap");
+        setImportant(el, "align-items", "center");
+        setImportant(el, "align-content", "center");
+        setImportant(el, "gap", "6px");
+        setImportant(el, "overflow", "hidden");
+        walkDeep(el, function (child) {
+          if (!(child instanceof Element)) return;
+          var tag = String(child.tagName || "").toLowerCase();
+          var isButton = tag === "button" || (child.classList && child.classList.contains("bk-btn"));
+          if (!isButton) return;
+          setImportant(child, "width", "68px");
+          setImportant(child, "min-width", "68px");
+          setImportant(child, "max-width", "68px");
+          setImportant(child, "height", "34px");
+          setImportant(child, "min-height", "34px");
+          setImportant(child, "padding", "4px 5px");
+          setImportant(child, "font-size", "10px");
+          setImportant(child, "line-height", "1.05");
+          setImportant(child, "white-space", "normal");
+        });
+      }
+      if (completionImageDiv && moduleKey === "completion") {
+        var completionImageHeight = Math.max(300, fullSurfaceHeightPx - 88) + "px";
+        setImportant(el, "height", completionImageHeight);
+        setImportant(el, "min-height", completionImageHeight);
+        setImportant(el, "max-height", completionImageHeight);
+        setImportant(el, "overflow", "hidden");
+      }
+      if (completionImageFrame && moduleKey === "completion") {
+        var completionFrameHeight = Math.max(300, fullSurfaceHeightPx - 88) + "px";
+        var frameZoom = 1.0;
+        try {
+          var frameImg = el.querySelector && el.querySelector(".fieldviewer-completion-image");
+          frameZoom = Number(frameImg && frameImg.getAttribute("data-fv-completion-zoom"));
+        } catch (_) {}
+        if (!Number.isFinite(frameZoom) || frameZoom <= 0) frameZoom = 1.0;
+        setImportant(el, "height", completionFrameHeight);
+        setImportant(el, "min-height", completionFrameHeight);
+        setImportant(el, "max-height", completionFrameHeight);
+        setImportant(el, "width", "100%");
+        setImportant(el, "display", "flex");
+        setImportant(el, "overflow", frameZoom > 1.01 ? "auto" : "hidden");
+        setImportant(el, "padding", "0");
+        setImportant(el, "align-items", "stretch");
+        setImportant(el, "justify-content", "stretch");
+      }
+      if (mapFigure) {
+        var mapAspect = mapFallbackAspectForElement(el);
+        var mapWidth = Math.max(280, Math.min(viewportWidth - 16, 620));
+        var mapHeight = moduleKey === "map" ? fullSurfaceHeightPx : Math.round(mapWidth / mapAspect);
+        if (moduleKey === "timeline") {
+          mapHeight = Math.max(300, fullSurfaceHeightPx - 112);
+        }
+        resizeBokehFigureModel(el, mapWidth, mapHeight);
+        setImportant(el, "width", "100%");
+        setImportant(el, "max-width", "calc(100vw - 16px)");
+        setImportant(el, "height", mapHeight + "px");
+        setImportant(el, "min-height", mapHeight + "px");
+        scheduleBokehMapAspectRepair(el, mapAspect);
+      }
+      if (isFigure && mainPlotPanel && !primaryChart) {
+        if (!mapFigure) {
+          setImportant(el, "height", activePlotHeight);
+          setImportant(el, "min-height", activePlotHeight);
+        }
+      }
+      if (el.classList && el.classList.contains("fieldviewer-responsive-root") && !(mapDominantPage && containsMapFigure)) {
+        setImportant(el, "min-height", fullSurfacePage ? fullSurfaceHeight : activePlotHeight);
+      }
+      if (el.classList && (
+          el.classList.contains("fieldviewer-main-plot-row") ||
+          el.classList.contains("fieldviewer-chart-first-panel") ||
+          el.classList.contains("fieldviewer-status-main-panel")
+        ) && !(mapDominantPage && containsMapFigure)) {
+        setImportant(el, "min-height", fullSurfacePage ? fullSurfaceHeight : activePlotHeight);
+        if (moduleKey === "status" && el.classList.contains("fieldviewer-status-main-panel")) {
+          setImportant(el, "display", "flex");
+          setImportant(el, "align-items", "center");
+          setImportant(el, "justify-content", "flex-start");
+          setImportant(el, "padding-top", "8px");
+        }
+      }
+      if (statusCounts) {
+        setImportant(el, "order", "1");
+        setImportant(el, "align-self", "center");
+        setImportant(el, "align-items", "center");
+        setImportant(el, "margin-left", "auto");
+        setImportant(el, "margin-right", "auto");
+        setImportant(el, "width", "min(360px, calc(100vw - 28px))");
+        setImportant(el, "max-width", "calc(100vw - 28px)");
+        if (moduleKey === "status") {
+          setImportant(el, "height", statusPhoneStackHeight);
+          setImportant(el, "min-height", statusPhoneStackHeight);
+          setImportant(el, "max-height", statusPhoneStackHeight);
+          setImportant(el, "overflow", "hidden");
+        } else {
+          setImportant(el, "height", "auto");
+          setImportant(el, "min-height", "auto");
+          setImportant(el, "max-height", requestedOpen ? "34vh" : "50vh");
+          setImportant(el, "overflow", "auto");
+        }
+        walkDeep(el, function (child) {
+          if (!(child instanceof Element)) return;
+          var childClass = "";
+          try { childClass = String(child.className || ""); } catch (_) {}
+          var childStyle = "";
+          try { childStyle = String(child.getAttribute("style") || ""); } catch (_) {}
+          var isCurrentStatusCard = childClass.indexOf("fs-current-status-card") !== -1 ||
+            (child.classList && child.classList.contains("fs-current-status-card")) ||
+            childStyle.indexOf("fs-current-status-card") !== -1;
+          var containsCurrentStatusCard = false;
+          try {
+            containsCurrentStatusCard = !!(
+              child.querySelector && (
+                child.querySelector(".fs-current-status-card") ||
+                child.querySelector("[class*='fs-current-status-card']")
+              )
+            );
+          } catch (_) {}
+          if (!(isCurrentStatusCard || containsCurrentStatusCard)) return;
+          setImportant(child, "min-height", "0");
+          setImportant(child, "height", statusPhoneCardHeight);
+          setImportant(child, "max-height", statusPhoneCardHeight);
+          setImportant(child, "overflow", "auto");
+        });
+      }
+      if (statusMap) {
+        setImportant(el, "order", "2");
+      }
+      if (chartLegend) {
+        setImportant(el, "order", "-1");
+        setImportant(el, "height", "92px");
+        setImportant(el, "min-height", "78px");
+        setImportant(el, "max-height", requestedOpen ? "104px" : "122px");
+        setImportant(el, "overflow-y", "auto");
+      }
+      if (timelineTimeInfo) {
+        setImportant(el, "width", "100%");
+        setImportant(el, "max-width", "calc(100vw - 16px)");
+        setImportant(el, "min-height", "28px");
+        setImportant(el, "height", "auto");
+        setImportant(el, "text-align", "center");
+        setImportant(el, "font-size", "13px");
+        setImportant(el, "line-height", "1.25");
+      }
+      if (timelinePlayRow || timelineSliderRow || timelineSlider) {
+        setImportant(el, "max-width", "calc(100vw - 16px)");
+        setImportant(el, "width", "100%");
+        setImportant(el, "min-width", "0");
+      }
+      if (timelinePlayRow || timelineSliderRow) {
+        setImportant(el, "display", "flex");
+        setImportant(el, "flex-direction", "row");
+        setImportant(el, "align-items", "center");
+        setImportant(el, "justify-content", "center");
+        setImportant(el, "gap", "8px");
+        setImportant(el, "min-height", "42px");
+        walkDeep(el, function (child) {
+          if (!(child instanceof Element)) return;
+          var childIsHiddenTimeline = child.classList && (
+            child.classList.contains("fieldviewer-timeline-speed-input") ||
+            child.classList.contains("fieldviewer-timeline-date-edge") ||
+            child.classList.contains("fieldviewer-timeline-slider")
+          );
+          if (childIsHiddenTimeline) {
+            setImportant(child, "display", "none");
+            setImportant(child, "visibility", "hidden");
+            setImportant(child, "width", "0");
+            setImportant(child, "min-width", "0");
+            setImportant(child, "max-width", "0");
+            setImportant(child, "height", "0");
+            setImportant(child, "min-height", "0");
+            setImportant(child, "max-height", "0");
+            setImportant(child, "overflow", "hidden");
+            setImportant(child, "padding", "0");
+            setImportant(child, "margin", "0");
+            setImportant(child, "flex", "0 0 0");
+            return;
+          }
+          var childTag = String(child.tagName || "").toLowerCase();
+          var childButton = childTag === "button" || (child.classList && child.classList.contains("bk-btn"));
+          if (!childButton) return;
+          var isStepButton = String(child.textContent || "").trim() === "<" || String(child.textContent || "").trim() === ">";
+          setImportant(child, "width", isStepButton ? "48px" : "74px");
+          setImportant(child, "min-width", isStepButton ? "48px" : "54px");
+          setImportant(child, "max-width", isStepButton ? "48px" : "88px");
+          setImportant(child, "height", "36px");
+          setImportant(child, "min-height", "36px");
+          setImportant(child, "padding", "5px 8px");
+          setImportant(child, "font-size", isStepButton ? "17px" : "13px");
+          setImportant(child, "line-height", "1");
+        });
+      }
+      if (timelineSlider) {
+        setImportant(el, "height", "48px");
+        setImportant(el, "min-height", "48px");
+      }
+      if (isRow) {
+        setImportant(el, "flex-direction", (timelinePlayRow || timelineSliderRow) ? "row" : "column");
+      }
+      if (completionToolbar && moduleKey === "completion") {
+        setImportant(el, "flex-direction", "row");
+        setImportant(el, "flex-wrap", "wrap");
+      }
+      if (sidePanel) {
+        setImportant(el, "position", "fixed");
+        setImportant(el, "left", "0");
+        setImportant(el, "right", "0");
+        setImportant(el, "bottom", requestedOpen ? "98px" : "-62vh");
+        setImportant(el, "top", "auto");
+        setImportant(el, "z-index", "10000");
+        setImportant(el, "width", "100vw");
+        setImportant(el, "max-width", "100vw");
+        setImportant(el, "min-width", "0");
+        setImportant(el, "height", "62vh");
+        setImportant(el, "max-height", "62vh");
+        setImportant(el, "overflow", "auto");
+        setImportant(el, "border-radius", "12px 12px 0 0");
+        setImportant(el, "box-shadow", "0 -12px 32px rgba(27,59,90,0.26)");
+        setImportant(el, "padding", "10px");
+        setImportant(el, "background", "var(--fv-surface-container)");
+      }
+      if (keyPanel) {
+        setImportant(el, "display", "none");
+      }
+    });
+  }
+
+  function apply(theme) {
+    var dark = theme === "dark";
+    document.body.classList.toggle("fv-dark", dark);
+    var btn = document.getElementById("fvShellThemeToggle");
+    if (btn) {
+      btn.textContent = dark ? "Light Mode" : "Dark Mode";
+      btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+    }
+  }
+  function init() {
+    ensureAppShell();
+    var expanded = false;
+    try { expanded = localStorage.getItem("fieldviewer-sidebar-expanded") === "1"; } catch (_) {}
+    document.body.classList.toggle("fv-sidebar-expanded", expanded);
+    var sidebarToggle = document.querySelector(".fv-sidebar-toggle");
+    if (sidebarToggle) sidebarToggle.textContent = expanded ? "Collapse" : "Menu";
+    if (!document.getElementById("fvShellThemeToggle")) {
+      var btn = document.createElement("button");
+      btn.id = "fvShellThemeToggle";
+      btn.className = "fv-shell-theme-toggle";
+      btn.type = "button";
+      btn.addEventListener("click", function () {
+        var next = document.body.classList.contains("fv-dark") ? "light" : "dark";
+        try { localStorage.setItem(key, next); } catch (_) {}
+        apply(next);
+      });
+      document.body.appendChild(btn);
+    }
+    var saved = "light";
+    try { saved = localStorage.getItem(key) || "light"; } catch (_) {}
+    apply(saved);
+    ensurePanelActions(currentModule());
+    applyResponsive();
+    window.addEventListener("resize", applyResponsive);
+    window.addEventListener("orientationchange", function () { setTimeout(applyResponsive, 120); });
+    setTimeout(applyResponsive, 500);
+    setTimeout(function () { ensurePanelActions(currentModule()); applyResponsive(); }, 1500);
+    setTimeout(function () { ensurePanelActions(currentModule()); applyResponsive(); }, 3000);
+    setTimeout(function () { ensurePanelActions(currentModule()); applyResponsive(); }, 6000);
+    try {
+      var pendingResponsive = null;
+      var observer = new MutationObserver(function () {
+        if (pendingResponsive) clearTimeout(pendingResponsive);
+        pendingResponsive = setTimeout(function () {
+          pendingResponsive = null;
+          ensurePanelActions(currentModule());
+          applyResponsive();
+        }, 160);
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    } catch (_) {}
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

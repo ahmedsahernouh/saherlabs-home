@@ -1,0 +1,1 @@
+{"xs": [], "ys": [], "seg_id": [], "transform_signature": "mode=mercator|EPSG:32640->EPSG:3857|+proj=pipeline +step +inv +proj=utm +zone=40 +ellps=WGS84 +step +proj=webmerc +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84|shift=0.000,0.000"}

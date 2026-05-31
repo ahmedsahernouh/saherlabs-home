@@ -1,0 +1,118 @@
+
+
+
+# About Ahmed Saher Nouh
+
+I am a senior geophysicist focused on digital transformation in upstream oil and gas, combining more than 20 years of international subsurface experience with Python automation, machine learning, AI-assisted workflows, and web-based field visualization tools.
+
+My technical background is rooted in 2D and 3D seismic interpretation, structural geology, reservoir characterization, seismic attribute analysis, well-to-seismic integration, and field-development support. I have worked across complex basins and petroleum systems in Egypt, Algeria, Libya, Canada, and the UAE, including rifted basins, fractured carbonate reservoirs, tight gas reservoirs, offshore gas systems, unconventional reservoirs, and oil sands operations.
+
+Through SaherLabs.dev, I present selected digital geoscience projects that reflect my current professional direction: building practical tools that connect subsurface expertise with modern data analytics, machine learning, AI, and web technologies.
+
+The purpose is not technology for its own sake. The purpose is to improve how geoscience and reservoir data are reviewed, quality-controlled, visualized, and communicated.
+
+## Professional Background
+
+My career has included geophysics and consulting roles with Halliburton Consulting, Tharwa Petroleum, PetroBel, Terracon Geotechnique with Suncor Energy, and industry-linked research work with ARC Resources in Canada.
+
+I have worked on seismic interpretation, structural framework modeling, depth conversion, fault and fracture interpretation, seismic facies classification, AVO/DHI analysis, attribute extraction, natural fracture characterization, reservoir property mapping, and integrated subsurface studies.
+
+I also have extensive experience with commercial geoscience platforms including Landmark OpenWorks, DecisionSpace / DSG, and Petrel. In parallel, I have developed Python-based workflows and prototype applications to automate technical tasks, integrate datasets, improve QC, and test machine learning approaches for reservoir characterization.
+
+## Education
+
+I hold two Master of Science degrees:
+
+* Master of Science in Reservoir Characterization, University of Calgary, Canada
+* Master of Science in Data Analytics, Western Governors University, USA
+
+I also hold a Bachelor of Science in Geology and Geophysics from Ain Shams University, Egypt.
+
+This combination of geoscience, reservoir characterization, and data analytics is the foundation of my work in applied machine learning, AI-assisted geoscience workflows, and digital transformation for upstream oil and gas.
+
+## Digital Transformation Focus
+
+My current technical direction is focused on practical digital transformation in upstream oil and gas.
+
+I work on projects that convert seismic, well, reservoir, production, map, and grid-based data into more usable digital workflows. These include Python automation tools, machine learning workflows, technical dashboards, web-based field visualization, ZMAP/grid processing utilities, and early-stage AI interaction with structured project data.
+
+My strongest professional interest is the intersection of:
+
+* geophysics,
+* reservoir characterization,
+* Python automation,
+* machine learning,
+* AI-assisted workflows,
+* field data visualization,
+* and decision-support applications.
+
+I believe digital transformation in oil and gas should be practical, data-grounded, and directly tied to technical decisions. It should reduce repetitive manual work, improve interpretation QC, integrate disconnected datasets, and make complex subsurface information easier to understand.
+
+## What I Build
+
+My projects are built around practical upstream technical problems, including:
+
+* seismic attribute analysis and reservoir property prediction,
+* porosity prediction using seismic and well-calibrated data,
+* blind-well validation and model QC workflows,
+* ZMAP grid reading, writing, conversion, and visualization,
+* fault damage and amplitude profile analysis,
+* STOIIP estimation and reservoir uncertainty applications,
+* field visualization platforms,
+* web-based geoscience dashboards,
+* AI-assisted interaction with structured technical data,
+* Text-to-SQL concepts for controlled querying of field metadata,
+* and automation utilities for geoscience reporting and data handling.
+* I am also currently developing workflows that use open-source seismic interpretation packages such as OpendTect, together with Python-based geoscience libraries, to improve the automation of structural and stratigraphic seismic interpretation. These workflows aim to combine machine learning with geometric and geophysical attribute analysis to support fault detection, horizon interpretation, seismic facies analysis, and reservoir-scale interpretation QC.
+
+These projects are intended to demonstrate how subsurface knowledge can be converted into working digital and AI tools.
+
+## Selected Project Themes
+
+### FieldViewer
+
+FieldViewer is a digital field-visualization concept designed to support integrated field review and technical decision-making. It brings together maps, wells, production data, timelines, completion information, well-test results, ESP performance reviews, real-time field data streams such as production and drilling data, and other technical outputs within a web-based environment that is accessible, interactive, and practical for technical decision-makers.
+
+The objective is to provide a more interactive, reusable, and data-connected alternative to static PowerPoint-based field reviews and disconnected technical datasets.
+
+
+### Seismic Attribute Machine Learning
+
+I have developed workflows for seismic-attribute-driven reservoir property prediction using Python, well-calibrated petrophysical data, regression methods, clustering concepts, and blind-well validation.
+
+These workflows focus on geological consistency, QC, calibration, and interpretability rather than black-box prediction.
+
+### STOIIP estimation and Reservoir Uncertainty
+
+I have developed and extended Streamlit-based workflows for STOIIP estimation using Monte Carlo simulation, uncertainty handling, ZMAP reservoir grids, spatial mapping, and 3D visualization.
+
+### Fault and Amplitude Profile Analysis
+
+I have built Python workflows for extracting fault-normal profiles, analyzing seismic or grid values around interpreted fault segments, and supporting structural interpretation QC through repeatable visual outputs.
+
+### Geoscience Data Utilities
+
+I have developed utilities for ZMAP grids, GeoTIFF handling, data format conversion between different geoscience platforms ( Petrel/DSG, etc.), Excel-to-LAS conversion, report building, image-to-presentation workflows, and other repetitive technical tasks commonly encountered in geoscience and reservoir studies.
+
+## Why SaherLabs.dev Exists
+
+SaherLabs.dev is my public technical portfolio.
+
+It is intended to show my capability in applied geoscience, Python development, data analytics, machine learning, AI-assisted workflow design, and upstream digital transformation.
+
+The site is also a working space for converting private technical ideas into public-safe demonstrations using synthetic or approved datasets.
+
+My aim is to show how a  geophysicist can contribute to digital transformation by building tools that are technically grounded, practical, and directly relevant to subsurface workflows.
+
+## Contact
+
+For professional discussions, collaboration, or technical review:
+
+Email: [ahmed-saher@hotmail.com](mailto:ahmed-saher@hotmail.com)
+LinkedIn: linkedin.com/in/ahmedsahernouh
+GitHub: github.com/ahmedsahernouh
+Website: SaherLabs.dev
+
+
+
+

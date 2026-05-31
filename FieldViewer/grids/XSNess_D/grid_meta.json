@@ -1,0 +1,30 @@
+{
+  "name": "XSNess_D",
+  "utm_extent": [
+    272509.91,
+    281009.91,
+    2706278.88,
+    2715878.88
+  ],
+  "merc_extent": [
+    6095218.023098088,
+    6104718.442336491,
+    2808764.1447949787,
+    2819512.654531049
+  ],
+  "display_mode": "mercator",
+  "nrows": 193,
+  "ncols": 171,
+  "dx": 50.0,
+  "dy": 50.0,
+  "null": 1e+30,
+  "z_range": [
+    -2425.8982,
+    -1761.4362
+  ],
+  "processing": {
+    "flipud": true,
+    "negate_z": true,
+    "upscale": null
+  }
+}

@@ -1,0 +1,298 @@
+body {
+  margin: 0;
+  background: #f2f5f7;
+  color: #1f2933;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+.page {
+  max-width: 980px;
+  margin: 18px auto;
+  padding: 0 10px 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.header-actions {
+  margin-bottom: 8px;
+}
+
+.btn-back-esp {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background: #3a7d44;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.btn-back-esp:hover {
+  background: #326b3b;
+}
+
+.sub {
+  margin-top: 6px;
+  color: #52606d;
+}
+
+.hint {
+  margin-top: 8px;
+  color: #52606d;
+  font-size: 0.86rem;
+}
+
+.card {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.wells-row {
+  margin-top: 10px;
+}
+
+input[type="text"],
+input[type="date"] {
+  padding: 8px 9px;
+  border: 1px solid #bcccdc;
+  border-radius: 4px;
+  min-width: 240px;
+  font-size: 0.95rem;
+}
+
+#inputRoot {
+  flex: 1;
+  min-width: 460px;
+}
+
+.well-select {
+  margin-top: 8px;
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid #bcccdc;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 0.92rem;
+  background: #fff;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  font-size: 0.86rem;
+  color: #334e68;
+}
+
+button {
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: #486581;
+  color: #fff;
+  font-size: 0.94rem;
+}
+
+button:hover {
+  background: #334e68;
+}
+
+button.primary {
+  background: #2f6fab;
+}
+
+button.primary:hover {
+  background: #275e91;
+}
+
+button.success {
+  background: #2f855a;
+}
+
+button.success:hover {
+  background: #276749;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.checks label {
+  margin-right: 14px;
+  color: #334e68;
+  font-size: 0.93rem;
+}
+
+.checks input {
+  margin-right: 6px;
+}
+
+.browser {
+  margin-top: 10px;
+  border: 1px solid #d9e2ec;
+  border-radius: 4px;
+  padding: 8px;
+  background: #f9fbfc;
+}
+
+.hidden {
+  display: none;
+}
+
+.browser-top .path-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 360px;
+}
+
+.browser-top label {
+  font-size: 0.84rem;
+  color: #486581;
+}
+
+#browsePath {
+  min-width: 360px;
+}
+
+.drive-row {
+  margin-top: 8px;
+}
+
+.drive-row .label {
+  font-size: 0.86rem;
+  color: #486581;
+}
+
+.drive-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.drive-chip {
+  padding: 3px 8px;
+  border: 1px solid #bcccdc;
+  border-radius: 16px;
+  background: #fff;
+  color: #334e68;
+  cursor: pointer;
+  font-size: 0.84rem;
+}
+
+.drive-chip:hover {
+  background: #edf2f7;
+}
+
+.browse-list {
+  margin-top: 8px;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #d9e2ec;
+  background: #fff;
+}
+
+.browse-item {
+  padding: 7px 8px;
+  border-bottom: 1px solid #edf2f7;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.browse-item:hover {
+  background: #edf7ff;
+}
+
+.status-row {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #d9e2ec;
+  border-top: 3px solid #2f6fab;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.log {
+  margin-top: 8px;
+  min-height: 240px;
+  max-height: 340px;
+  overflow: auto;
+  padding: 9px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  white-space: pre-wrap;
+}
+
+.qc-gallery {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.qc-item {
+  border: 1px solid #d9e2ec;
+  border-radius: 4px;
+  padding: 6px;
+  background: #fff;
+}
+
+.qc-item img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  background: #f7fafc;
+  border: 1px solid #edf2f7;
+}
+
+.qc-caption {
+  margin-top: 5px;
+  font-size: 0.78rem;
+  color: #486581;
+  word-break: break-word;
+}
+
+.qc-open {
+  color: #2f6fab;
+  text-decoration: underline;
+}

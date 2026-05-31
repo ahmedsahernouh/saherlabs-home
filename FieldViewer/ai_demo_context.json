@@ -1,0 +1,1679 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "FieldViewer AI Demo",
+    "purpose": "Public/portfolio LLM-assisted petroleum data review demo",
+    "limitations": [
+      "Screening-level analysis only",
+      "Not final reservoir engineering advice",
+      "LLM summarizes deterministic tool outputs",
+      "No confidential data should be exposed"
+    ]
+  },
+  "available_data": {
+    "wells_available": true,
+    "production_available": true,
+    "grids_available": true,
+    "faults_available": true
+  },
+  "summary": {
+    "instance_id": "y1",
+    "instance_name": "Y1 Demo FieldViewer",
+    "engineering_crs": "EPSG:32640",
+    "display_crs": "EPSG:3857",
+    "wells": {
+      "total_count": 105,
+      "included_count": 105,
+      "omitted_count": 0,
+      "sample_limit": 500,
+      "columns_present": [
+        "UWI",
+        "KB",
+        "TD",
+        "X",
+        "Y",
+        "STATUS",
+        "RESERVOIR",
+        "TYPE",
+        "Oil.Cum. bbl",
+        "Wat.Cum. bbl",
+        "Gas.Cum. Mscf",
+        "CumWOR",
+        "CumGOR",
+        "Spud_date",
+        "1st production",
+        "Last production",
+        "Last_Workover_Date",
+        "Last_Workover",
+        "Last_Test_Date",
+        "Last_Test",
+        "Note",
+        "Last update",
+        "Prod. Count",
+        "Oil.Cum. Bbl(norm)",
+        "Wat.Cum. bbll(norm)",
+        "Gas.Cum. Mscfl(norm)",
+        "6MO_OIL",
+        "5MO_OIL",
+        "4MO_OIL",
+        "3MO_OIL",
+        "2MO_OIL",
+        "1MO_OIL",
+        "6MO_GAS",
+        "5MO_GAS",
+        "4MO_GAS",
+        "3MO_GAS",
+        "2MO_GAS",
+        "1MO_GAS",
+        "6MO_WAT",
+        "5MO_WAT",
+        "4MO_WAT",
+        "3MO_WAT",
+        "2MO_WAT",
+        "1MO_WAT",
+        "6MO_WC",
+        "5MO_WC",
+        "4MO_WC",
+        "3MO_WC",
+        "2MO_WC",
+        "1MO_WC",
+        "6MO_GRO",
+        "5MO_GRO",
+        "4MO_GRO",
+        "3MO_GRO",
+        "2MO_GRO",
+        "1MO_GRO"
+      ]
+    },
+    "layer_count": 10
+  },
+  "wells": [
+    {
+      "well_name": "XE11-1",
+      "x": 273515.87,
+      "y": 2714046.08,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-08-16",
+        "first_production": "1946-01-05",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 13675040.0,
+        "water_cum_bbl": 114813.0,
+        "gas_cum_mscf": 36701069.0
+      }
+    },
+    {
+      "well_name": "XE13-1",
+      "x": 273783.46,
+      "y": 2713478.49,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-09-21",
+        "first_production": "1946-01-05",
+        "last_production": "1995-01-02",
+        "oil_cum_bbl": 31841241.0,
+        "water_cum_bbl": 492360.0,
+        "gas_cum_mscf": 48441438.0
+      }
+    },
+    {
+      "well_name": "XE15-1",
+      "x": 272293.18,
+      "y": 2717438.64,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-09-10",
+        "first_production": "1946-01-05",
+        "last_production": "1987-01-08",
+        "oil_cum_bbl": 9260440.0,
+        "water_cum_bbl": 55845.0,
+        "gas_cum_mscf": 13926362.0
+      }
+    },
+    {
+      "well_name": "XE17-1",
+      "x": 274150.56,
+      "y": 2712631.0,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-10-28",
+        "first_production": "1946-01-05",
+        "last_production": "1957-01-08",
+        "oil_cum_bbl": 5164168.0,
+        "water_cum_bbl": 15716.0,
+        "gas_cum_mscf": 11324268.0
+      }
+    },
+    {
+      "well_name": "XE19-1",
+      "x": 279761.04,
+      "y": 2706927.65,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-11-13",
+        "first_production": "1946-01-05",
+        "last_production": "1959-01-08",
+        "oil_cum_bbl": 12541484.0,
+        "water_cum_bbl": 4606.0,
+        "gas_cum_mscf": 18362598.0
+      }
+    },
+    {
+      "well_name": "XE22-1",
+      "x": 277425.78,
+      "y": 2707829.18,
+      "status": "GI",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-12-27",
+        "first_production": "",
+        "last_production": "",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": 5631881.0
+      }
+    },
+    {
+      "well_name": "XE37-1",
+      "x": 275194.96,
+      "y": 2712288.34,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-06-26",
+        "first_production": "1946-01-05",
+        "last_production": "1955-01-11",
+        "oil_cum_bbl": 2298134.0,
+        "water_cum_bbl": 17818.0,
+        "gas_cum_mscf": 5209714.0
+      }
+    },
+    {
+      "well_name": "XE39-1",
+      "x": 275920.05,
+      "y": 2715071.66,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-07-15",
+        "first_production": "1946-01-05",
+        "last_production": "1955-01-10",
+        "oil_cum_bbl": 7999694.0,
+        "water_cum_bbl": 8300.0,
+        "gas_cum_mscf": 15296684.0
+      }
+    },
+    {
+      "well_name": "XE43-1",
+      "x": 273695.63,
+      "y": 2715191.66,
+      "status": "High WC",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-08-08",
+        "first_production": "1946-01-05",
+        "last_production": "1954-01-07",
+        "oil_cum_bbl": 5393137.0,
+        "water_cum_bbl": 18294.0,
+        "gas_cum_mscf": 24334677.0
+      }
+    },
+    {
+      "well_name": "XE48-1",
+      "x": 278476.49,
+      "y": 2705907.86,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-09-20",
+        "first_production": "1946-01-05",
+        "last_production": "1993-01-04",
+        "oil_cum_bbl": 15834548.0,
+        "water_cum_bbl": 91464.0,
+        "gas_cum_mscf": 40503159.0
+      }
+    },
+    {
+      "well_name": "XE54-1",
+      "x": 276385.03,
+      "y": 2708749.12,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-10-11",
+        "first_production": "1946-01-09",
+        "last_production": "1955-01-05",
+        "oil_cum_bbl": 1290679.0,
+        "water_cum_bbl": 24976.0,
+        "gas_cum_mscf": 1367844.0
+      }
+    },
+    {
+      "well_name": "XE55-1",
+      "x": 279494.22,
+      "y": 2709442.48,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1945-04-16",
+        "first_production": "1946-01-09",
+        "last_production": "1955-01-05",
+        "oil_cum_bbl": 1636742.0,
+        "water_cum_bbl": 36920.0,
+        "gas_cum_mscf": 905748.0
+      }
+    },
+    {
+      "well_name": "XE56-1",
+      "x": 281457.04,
+      "y": 2706865.57,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1946-08-05",
+        "first_production": "1946-01-09",
+        "last_production": "1955-01-05",
+        "oil_cum_bbl": 1745739.0,
+        "water_cum_bbl": 21086.0,
+        "gas_cum_mscf": 1230601.0
+      }
+    },
+    {
+      "well_name": "XE62-1",
+      "x": 272406.12,
+      "y": 2716611.31,
+      "status": "GI",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1946-11-19",
+        "first_production": "1947-01-02",
+        "last_production": "1948-01-01",
+        "oil_cum_bbl": 38360.0,
+        "water_cum_bbl": 333.0,
+        "gas_cum_mscf": 5319213.0
+      }
+    },
+    {
+      "well_name": "XE7-1",
+      "x": 272309.04,
+      "y": 2716625.52,
+      "status": "GI",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-06-04",
+        "first_production": "1946-01-10",
+        "last_production": "1947-01-07",
+        "oil_cum_bbl": 47435.0,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": 325102.0
+      }
+    },
+    {
+      "well_name": "XE76-1",
+      "x": 279951.6,
+      "y": 2712193.94,
+      "status": "GI",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1947-10-20",
+        "first_production": "1948-01-04",
+        "last_production": "1954-01-10",
+        "oil_cum_bbl": 221264.0,
+        "water_cum_bbl": 1809.0,
+        "gas_cum_mscf": 1026349.0
+      }
+    },
+    {
+      "well_name": "XE79-1",
+      "x": 275709.73,
+      "y": 2706390.75,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1948-11-03",
+        "first_production": "1948-01-04",
+        "last_production": "1965-01-12",
+        "oil_cum_bbl": 8673146.0,
+        "water_cum_bbl": 582169.0,
+        "gas_cum_mscf": 11707699.0
+      }
+    },
+    {
+      "well_name": "XE80-1",
+      "x": 277277.1,
+      "y": 2708571.96,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-02-23",
+        "first_production": "1949-01-03",
+        "last_production": "1954-01-08",
+        "oil_cum_bbl": 366395.0,
+        "water_cum_bbl": 7188.0,
+        "gas_cum_mscf": 1081429.0
+      }
+    },
+    {
+      "well_name": "XE81-1",
+      "x": 280096.73,
+      "y": 2707779.14,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-03-15",
+        "first_production": "1949-01-04",
+        "last_production": "1997-01-08",
+        "oil_cum_bbl": 9795528.0,
+        "water_cum_bbl": 120227.0,
+        "gas_cum_mscf": 28793791.0
+      }
+    },
+    {
+      "well_name": "XE82-1",
+      "x": 279438.21,
+      "y": 2714821.04,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-03-31",
+        "first_production": "1949-01-04",
+        "last_production": "1997-01-08",
+        "oil_cum_bbl": 3666138.0,
+        "water_cum_bbl": 168220.0,
+        "gas_cum_mscf": 23557694.0
+      }
+    },
+    {
+      "well_name": "XE83-1",
+      "x": 275473.31,
+      "y": 2710462.8,
+      "status": "High WC",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-10-04",
+        "first_production": "1949-01-05",
+        "last_production": "1992-01-07",
+        "oil_cum_bbl": 5064070.0,
+        "water_cum_bbl": 87976.0,
+        "gas_cum_mscf": 18611492.0
+      }
+    },
+    {
+      "well_name": "XE84-1",
+      "x": 281601.87,
+      "y": 2710392.77,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-04-24",
+        "first_production": "1949-01-09",
+        "last_production": "1971-01-09",
+        "oil_cum_bbl": 2988413.0,
+        "water_cum_bbl": 141253.0,
+        "gas_cum_mscf": 7426598.0
+      }
+    },
+    {
+      "well_name": "XE86-1",
+      "x": 277510.57,
+      "y": 2710852.29,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-06-25",
+        "first_production": "1949-01-09",
+        "last_production": "1982-01-10",
+        "oil_cum_bbl": 8154850.0,
+        "water_cum_bbl": 83715.0,
+        "gas_cum_mscf": 24616637.0
+      }
+    },
+    {
+      "well_name": "XE87-1",
+      "x": 276601.97,
+      "y": 2710255.12,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-06-07",
+        "first_production": "1949-01-09",
+        "last_production": "1959-01-08",
+        "oil_cum_bbl": 929511.0,
+        "water_cum_bbl": 5551.0,
+        "gas_cum_mscf": 7209676.0
+      }
+    },
+    {
+      "well_name": "XE88-1",
+      "x": 272698.18,
+      "y": 2714561.54,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-07-16",
+        "first_production": "1949-01-09",
+        "last_production": "1997-01-11",
+        "oil_cum_bbl": 2061990.0,
+        "water_cum_bbl": 507345.0,
+        "gas_cum_mscf": 2956524.0
+      }
+    },
+    {
+      "well_name": "XE89-1",
+      "x": 280667.67,
+      "y": 2712421.71,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-07-28",
+        "first_production": "1949-01-09",
+        "last_production": "1955-01-11",
+        "oil_cum_bbl": 1990781.0,
+        "water_cum_bbl": 7124.0,
+        "gas_cum_mscf": 2898427.0
+      }
+    },
+    {
+      "well_name": "XE9-1",
+      "x": 274914.85,
+      "y": 2715611.48,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1944-05-21",
+        "first_production": "1946-01-05",
+        "last_production": "1954-01-07",
+        "oil_cum_bbl": 4865816.0,
+        "water_cum_bbl": 5103.0,
+        "gas_cum_mscf": 15019199.0
+      }
+    },
+    {
+      "well_name": "XE90-1",
+      "x": 277292.83,
+      "y": 2716369.85,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1949-08-08",
+        "first_production": "1949-01-09",
+        "last_production": "1954-01-07",
+        "oil_cum_bbl": 722242.0,
+        "water_cum_bbl": 16743.0,
+        "gas_cum_mscf": 4052730.0
+      }
+    },
+    {
+      "well_name": "XE92-1",
+      "x": 279474.74,
+      "y": 2709496.1,
+      "status": "ESP",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1951-07-01",
+        "first_production": "1951-01-04",
+        "last_production": "1959-01-09",
+        "oil_cum_bbl": 1150071.0,
+        "water_cum_bbl": 83547.0,
+        "gas_cum_mscf": 923720.0
+      }
+    },
+    {
+      "well_name": "XE94-1",
+      "x": 281293.54,
+      "y": 2715313.45,
+      "status": "FLOWING",
+      "reservoir": "XS_Tarbert",
+      "production_summary": {
+        "spud_date": "1951-03-02",
+        "first_production": "1951-01-05",
+        "last_production": "1955-01-05",
+        "oil_cum_bbl": 814142.0,
+        "water_cum_bbl": 133078.0,
+        "gas_cum_mscf": 4404462.0
+      }
+    },
+    {
+      "well_name": "XE98-1",
+      "x": 280074.0,
+      "y": 2708566.3,
+      "status": "ESP",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XK1-1",
+      "x": 272647.8,
+      "y": 2708186.12,
+      "status": "Oil",
+      "reservoir": "XN_UPPER_KALASH",
+      "production_summary": {
+        "spud_date": "1971-09-17",
+        "first_production": "1980-01-02",
+        "last_production": "1994-01-10",
+        "oil_cum_bbl": 606349.0,
+        "water_cum_bbl": 1512925.0,
+        "gas_cum_mscf": 232724.0
+      }
+    },
+    {
+      "well_name": "XN1-1",
+      "x": 275286.88,
+      "y": 2705746.77,
+      "status": "Oil",
+      "reservoir": "XN_ARGUB_SANDSTONE",
+      "production_summary": {
+        "spud_date": "1943-03-28",
+        "first_production": "1972-01-08",
+        "last_production": "1993-01-10",
+        "oil_cum_bbl": 108740.0,
+        "water_cum_bbl": 283977.0,
+        "gas_cum_mscf": 15035.0
+      }
+    },
+    {
+      "well_name": "XN15-1",
+      "x": 280691.36,
+      "y": 2710381.63,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-09-04",
+        "first_production": "1954-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 20424592.0,
+        "water_cum_bbl": 25762313.0,
+        "gas_cum_mscf": 3379170.0
+      }
+    },
+    {
+      "well_name": "XN16-1",
+      "x": 281146.16,
+      "y": 2711282.82,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-01-05",
+        "first_production": "1954-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 17260204.0,
+        "water_cum_bbl": 47989519.0,
+        "gas_cum_mscf": 2857094.0
+      }
+    },
+    {
+      "well_name": "XN17-1",
+      "x": 278914.46,
+      "y": 2709101.64,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-05-23",
+        "first_production": "1954-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 31836437.0,
+        "water_cum_bbl": 70648141.0,
+        "gas_cum_mscf": 5268995.0
+      }
+    },
+    {
+      "well_name": "XN18-1",
+      "x": 280073.95,
+      "y": 2715002.23,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-06-06",
+        "first_production": "1954-01-04",
+        "last_production": "1996-01-10",
+        "oil_cum_bbl": 6321861.0,
+        "water_cum_bbl": 26353453.0,
+        "gas_cum_mscf": 1043139.0
+      }
+    },
+    {
+      "well_name": "XN19-1",
+      "x": 281250.72,
+      "y": 2715164.1,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-06-29",
+        "first_production": "1954-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 31145327.0,
+        "water_cum_bbl": 47710749.0,
+        "gas_cum_mscf": 5138613.0
+      }
+    },
+    {
+      "well_name": "XN25-1",
+      "x": 276036.92,
+      "y": 2710198.19,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-09-19",
+        "first_production": "1954-01-02",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 12512928.0,
+        "water_cum_bbl": 37381193.0,
+        "gas_cum_mscf": 2068988.0
+      }
+    },
+    {
+      "well_name": "XN26-1",
+      "x": 272574.93,
+      "y": 2708013.13,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-09-21",
+        "first_production": "1954-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 7343115.0,
+        "water_cum_bbl": 30427286.0,
+        "gas_cum_mscf": 1217191.0
+      }
+    },
+    {
+      "well_name": "XN32-1",
+      "x": 280612.5,
+      "y": 2715927.02,
+      "status": "Unknown",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN36-1",
+      "x": 272796.89,
+      "y": 2710011.17,
+      "status": "Oil  temp. abandoned",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1953-12-24",
+        "first_production": "1954-01-02",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 21640056.0,
+        "water_cum_bbl": 46847288.0,
+        "gas_cum_mscf": 3570527.0
+      }
+    },
+    {
+      "well_name": "XN37-1",
+      "x": 273435.54,
+      "y": 2715768.16,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-02-01",
+        "first_production": "1954-01-02",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 14769195.0,
+        "water_cum_bbl": 43229870.0,
+        "gas_cum_mscf": 2436682.0
+      }
+    },
+    {
+      "well_name": "XN41-1",
+      "x": 278809.18,
+      "y": 2715175.48,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-02-13",
+        "first_production": "1954-01-05",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 22499329.0,
+        "water_cum_bbl": 42713968.0,
+        "gas_cum_mscf": 3722194.0
+      }
+    },
+    {
+      "well_name": "XN42-1",
+      "x": 276052.2,
+      "y": 2717333.92,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-02-26",
+        "first_production": "1954-01-06",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 6834129.0,
+        "water_cum_bbl": 18567988.0,
+        "gas_cum_mscf": 1128366.0
+      }
+    },
+    {
+      "well_name": "XN45-1",
+      "x": 277651.85,
+      "y": 2709373.2,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-04-23",
+        "first_production": "1954-01-11",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 13837430.0,
+        "water_cum_bbl": 13350183.0,
+        "gas_cum_mscf": 2286684.0
+      }
+    },
+    {
+      "well_name": "XN47-1",
+      "x": 272835.58,
+      "y": 2708927.67,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-05-20",
+        "first_production": "1954-01-11",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 3813742.0,
+        "water_cum_bbl": 10851006.0,
+        "gas_cum_mscf": 628963.0
+      }
+    },
+    {
+      "well_name": "XN48-1",
+      "x": 277372.72,
+      "y": 2716862.97,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-05-31",
+        "first_production": "1954-01-11",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 8280429.0,
+        "water_cum_bbl": 8570782.0,
+        "gas_cum_mscf": 1365963.0
+      }
+    },
+    {
+      "well_name": "XN52-1",
+      "x": 276248.84,
+      "y": 2713143.58,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-02-08",
+        "first_production": "1954-01-10",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 7621794.0,
+        "water_cum_bbl": 21880768.0,
+        "gas_cum_mscf": 1257158.0
+      }
+    },
+    {
+      "well_name": "XN53-1",
+      "x": 281012.31,
+      "y": 2716305.4,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1954-08-17",
+        "first_production": "1954-01-10",
+        "last_production": "1997-01-05",
+        "oil_cum_bbl": 4256780.0,
+        "water_cum_bbl": 16173779.0,
+        "gas_cum_mscf": 702389.0
+      }
+    },
+    {
+      "well_name": "XN56-1",
+      "x": 276312.25,
+      "y": 2711522.47,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1961-06-04",
+        "first_production": "1962-01-05",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 9534435.0,
+        "water_cum_bbl": 33528353.0,
+        "gas_cum_mscf": 1591438.0
+      }
+    },
+    {
+      "well_name": "XN57-1",
+      "x": 278043.41,
+      "y": 2710093.43,
+      "status": "Oil  temp. abandoned",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1962-04-15",
+        "first_production": "1962-01-06",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 6794776.0,
+        "water_cum_bbl": 39219114.0,
+        "gas_cum_mscf": 1121150.0
+      }
+    },
+    {
+      "well_name": "XN59-1",
+      "x": 280415.62,
+      "y": 2714325.3,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1962-08-26",
+        "first_production": "1962-01-10",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 8991421.0,
+        "water_cum_bbl": 17570127.0,
+        "gas_cum_mscf": 1483581.0
+      }
+    },
+    {
+      "well_name": "XN6-1",
+      "x": 281051.32,
+      "y": 2715318.59,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1952-02-23",
+        "first_production": "1954-01-04",
+        "last_production": "1997-01-06",
+        "oil_cum_bbl": 5372092.0,
+        "water_cum_bbl": 5495361.0,
+        "gas_cum_mscf": 886007.0
+      }
+    },
+    {
+      "well_name": "XN60-1",
+      "x": 273456.6,
+      "y": 2708449.48,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1962-04-06",
+        "first_production": "1962-01-11",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 6229555.0,
+        "water_cum_bbl": 27690728.0,
+        "gas_cum_mscf": 1027932.0
+      }
+    },
+    {
+      "well_name": "XN61-1",
+      "x": 274845.72,
+      "y": 2707885.13,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1963-05-21",
+        "first_production": "1963-01-10",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 7563825.0,
+        "water_cum_bbl": 32765046.0,
+        "gas_cum_mscf": 1248122.0
+      }
+    },
+    {
+      "well_name": "XN63-1",
+      "x": 277446.21,
+      "y": 2708128.19,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1963-12-07",
+        "first_production": "1963-01-10",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 10732863.0,
+        "water_cum_bbl": 6264458.0,
+        "gas_cum_mscf": 1770928.0
+      }
+    },
+    {
+      "well_name": "XN67-1",
+      "x": 274135.62,
+      "y": 2716887.61,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1975-06-25",
+        "first_production": "1976-01-05",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 2217164.0,
+        "water_cum_bbl": 2424009.0,
+        "gas_cum_mscf": 365840.0
+      }
+    },
+    {
+      "well_name": "XN68-1",
+      "x": 277045.63,
+      "y": 2706005.36,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1975-08-20",
+        "first_production": "1976-01-05",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 2551066.0,
+        "water_cum_bbl": 2429723.0,
+        "gas_cum_mscf": 423185.0
+      }
+    },
+    {
+      "well_name": "XN69-1",
+      "x": 276370.3,
+      "y": 2709663.47,
+      "status": "Unknown",
+      "reservoir": "XN_SANDSTONE",
+      "production_summary": {
+        "spud_date": "1976-04-16",
+        "first_production": "1979-01-05",
+        "last_production": "1994-01-12",
+        "oil_cum_bbl": 466195.0,
+        "water_cum_bbl": 985591.0,
+        "gas_cum_mscf": 76921.0
+      }
+    },
+    {
+      "well_name": "XN71-1",
+      "x": 280988.77,
+      "y": 2716703.96,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1980-07-21",
+        "first_production": "1981-01-01",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 2578501.0,
+        "water_cum_bbl": 474507.0,
+        "gas_cum_mscf": 425450.0
+      }
+    },
+    {
+      "well_name": "XN72-1",
+      "x": 280011.11,
+      "y": 2710916.59,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1980-08-29",
+        "first_production": "1981-01-03",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 1316413.0,
+        "water_cum_bbl": 795533.0,
+        "gas_cum_mscf": 221007.0
+      }
+    },
+    {
+      "well_name": "XN75H-1",
+      "x": 273776.63,
+      "y": 2715733.63,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN76H-1",
+      "x": 281305.95,
+      "y": 2707067.86,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN77H-1",
+      "x": 280315.37,
+      "y": 2717022.7,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN78H-1",
+      "x": 273191.99,
+      "y": 2711689.65,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN79H-1",
+      "x": 280214.3,
+      "y": 2706639.78,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN8-1",
+      "x": 279467.24,
+      "y": 2711708.37,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1952-06-08",
+        "first_production": "1954-01-04",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 18584530.0,
+        "water_cum_bbl": 20669178.0,
+        "gas_cum_mscf": 3066892.0
+      }
+    },
+    {
+      "well_name": "XN80-1",
+      "x": 272837.65,
+      "y": 2711665.0,
+      "status": "Oil",
+      "reservoir": "XN_Etive_PALEOCENE",
+      "production_summary": {
+        "spud_date": "1991-08-10",
+        "first_production": "1991-01-11",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 1636166.0,
+        "water_cum_bbl": 757690.0,
+        "gas_cum_mscf": 271558.0
+      }
+    },
+    {
+      "well_name": "XN80H-1",
+      "x": 275529.09,
+      "y": 2711685.24,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN82H-1",
+      "x": 274125.91,
+      "y": 2717491.96,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN85-2",
+      "x": 275422.53,
+      "y": 2714526.66,
+      "status": "Unknown",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN85H-1",
+      "x": 279064.62,
+      "y": 2710456.23,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN86H-1",
+      "x": 276788.42,
+      "y": 2706500.91,
+      "status": "Oil",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XN87-2",
+      "x": 277160.61,
+      "y": 2713740.06,
+      "status": "Unknown",
+      "reservoir": ""
+    },
+    {
+      "well_name": "XO1-1",
+      "x": 280991.64,
+      "y": 2709321.17,
+      "status": "Oil",
+      "reservoir": "XN_UPPER_KALASH",
+      "production_summary": {
+        "spud_date": "1975-04-01",
+        "first_production": "1981-01-10",
+        "last_production": "1997-01-07",
+        "oil_cum_bbl": 595980.0,
+        "water_cum_bbl": 57976.0,
+        "gas_cum_mscf": 229454.0
+      }
+    },
+    {
+      "well_name": "XP1-1",
+      "x": 276958.37,
+      "y": 2716403.39,
+      "status": "Unknown",
+      "reservoir": "",
+      "production_summary": {
+        "spud_date": "1975-03-30",
+        "first_production": "",
+        "last_production": "",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": null
+      }
+    },
+    {
+      "well_name": "XQ1-1",
+      "x": 273121.98,
+      "y": 2706849.13,
+      "status": "Oil",
+      "reservoir": "XN_ARGUB_SANDSTONE",
+      "production_summary": {
+        "spud_date": "1975-10-31",
+        "first_production": "1981-01-05",
+        "last_production": "1995-01-01",
+        "oil_cum_bbl": 604612.0,
+        "water_cum_bbl": 472478.0,
+        "gas_cum_mscf": 19950.0
+      }
+    },
+    {
+      "well_name": "XS11-1",
+      "x": 272870.81,
+      "y": 2716845.31,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1944-09-24",
+        "first_production": "1946-01-07",
+        "last_production": "2010-08-02",
+        "oil_cum_bbl": 4916795.0,
+        "water_cum_bbl": 6118684.0,
+        "gas_cum_mscf": 688169.0
+      }
+    },
+    {
+      "well_name": "XS22-1",
+      "x": 272713.23,
+      "y": 2706214.49,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1945-03-17",
+        "first_production": "1946-01-07",
+        "last_production": "2009-11-25",
+        "oil_cum_bbl": 6613639.0,
+        "water_cum_bbl": 8390672.0,
+        "gas_cum_mscf": 925734.0
+      }
+    },
+    {
+      "well_name": "XS23XN-1",
+      "x": 278131.95,
+      "y": 2714513.56,
+      "status": "OXS",
+      "reservoir": "",
+      "production_summary": {
+        "spud_date": "",
+        "first_production": "",
+        "last_production": "45972",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": null
+      }
+    },
+    {
+      "well_name": "XS25-1",
+      "x": 277284.31,
+      "y": 2714256.57,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1945-06-21",
+        "first_production": "1946-01-07",
+        "last_production": "2010-01-29",
+        "oil_cum_bbl": 4588029.0,
+        "water_cum_bbl": 19629228.0,
+        "gas_cum_mscf": 643077.0
+      }
+    },
+    {
+      "well_name": "XS31-1",
+      "x": 275422.21,
+      "y": 2709023.54,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1945-03-10",
+        "first_production": "1946-01-07",
+        "last_production": "2010-04-02",
+        "oil_cum_bbl": 6712163.0,
+        "water_cum_bbl": 17800589.0,
+        "gas_cum_mscf": 940400.0
+      }
+    },
+    {
+      "well_name": "XS34-1",
+      "x": 277752.5,
+      "y": 2712049.14,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-01-23",
+        "first_production": "1946-01-07",
+        "last_production": "2010-02-02",
+        "oil_cum_bbl": 6459869.0,
+        "water_cum_bbl": 10927993.0,
+        "gas_cum_mscf": 904233.0
+      }
+    },
+    {
+      "well_name": "XS36-1",
+      "x": 279906.38,
+      "y": 2712548.25,
+      "status": "Fish in hole",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-11-03",
+        "first_production": "1946-01-07",
+        "last_production": "1997-10-07",
+        "oil_cum_bbl": 11058018.0,
+        "water_cum_bbl": 35218808.0,
+        "gas_cum_mscf": 1548800.0
+      }
+    },
+    {
+      "well_name": "XS37-1",
+      "x": 278256.99,
+      "y": 2710066.49,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-03-30",
+        "first_production": "1946-01-07",
+        "last_production": "2010-01-31",
+        "oil_cum_bbl": 9606793.0,
+        "water_cum_bbl": 42894015.0,
+        "gas_cum_mscf": 1345467.0
+      }
+    },
+    {
+      "well_name": "XS38-1",
+      "x": 275771.65,
+      "y": 2712211.93,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-04-18",
+        "first_production": "1946-01-07",
+        "last_production": "2009-11-29",
+        "oil_cum_bbl": 4802016.0,
+        "water_cum_bbl": 7090375.0,
+        "gas_cum_mscf": 672166.0
+      }
+    },
+    {
+      "well_name": "XS39-1",
+      "x": 272728.87,
+      "y": 2714459.03,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-05-20",
+        "first_production": "1946-01-07",
+        "last_production": "2009-11-09",
+        "oil_cum_bbl": 5335308.0,
+        "water_cum_bbl": 11539705.0,
+        "gas_cum_mscf": 746776.0
+      }
+    },
+    {
+      "well_name": "XS44-1",
+      "x": 275839.24,
+      "y": 2707438.23,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-12-11",
+        "first_production": "1947-01-03",
+        "last_production": "2010-06-02",
+        "oil_cum_bbl": 23889724.0,
+        "water_cum_bbl": 22549747.0,
+        "gas_cum_mscf": 3344826.0
+      }
+    },
+    {
+      "well_name": "XS45-1",
+      "x": 281325.88,
+      "y": 2714212.1,
+      "status": "String Rec'd",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1946-10-12",
+        "first_production": "1947-01-03",
+        "last_production": "1997-12-07",
+        "oil_cum_bbl": 1558948.0,
+        "water_cum_bbl": 4653519.0,
+        "gas_cum_mscf": 218210.0
+      }
+    },
+    {
+      "well_name": "XS46-1",
+      "x": 275318.55,
+      "y": 2712905.38,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1947-03-01",
+        "first_production": "1947-01-02",
+        "last_production": "2009-05-11",
+        "oil_cum_bbl": 14683080.0,
+        "water_cum_bbl": 45300732.0,
+        "gas_cum_mscf": 2055386.0
+      }
+    },
+    {
+      "well_name": "XS52-1",
+      "x": 273218.38,
+      "y": 2707587.21,
+      "status": "Open Ended",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1947-12-04",
+        "first_production": "1947-01-09",
+        "last_production": "1997-01-25",
+        "oil_cum_bbl": 4645742.0,
+        "water_cum_bbl": 17242068.0,
+        "gas_cum_mscf": 650267.0
+      }
+    },
+    {
+      "well_name": "XS53-1",
+      "x": 274151.44,
+      "y": 2717267.72,
+      "status": "Cut Back",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1947-04-27",
+        "first_production": "1947-01-08",
+        "last_production": "2009-11-12",
+        "oil_cum_bbl": 7222895.0,
+        "water_cum_bbl": 38630553.0,
+        "gas_cum_mscf": 1010895.0
+      }
+    },
+    {
+      "well_name": "XS56-1",
+      "x": 275131.21,
+      "y": 2706504.11,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1947-12-06",
+        "first_production": "1947-01-08",
+        "last_production": "2010-01-14",
+        "oil_cum_bbl": 9058468.0,
+        "water_cum_bbl": 18777614.0,
+        "gas_cum_mscf": 1268053.0
+      }
+    },
+    {
+      "well_name": "XS63-1",
+      "x": 278164.51,
+      "y": 2709783.87,
+      "status": "Rec. to Ness",
+      "reservoir": "XS_Ness",
+      "production_summary": {
+        "spud_date": "1948-04-14",
+        "first_production": "1948-01-07",
+        "last_production": "1995-01-01",
+        "oil_cum_bbl": 1991060.0,
+        "water_cum_bbl": 13090052.0,
+        "gas_cum_mscf": 283703.0
+      }
+    },
+    {
+      "well_name": "XS65-1",
+      "x": 274481.85,
+      "y": 2711612.18,
+      "status": "Online",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1948-04-05",
+        "first_production": "1948-01-07",
+        "last_production": "2010-01-26",
+        "oil_cum_bbl": 9170136.0,
+        "water_cum_bbl": 38507733.0,
+        "gas_cum_mscf": 1284686.0
+      }
+    },
+    {
+      "well_name": "XS70-1",
+      "x": 273628.02,
+      "y": 2712107.59,
+      "status": "Open Ended",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1953-05-08",
+        "first_production": "1953-01-11",
+        "last_production": "1996-12-23",
+        "oil_cum_bbl": 7864663.0,
+        "water_cum_bbl": 39435628.0,
+        "gas_cum_mscf": 1101008.0
+      }
+    },
+    {
+      "well_name": "XS80-1",
+      "x": 278997.76,
+      "y": 2716081.56,
+      "status": "String Rec'd",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1962-09-29",
+        "first_production": "1963-01-02",
+        "last_production": "1997-08-07",
+        "oil_cum_bbl": 1715838.0,
+        "water_cum_bbl": 16219396.0,
+        "gas_cum_mscf": 240221.0
+      }
+    },
+    {
+      "well_name": "XS83-1",
+      "x": 280349.08,
+      "y": 2714911.8,
+      "status": "String Rec'd",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1963-01-02",
+        "first_production": "1963-01-05",
+        "last_production": "1997-01-14",
+        "oil_cum_bbl": 7389441.0,
+        "water_cum_bbl": 17383226.0,
+        "gas_cum_mscf": 1034544.0
+      }
+    },
+    {
+      "well_name": "XS85-1",
+      "x": 275790.62,
+      "y": 2712157.61,
+      "status": "Fish in hole",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1963-04-19",
+        "first_production": "1963-01-06",
+        "last_production": "1990-01-09",
+        "oil_cum_bbl": 8664755.0,
+        "water_cum_bbl": 18644970.0,
+        "gas_cum_mscf": 1213059.0
+      }
+    },
+    {
+      "well_name": "XS86-1",
+      "x": 277361.09,
+      "y": 2710129.99,
+      "status": "Cut Back",
+      "reservoir": "XS_Etive",
+      "production_summary": {
+        "spud_date": "1963-03-05",
+        "first_production": "1963-01-06",
+        "last_production": "2009-11-27",
+        "oil_cum_bbl": 4587469.0,
+        "water_cum_bbl": 16457475.0,
+        "gas_cum_mscf": 642234.0
+      }
+    },
+    {
+      "well_name": "XS88H-1",
+      "x": 272845.12,
+      "y": 2713345.19,
+      "status": "Online",
+      "reservoir": "Tarbert",
+      "production_summary": {
+        "spud_date": "",
+        "first_production": "",
+        "last_production": "45982",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": null
+      }
+    },
+    {
+      "well_name": "XS89H-1",
+      "x": 279136.99,
+      "y": 2710173.18,
+      "status": "Plan for Ness",
+      "reservoir": "",
+      "production_summary": {
+        "spud_date": "",
+        "first_production": "",
+        "last_production": "40356",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": null
+      }
+    },
+    {
+      "well_name": "XS90H-1",
+      "x": 273972.77,
+      "y": 2715917.52,
+      "status": "Online",
+      "reservoir": "Tarbert",
+      "production_summary": {
+        "spud_date": "",
+        "first_production": "",
+        "last_production": "46063",
+        "oil_cum_bbl": null,
+        "water_cum_bbl": null,
+        "gas_cum_mscf": null
+      }
+    },
+    {
+      "well_name": "XS93H-1",
+      "x": 273261.8,
+      "y": 2710161.77,
+      "status": "Oil",
+      "reservoir": ""
+    }
+  ],
+  "layers": [
+    {
+      "name": "Loaded wells",
+      "type": "well",
+      "description": "Well names, coordinates, status, reservoir where available."
+    },
+    {
+      "name": "Production summary",
+      "type": "production",
+      "description": "Compact per-well production summary where available; full workbook rows are not included."
+    },
+    {
+      "name": "BCU",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        272509.91,
+        281009.91,
+        2706278.88,
+        2715878.88
+      ],
+      "z_range": [
+        -2128.5107,
+        -1720.1731
+      ]
+    },
+    {
+      "name": "XNS_DEM",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        261950.0,
+        289850.0,
+        2699700.0,
+        2730100.0
+      ],
+      "z_range": [
+        -160.9985,
+        261.7349
+      ]
+    },
+    {
+      "name": "XSEtive_D",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        272509.91,
+        281009.91,
+        2706278.88,
+        2715878.88
+      ],
+      "z_range": [
+        -2511.6072,
+        -1748.616
+      ]
+    },
+    {
+      "name": "XSNess_D",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        272509.91,
+        281009.91,
+        2706278.88,
+        2715878.88
+      ],
+      "z_range": [
+        -2425.8982,
+        -1761.4362
+      ]
+    },
+    {
+      "name": "XSTarbert_D",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        272509.91,
+        281009.91,
+        2706278.88,
+        2715878.88
+      ],
+      "z_range": [
+        -2347.9534,
+        -1769.1632
+      ]
+    },
+    {
+      "name": "XSTarbert_D2",
+      "type": "grid",
+      "description": "Generated grid metadata available; full grid arrays are not included in AI context.",
+      "utm_extent": [
+        272509.91,
+        281009.91,
+        2706278.88,
+        2715878.88
+      ],
+      "z_range": [
+        -2347.9534,
+        -1769.1632
+      ]
+    },
+    {
+      "name": "Y1_polygons_keymap.txt",
+      "type": "polygon",
+      "description": "Boundary/fault polygon layer referenced by the instance key map.",
+      "style_hint": "blue"
+    },
+    {
+      "name": "XS_3D_keymap.txt",
+      "type": "polygon",
+      "description": "Boundary/fault polygon layer referenced by the instance key map.",
+      "style_hint": "black"
+    }
+  ],
+  "data_dictionary": {
+    "oil_rate": "Oil production rate if available",
+    "water_cut": "Water / (oil + water), if water and oil are available",
+    "x_y": "Engineering coordinates, normally UTM meters",
+    "grid_z": "Sampled grid value from generated grid packages, if queried by deterministic tools",
+    "production_summary": "Compact per-well summary values, not raw production workbook rows"
+  },
+  "warnings": [
+    "Production summary CSV is not available in the generated demo context."
+  ]
+}

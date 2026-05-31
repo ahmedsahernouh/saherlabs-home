@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Field Viewer - Data Parser</title>
+  <link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div class="header-actions">
+        <a class="btn-back-esp" href="/FieldViewer_esp.html">Back To ESP Main Page</a>
+      </div>
+      <h1>Field Viewer - Data Parser</h1>
+      <div class="sub">Run `Dataparser.py` on a selected well-data root and download outputs.</div>
+    </header>
+
+    <section class="card">
+      <h2>1. Input Root Folder</h2>
+      <div class="row">
+        <input id="inputRoot" type="text" placeholder="U:\\35-Production_Optimization\\latest data" />
+        <button id="browseBtn" type="button">Browse</button>
+      </div>
+
+      <div id="browserPanel" class="browser hidden">
+        <div class="row browser-top">
+          <div class="path-wrap">
+            <label for="browsePath">Current path</label>
+            <input id="browsePath" type="text" />
+          </div>
+          <button id="browseGoBtn" type="button">Go</button>
+          <button id="browseUpBtn" type="button">Up</button>
+          <button id="selectCurrentBtn" type="button">Select Folder</button>
+        </div>
+        <div class="row drive-row">
+          <span class="label">Drives:</span>
+          <div id="driveList" class="drive-list"></div>
+        </div>
+        <div id="browseList" class="browse-list"></div>
+      </div>
+
+      <div class="row wells-row">
+        <button id="loadWellsBtn" type="button">Load Wells</button>
+        <button id="selectAllWellsBtn" type="button">Select All</button>
+        <button id="clearWellsBtn" type="button">Clear Selection</button>
+      </div>
+      <div id="wellSelectSummary" class="hint">Selected wells: ALL (all folders in input root)</div>
+      <select id="selectedWells" class="well-select" multiple size="10"></select>
+      <div class="hint">Optional: select one or more wells (Ctrl/Cmd + click). If empty, parser runs on all wells.</div>
+    </section>
+
+    <section class="card">
+      <h2>2. Date Range (yyyy/mm/dd for outputs)</h2>
+      <div class="row">
+        <div class="field">
+          <label for="minDate">Min Date (required)</label>
+          <input id="minDate" type="date" required />
+        </div>
+        <div class="field">
+          <label for="maxDate">Max Date</label>
+          <input id="maxDate" type="date" />
+        </div>
+      </div>
+      <div class="hint">Picker uses browser date input. Parser outputs and logs use <code>yyyy/mm/dd</code>.</div>
+    </section>
+
+    <section class="card">
+      <h2>3. Options</h2>
+      <div class="row">
+        <div class="field">
+          <label for="jobName">Job Name (optional)</label>
+          <input id="jobName" type="text" placeholder="Auto: Today_MinDate_MaxDate" />
+        </div>
+      </div>
+      <div class="row checks">
+        <label><input id="makeReport" type="checkbox" checked /> Generate Report</label>
+        <label><input id="makeQc" type="checkbox" checked /> Generate QC plots</label>
+        <label><input id="zipOutputs" type="checkbox" checked /> Zip outputs after run</label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. Run + Progress</h2>
+      <div class="row">
+        <button id="runBtn" class="primary" type="button">Run</button>
+        <button id="downloadBtn" class="success" type="button" disabled>Download</button>
+      </div>
+      <div class="status-row">
+        <div id="spinner" class="spinner hidden"></div>
+        <div id="statusText">Idle</div>
+      </div>
+      <pre id="logTail" class="log"></pre>
+    </section>
+
+    <section id="qcSection" class="card hidden">
+      <h2>5. QC Preview</h2>
+      <div id="qcMeta" class="sub">No QC images yet.</div>
+      <div id="qcGallery" class="qc-gallery"></div>
+    </section>
+  </main>
+
+  <script src="static/app.js"></script>
+</body>
+</html>

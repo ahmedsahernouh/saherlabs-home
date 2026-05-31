@@ -1,0 +1,22 @@
+{
+  "name": "XSTarbert_D2",
+  "utm_extent": [
+    272509.91,
+    281009.91,
+    2706278.88,
+    2715878.88
+  ],
+  "merc_extent": [
+    6095218.023098088,
+    6104718.442336491,
+    2808764.1447949787,
+    2819512.654531049
+  ],
+  "display_mode": "mercator",
+  "raster_px": [
+    171,
+    193
+  ],
+  "display_url": "grids/XSTarbert_D2/overlay.png",
+  "display_json_url": "grids/XSTarbert_D2/grid_display.json"
+}
