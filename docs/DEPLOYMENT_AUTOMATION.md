@@ -11,16 +11,21 @@ The backend API is a separate Flask repo:
 
 | Target | Live URL | Local path | Deploy trigger |
 | --- | --- | --- | --- |
-| FieldViewer backend | `https://api.saherlabs.dev/` | `D:\Libya_Machine_28082025\Code\SaherLabs\fieldviewer-backend` | push repo, pull on VPS, restart systemd |
+| FieldViewer backend | `https://api.saherlabs.dev/` | `D:\Libya_Machine_28082025\Code\SaherLabs\fieldviewer-backend` | `deployment\deploy-vps.ps1` |
 
-## Rules
+## Core Rules
 
 - Use Y1 only for public FieldViewer deployments.
-- Do not publish C32 files, screenshots, generated pages, or private data.
-- Change FieldViewer behavior in the FieldViewer generator/source repo first, then rebuild Y1.
-- Do not hand-edit generated Bokeh HTML for durable product changes.
-- Do not publish `.env`, `*.log`, `*.jsonl`, `*.db`, `*.sqlite`, `*.sqlite3`, or `content.txt`.
-- Keep API keys and SQL/database access on `https://api.saherlabs.dev`, never in browser code.
+- Do not publish C32 files, screenshots, generated pages, private data, logs, or
+  credentials.
+- Change durable FieldViewer behavior in the FieldViewer generator/source repo,
+  then validate and rebuild Y1.
+- The public frontend folder in this repo is a deployment copy from
+  `D:\Libya_Machine_28082025\Code\FieldViewer\instances\y1\App`.
+- Do not hand-edit generated Bokeh HTML as the long-term fix for product
+  behavior.
+- Keep API keys, provider calls, SQL/database access, and generated AI assets on
+  `https://api.saherlabs.dev`.
 
 ## FieldViewer Frontend Deployment
 
@@ -36,12 +41,13 @@ What the script does:
 1. Validates `D:\Libya_Machine_28082025\Code\FieldViewer\instances\y1\fieldviewer.instance.json`.
 2. Rebuilds the Y1 generated app with `tools\rebuild_site.py`.
 3. Refuses to deploy if the manifest is not `instance.id = y1`.
-4. Clears `FieldViewer/` while preserving `FieldViewer/wrangler.jsonc`.
-5. Copies from `FieldViewer\instances\y1\App` to `saherlabs-home\FieldViewer`.
-6. Excludes private/log/database files.
-7. Validates the generated AI Lab Bokeh JSON.
-8. Verifies `https://api.saherlabs.dev` is present in the AI Lab page.
-9. Commits, rebases, and pushes the `FieldViewer/` deployment folder.
+4. Refuses to deploy if `demo.is_demo_instance` is not true.
+5. Clears `FieldViewer/` while preserving `FieldViewer/wrangler.jsonc`.
+6. Copies from `FieldViewer\instances\y1\App` to `saherlabs-home\FieldViewer`.
+7. Excludes private/log/database files.
+8. Validates generated AI Lab Bokeh JSON.
+9. Verifies `https://api.saherlabs.dev` is present in AI Lab and Database pages.
+10. Commits, rebases, and pushes the `FieldViewer/` deployment folder.
 
 Useful options:
 
@@ -49,10 +55,36 @@ Useful options:
 .\scripts\deploy-fieldviewer-frontend.ps1 -NoCommit
 .\scripts\deploy-fieldviewer-frontend.ps1 -NoPush
 .\scripts\deploy-fieldviewer-frontend.ps1 -SkipRebuild
-.\scripts\deploy-fieldviewer-frontend.ps1 -CommitMessage "Deploy Y1 menu update"
+.\scripts\deploy-fieldviewer-frontend.ps1 -CommitMessage "Deploy Y1 update"
 ```
 
-Use `-SkipRebuild` only when `instances\y1\App` has already been rebuilt from current source.
+Use `-SkipRebuild` only when `instances\y1\App` already came from current
+generator source.
+
+## Backend Deployment
+
+Run from the backend repo:
+
+```powershell
+cd "D:\Libya_Machine_28082025\Code\SaherLabs\fieldviewer-backend"
+.\deployment\deploy-vps.ps1
+```
+
+Commit backend changes and deploy:
+
+```powershell
+.\deployment\deploy-vps.ps1 -Commit -CommitMessage "Update backend API"
+```
+
+Sync the public Y1 demo SQLite database to the VPS:
+
+```powershell
+.\deployment\deploy-vps.ps1 -SyncDemoDatabase
+```
+
+The backend deploy script pulls/rebases, pushes GitHub, pulls
+`/opt/fieldviewer-backend`, installs `requirements.txt`, restarts systemd, and
+checks `https://api.saherlabs.dev/api/health`.
 
 ## Homepage Deployment
 
@@ -74,44 +106,10 @@ wrangler.jsonc
 assets/
 ```
 
-To publish a specific set of files:
+To publish specific files:
 
 ```powershell
 .\scripts\publish-saherlabs-home.ps1 -Paths index.html,about.html -CommitMessage "Refresh homepage copy"
-```
-
-## Backend Deployment
-
-Run from the backend repo:
-
-```powershell
-cd "D:\Libya_Machine_28082025\Code\SaherLabs\fieldviewer-backend"
-.\deployment\deploy-vps.ps1
-```
-
-When local backend files have changed and should be committed first:
-
-```powershell
-.\deployment\deploy-vps.ps1 -Commit -CommitMessage "Update backend API"
-```
-
-What the backend script does:
-
-1. Refuses private-looking files.
-2. Optionally commits backend changes.
-3. Pulls/rebases and pushes `main`.
-4. SSHes to the VPS.
-5. Pulls `/opt/fieldviewer-backend` with the server deploy key.
-6. Restarts `fieldviewer-backend.service`.
-7. Checks `https://api.saherlabs.dev/api/health`.
-
-Useful options:
-
-```powershell
-.\deployment\deploy-vps.ps1 -NoRemotePull
-.\deployment\deploy-vps.ps1 -NoRestart
-.\deployment\deploy-vps.ps1 -NoSmoke
-.\deployment\deploy-vps.ps1 -NoPush
 ```
 
 ## Verification
@@ -133,12 +131,24 @@ Invoke-RestMethod https://api.saherlabs.dev/api/health
 Invoke-RestMethod https://api.saherlabs.dev/api/ai-lab/context-summary
 ```
 
-Expected health:
+SQL route check:
 
-```text
-service             status
--------             ------
-fieldviewer-backend ok
+```powershell
+Invoke-RestMethod `
+  -Uri https://api.saherlabs.dev/api/ai-lab/ask `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"question":"Show wells whose names start with XN and contain H with coordinates","model_provider":"openai"}'
+```
+
+Selected-well tool check:
+
+```powershell
+Invoke-RestMethod `
+  -Uri https://api.saherlabs.dev/api/ai-lab/chat `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"mode":"selected_well","message":"Explain selected well XE13-1 and generate map/profile/link","selected_well":"XE13-1","model_provider":"openai"}'
 ```
 
 ## Current Deployment Model
@@ -158,6 +168,7 @@ saherlabs-home root files
 fieldviewer-backend
   -> commit/push backend repo
   -> VPS git pull
+  -> pip install requirements
   -> systemd restart
   -> api.saherlabs.dev
 ```
