@@ -244,6 +244,14 @@ if (Test-Path -LiteralPath $aiLabHtml) {
     }
 }
 
+$databaseHtml = Join-Path $Destination "FieldViewer_Database.html"
+if (Test-Path -LiteralPath $databaseHtml) {
+    $databaseContent = Get-Content -LiteralPath $databaseHtml -Raw
+    if ($BackendApiBase -and -not $databaseContent.Contains($BackendApiBase)) {
+        throw "Database page does not contain expected backend API base: $BackendApiBase"
+    }
+}
+
 $changed = (& git -C $repoRoot status --porcelain -- FieldViewer)
 if (-not $changed) {
     Write-Host "No FieldViewer deployment changes detected."
