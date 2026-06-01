@@ -232,6 +232,12 @@ foreach ($required in @("menu.html", "FieldViewer.html", "FieldViewer_AI_Lab.htm
 Clear-Destination $Destination
 Copy-PublicApp -SourcePath $SourceApp -DestinationPath $Destination
 if (-not $DryRun) {
+    $indexHtml = Join-Path $Destination "index.html"
+    $menuHtml = Join-Path $Destination "menu.html"
+    if (-not (Test-Path -LiteralPath $indexHtml) -and (Test-Path -LiteralPath $menuHtml)) {
+        Write-Host "Create index.html from menu.html"
+        Copy-Item -LiteralPath $menuHtml -Destination $indexHtml -Force
+    }
     Test-ForbiddenDeploymentFiles $Destination
 }
 
