@@ -821,6 +821,7 @@
     const limitInput = document.getElementById('limitInput');
     const sqlInput = document.getElementById('sqlInput');
     const downloadCsvBtn = document.getElementById('downloadCsvBtn');
+    const FIELDVIEWER_DATABASE_API_BASE = 'https://api.saherlabs.dev';
     let currentRows = [];
     let currentColumns = [];
     let currentCsvName = 'fieldviewer_database_results.csv';
@@ -831,7 +832,11 @@
     }
 
     async function api(path, options = {}) {
-      const response = await fetch(path, {
+      const cleanPath = String(path || '');
+      const url = FIELDVIEWER_DATABASE_API_BASE
+        ? FIELDVIEWER_DATABASE_API_BASE + (cleanPath.startsWith('/') ? cleanPath : '/' + cleanPath)
+        : cleanPath;
+      const response = await fetch(url, {
         headers: { 'Content-Type': 'application/json' },
         ...options
       });
