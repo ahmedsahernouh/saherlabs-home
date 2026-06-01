@@ -4,6 +4,10 @@
 *.env
 *.log
 *.jsonl
+*.db
+*.sqlite
+*.sqlite3
+content.txt
 __pycache__/
 .venv/
 venv/
