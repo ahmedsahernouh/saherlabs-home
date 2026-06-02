@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string[]]$Paths = @("index.html", "about.html", "fieldviewer-intro.html", "_redirects", "wrangler.jsonc", "assets"),
+    [string[]]$Paths = @("index.html", "about.html", "projects.html", "resume.html", "fieldviewer-intro.html", "_redirects", "robots.txt", "sitemap.xml", "wrangler.jsonc", "assets", "scripts/publish-saherlabs-home.ps1"),
     [string]$CommitMessage = "Update SaherLabs homepage",
     [switch]$NoPush,
     [switch]$AllowDirtyOutsidePaths,

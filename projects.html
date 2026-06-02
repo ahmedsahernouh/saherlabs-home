@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | SaherLabs.dev</title>
+  <meta name="description" content="Selected SaherLabs.dev projects in digital geoscience, field visualization, seismic interpretation automation, machine learning, ZMAP workflows, and upstream decision-support tools.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="index.html"><span class="mark" aria-hidden="true">SL</span><span>SaherLabs.dev</span></a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="resume.html">Resume</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero compact">
+        <p class="eyebrow">Projects</p>
+        <h1>Digital geoscience, applied ML, and field visualization work</h1>
+        <p class="lead">
+          Selected projects focused on upstream oil and gas workflows, seismic interpretation,
+          reservoir characterization, Python automation, AI-assisted workflows, and decision-support applications.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-inner project-stack">
+          <article class="project-card featured-project">
+            <div class="project-heading">
+              <div>
+                <p class="eyebrow small">1. FieldViewer</p>
+                <h2>FieldViewer - Digital Field Review and Decision-Support Platform</h2>
+              </div>
+              <a class="button primary" href="fieldviewer-intro.html">Open Intro</a>
+            </div>
+            <p>FieldViewer is a web-based field visualization concept designed to support integrated field review and decision support. It combines maps, wells, production data, timelines, completions, well testing, ESP review, and technical outputs into a reusable digital environment.</p>
+            <p>The goal is to provide a more interactive and reusable alternative to static PowerPoint-based field reviews and disconnected technical datasets.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Disconnected field review material spread across maps, spreadsheets, presentations, and technical files.</dd></div>
+              <div><dt>Workflow</dt><dd>Reusable browser modules for maps, well status, timelines, production, completions, well testing, ESP review, and AI-assisted selected-well context.</dd></div>
+              <div><dt>Technologies</dt><dd>Python, Bokeh, Flask, GIS/CRS workflows, web maps, structured field data, SQLite concepts, AI-assisted interaction concepts.</dd></div>
+              <div><dt>Why it matters</dt><dd>Improves technical communication and field review continuity by keeping related subsurface and production context in one interactive environment.</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow small">2. Applied ML</p>
+            <h2>Seismic Attribute ML - Reservoir Property Prediction and Interpretation QC</h2>
+            <p>Python-based workflows for seismic-attribute-driven reservoir property prediction using well-calibrated data, feature testing, blind-well validation, model QC, and geological consistency checks.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Reservoir property prediction requires both statistical testing and geological consistency, especially when well control is limited.</dd></div>
+              <div><dt>Workflow</dt><dd>Feature screening, model training, blind-well validation, prediction review, and interpretation QC using seismic attributes and well data.</dd></div>
+              <div><dt>Technologies</dt><dd>Python, pandas, NumPy, scikit-learn, XGBoost concepts, Jupyter, seismic attributes, well data, reservoir characterization.</dd></div>
+              <div><dt>Why it matters</dt><dd>Supports more disciplined use of machine learning in reservoir characterization by tying prediction outputs back to geoscience checks.</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow small">3. Interpretation automation</p>
+            <h2>OpendTect + Python - ML-Assisted Seismic Interpretation Automation</h2>
+            <p>Developing workflows using open-source seismic interpretation packages such as OpendTect and Python-based geoscience libraries to enhance automation of structural and stratigraphic seismic interpretation through machine learning, geometric analysis, and geophysical attribute workflows.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Seismic interpretation workflows can include repetitive manual screening, attribute review, and QC steps that are candidates for automation support.</dd></div>
+              <div><dt>Workflow</dt><dd>Prototype fault detection, horizon analysis, seismic facies, geometric attributes, geophysical attributes, and interpretation QC workflows.</dd></div>
+              <div><dt>Technologies</dt><dd>OpendTect, Python, seismic attributes, geometric analysis, geophysical attribute workflows, machine learning concepts.</dd></div>
+              <div><dt>Why it matters</dt><dd>Connects interpretation experience with open-source tools and Python workflows that can reduce repetitive work and improve QC discipline.</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow small">4. Reservoir uncertainty</p>
+            <h2>STOIIP Monte Carlo App - Reservoir Uncertainty and ZMAP Grid Integration</h2>
+            <p>Streamlit-based reservoir volumetrics workflow for STOIIP estimation using Monte Carlo simulation, uncertainty handling, ZMAP reservoir grid input, spatial mapping, and 3D visualization concepts.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Volumetric uncertainty needs transparent assumptions, repeatable calculations, and spatial context.</dd></div>
+              <div><dt>Workflow</dt><dd>Input distribution handling, Monte Carlo simulation, ZMAP grid integration, uncertainty summaries, maps, and visualization concepts.</dd></div>
+              <div><dt>Technologies</dt><dd>Python, Streamlit, NumPy, pandas, ZMAP grids, reservoir volumetrics, 3D visualization concepts.</dd></div>
+              <div><dt>Why it matters</dt><dd>Makes uncertainty review more repeatable and easier to communicate across technical and management audiences.</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow small">5. Structural QC</p>
+            <h2>Fault Damage and Amplitude Profile Analysis</h2>
+            <p>Python/Jupyter workflow for extracting fault-normal seismic or grid profiles, analyzing amplitude variation around interpreted fault segments, and supporting structural interpretation QC.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Fault-related amplitude and grid behavior can be difficult to compare consistently along interpreted structural trends.</dd></div>
+              <div><dt>Workflow</dt><dd>Extract fault-normal profiles, compare amplitude behavior, review trends, and support interpretation QC.</dd></div>
+              <div><dt>Technologies</dt><dd>Python, Jupyter, NumPy, pandas, seismic/grid profiles, visualization workflows.</dd></div>
+              <div><dt>Why it matters</dt><dd>Turns structural interpretation checks into repeatable analysis rather than one-off visual inspection.</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <p class="eyebrow small">6. Geoscience utilities</p>
+            <h2>ZMAP / GeoTIFF / Geoscience Data Automation Utilities</h2>
+            <p>Utilities and workflows for ZMAP grid handling, GeoTIFF processing, Excel-to-LAS conversion, report building, visualization, and repetitive geoscience data preparation tasks.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Geoscience projects often lose time to repeated data conversion, formatting, and reporting tasks.</dd></div>
+              <div><dt>Workflow</dt><dd>Read, write, convert, visualize, and package technical data for review and communication.</dd></div>
+              <div><dt>Technologies</dt><dd>Python, pandas, NumPy, geospatial data handling, GeoTIFF, ZMAP, Excel, LAS, reporting utilities.</dd></div>
+              <div><dt>Why it matters</dt><dd>Reduces manual preparation work and improves consistency across technical deliverables.</dd></div>
+            </dl>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>&copy; 2026 SaherLabs.dev - Digital geoscience, ML, AI-assisted workflows, and upstream digital transformation.</span>
+        <span><a href="mailto:ahmed-saher@hotmail.com">Email</a> · <a href="https://www.linkedin.com/in/ahmedsahernouh">LinkedIn</a> · <a href="https://github.com/ahmedsahernouh">GitHub</a></span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,2 +1,7 @@
 /about /about.html 301
+/projects /projects.html 301
+/resume /resume.html 301
+/contact /index.html#contact 301
 /fieldviewer-intro /fieldviewer-intro.html 301
+/fieldviewer https://fieldviewer.saherlabs.dev 302
+/fv https://fieldviewer.saherlabs.dev 302
