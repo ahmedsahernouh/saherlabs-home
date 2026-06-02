@@ -5,9 +5,11 @@ param(
     [string]$SourceApp,
     [string]$Destination,
     [string]$BackendApiBase = "https://api.saherlabs.dev",
+    [string]$DocsStamp = (Get-Date -Format "yyyy-MM-dd"),
     [string]$CommitMessage = "Deploy FieldViewer frontend",
     [switch]$SkipValidate,
     [switch]$SkipRebuild,
+    [switch]$SkipDocs,
     [switch]$NoCommit,
     [switch]$NoPush,
     [switch]$AllowDirty,
@@ -258,7 +260,21 @@ if (Test-Path -LiteralPath $databaseHtml) {
     }
 }
 
-$changed = (& git -C $repoRoot status --porcelain -- FieldViewer)
+if (-not $SkipDocs) {
+    Invoke-Checked -FilePath "powershell" -Arguments @(
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        (Join-Path $PSScriptRoot "publish-fieldviewer-docs.ps1"),
+        "-FieldViewerRoot",
+        $FieldViewerRoot,
+        "-DocsStamp",
+        $DocsStamp
+    ) -WorkingDirectory $repoRoot
+}
+
+$changed = (& git -C $repoRoot status --porcelain -- FieldViewer fieldviewer-docs)
 if (-not $changed) {
     Write-Host "No FieldViewer deployment changes detected."
     exit 0
@@ -272,7 +288,7 @@ if ($NoCommit) {
     exit 0
 }
 
-Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "--", "FieldViewer") -WorkingDirectory $repoRoot
+Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "--", "FieldViewer", "fieldviewer-docs") -WorkingDirectory $repoRoot
 Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "commit", "-m", $CommitMessage) -WorkingDirectory $repoRoot
 Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "pull", "--rebase", "origin", "main") -WorkingDirectory $repoRoot
 

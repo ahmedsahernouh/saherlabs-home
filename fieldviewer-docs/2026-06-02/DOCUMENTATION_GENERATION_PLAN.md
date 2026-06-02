@@ -371,4 +371,3 @@ set. These follow-up decisions remain:
 3. Whether documentation should be regenerated manually by agents or through a
    scripted helper under `tools/`.
 
-

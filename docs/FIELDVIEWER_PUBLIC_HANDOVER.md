@@ -31,6 +31,15 @@ cd "D:\Libya_Machine_28082025\Code\SaherLabs\saherlabs-home"
 .\scripts\deploy-fieldviewer-frontend.ps1 -CommitMessage "Deploy Y1 FieldViewer update"
 ```
 
+By default this also publishes a dated, sanitized copy of
+`D:\Libya_Machine_28082025\Code\FieldViewer\docs` under:
+
+```text
+fieldviewer-docs/<yyyy-mm-dd>/
+```
+
+Use `-SkipDocs` only when the public docs snapshot should not be refreshed.
+
 ## AI Lab And Database Coupling
 
 The static frontend must call:

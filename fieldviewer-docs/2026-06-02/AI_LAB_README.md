@@ -167,7 +167,7 @@ For the Linux server without sudo access, the default user-owned server env
 file is:
 
 ```text
-[server-only env path]
+[internal Linux deployment path]
 ```
 
 Do not use `[server-only env path]` for this deployment.
@@ -223,5 +223,4 @@ http://127.0.0.1:8000/FieldViewer_AI_Lab.html
 ## Next Step
 
 Connect the AI Lab to a compact frontend `view_state` object from the real map page, for example selected well, visible layers, active reservoir, and map bounds.
-
 

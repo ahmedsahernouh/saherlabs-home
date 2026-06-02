@@ -276,4 +276,3 @@ Ask for help when validation fails, map alignment is uncertain, source columns
 are unclear, generated output contradicts input data, database endpoints fail,
 or UI changes appear to break map/chart interactions.
 
-

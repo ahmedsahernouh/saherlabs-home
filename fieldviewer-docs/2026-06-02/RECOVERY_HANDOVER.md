@@ -343,4 +343,3 @@ Powered by Esri | Sources: Esri and imagery providers
 Local/server-stored tiles remain the manifest default unless the selected
 instance is edited.
 
-

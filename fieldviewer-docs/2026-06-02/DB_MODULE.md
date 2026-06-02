@@ -225,4 +225,3 @@ See `docs/TEXT_TO_SQL_DB_READINESS.md` for the full safe workflow.
 - Add AI Lab integration that calls `repository.run_select_query` only after validator approval.
 - Add importers that populate metadata tables from instance CSV/XLSX/catalog files without storing heavy binary data.
 
-

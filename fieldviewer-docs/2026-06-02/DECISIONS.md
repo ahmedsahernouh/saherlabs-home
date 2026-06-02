@@ -264,4 +264,3 @@ existing QGIS-compatible transform path can introduce datum-style misalignment.
 
 **Last Updated**: 2026-05-07 (Instance split and ESRI basemap option)
 
-

@@ -570,4 +570,3 @@ the manifest changed, whether the instance was rebuilt, whether the generated
 `paths.tiles_dir`, and whether the browser is requesting the intended tile URL
 from the intended host.
 
-

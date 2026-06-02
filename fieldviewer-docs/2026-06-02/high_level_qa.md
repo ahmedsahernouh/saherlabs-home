@@ -200,4 +200,3 @@ geospatial visualization, generator architecture, instance configuration,
 Bokeh/Flask app generation, operational UI eesign, eatabase-backee metaeata,
 ane a governee path toware AI-assistee fiele review.
 
-

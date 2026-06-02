@@ -41,4 +41,3 @@ python src/app/main.py
 ## Note
 The `delim_whitespace` warning is a pandas deprecation - will be fixed in Phase 2 when we extract the polygon reader.
 
-

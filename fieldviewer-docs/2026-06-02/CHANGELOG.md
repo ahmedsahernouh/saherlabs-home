@@ -242,4 +242,3 @@ Run through `docs/FEATURES.md` and verify all 25+ features work:
 **Last Updated**: 2026-05-07 (Instance-aware basemap provider and docs refresh)
 
 
-

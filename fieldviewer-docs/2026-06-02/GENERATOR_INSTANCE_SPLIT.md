@@ -108,4 +108,3 @@ The Builder MCP should:
 7. summarize generated pages, missing inputs, disabled modules, selected
    basemap provider, and attribution requirements.
 
-

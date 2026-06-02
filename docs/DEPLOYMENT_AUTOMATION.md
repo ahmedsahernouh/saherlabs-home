@@ -47,7 +47,8 @@ What the script does:
 7. Excludes private/log/database files.
 8. Validates generated AI Lab Bokeh JSON.
 9. Verifies `https://api.saherlabs.dev` is present in AI Lab and Database pages.
-10. Commits, rebases, and pushes the `FieldViewer/` deployment folder.
+10. Publishes a dated, sanitized public docs snapshot under `fieldviewer-docs/<date>/`.
+11. Commits, rebases, and pushes the `FieldViewer/` deployment folder and docs snapshot.
 
 Useful options:
 
@@ -55,6 +56,8 @@ Useful options:
 .\scripts\deploy-fieldviewer-frontend.ps1 -NoCommit
 .\scripts\deploy-fieldviewer-frontend.ps1 -NoPush
 .\scripts\deploy-fieldviewer-frontend.ps1 -SkipRebuild
+.\scripts\deploy-fieldviewer-frontend.ps1 -SkipDocs
+.\scripts\deploy-fieldviewer-frontend.ps1 -DocsStamp "2026-06-02"
 .\scripts\deploy-fieldviewer-frontend.ps1 -CommitMessage "Deploy Y1 update"
 ```
 

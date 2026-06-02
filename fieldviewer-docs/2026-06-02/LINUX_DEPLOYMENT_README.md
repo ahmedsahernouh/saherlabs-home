@@ -222,4 +222,3 @@ manifest values, restart the server process.
 - The database file was not initialized at
   `[internal Linux deployment path] engineering instance/Data/fieldviewer.db`.
 
-

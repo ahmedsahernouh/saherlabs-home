@@ -163,4 +163,3 @@ Manual endpoint test:
 Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/api/ai-lab/ask -ContentType application/json -Body '{"question":"List all wells with coordinates","instance_id":"y1"}'
 ```
 
-

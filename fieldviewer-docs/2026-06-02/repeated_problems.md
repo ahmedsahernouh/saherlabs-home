@@ -330,4 +330,3 @@ Regression checks:
 - Confirm static design files did not replace real generated Bokeh pages.
 - Confirm generated output reflects source-level changes after rebuild.
 
-

@@ -157,4 +157,3 @@ unless the user explicitly approves a different readable plot theme.
 - Keep field-specific input/settings changes inside the selected instance
   manifest and instance folder when possible.
 
-

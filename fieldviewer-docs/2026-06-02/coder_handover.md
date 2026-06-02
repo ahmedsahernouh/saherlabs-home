@@ -538,4 +538,3 @@ Be prepared to explain:
 - how to validate and rebuild an instance
 - what the main current bottlenecks are and how to improve them
 
-

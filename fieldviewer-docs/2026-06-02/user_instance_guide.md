@@ -402,4 +402,3 @@ python tools\qc_regression_suite.py
 7. Treat any mismatch as either a data issue, manifest issue, generator issue,
    or deployment issue before trusting the output.
 
-
