@@ -447,8 +447,9 @@ h3 {
 
 .profile-list li,
 .meta-list li {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(136px, 0.34fr) minmax(0, 1fr);
+  align-items: start;
   gap: 18px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
@@ -459,6 +460,13 @@ h3 {
 .meta-list b {
   color: var(--ink);
   font-weight: 760;
+  white-space: nowrap;
+}
+
+.profile-list span,
+.meta-list span {
+  min-width: 0;
+  text-align: left;
 }
 
 .details-stack {
@@ -752,6 +760,12 @@ footer {
 
   .button {
     width: 100%;
+  }
+
+  .profile-list li,
+  .meta-list li {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .slides {
