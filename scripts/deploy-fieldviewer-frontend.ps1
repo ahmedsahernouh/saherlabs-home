@@ -9,7 +9,7 @@ param(
     [string]$CommitMessage = "Deploy FieldViewer frontend",
     [switch]$SkipValidate,
     [switch]$SkipRebuild,
-    [switch]$PublishDocs,
+    [switch]$SkipDocs,
     [switch]$NoCommit,
     [switch]$NoPush,
     [switch]$AllowDirty,
@@ -260,7 +260,7 @@ if (Test-Path -LiteralPath $databaseHtml) {
     }
 }
 
-if ($PublishDocs) {
+if (-not $SkipDocs) {
     Invoke-Checked -FilePath "powershell" -Arguments @(
         "-NoProfile",
         "-ExecutionPolicy",
