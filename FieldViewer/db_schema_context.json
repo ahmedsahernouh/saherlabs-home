@@ -2,76 +2,6 @@
   "database_purpose": "AI-ready FieldViewer structured metadata for safe Text-to-SQL over wells, layers, grids, tops, and production summaries.",
   "example_questions": [
     {
-      "category": "wells",
-      "difficulty": "easy",
-      "expected_sql": "SELECT well_name, x_utm, y_utm FROM v_well_locations ORDER BY well_name",
-      "explanation": "Uses the safe well-location view.",
-      "question": "List all wells with coordinates."
-    },
-    {
-      "category": "wells",
-      "difficulty": "easy",
-      "expected_sql": "SELECT reservoir, COUNT(*) AS well_count FROM v_well_locations GROUP BY reservoir ORDER BY well_count DESC",
-      "explanation": "Groups wells by reservoir assignment.",
-      "question": "Show wells by reservoir."
-    },
-    {
-      "category": "data_quality",
-      "difficulty": "easy",
-      "expected_sql": "SELECT well_name, status FROM v_well_locations WHERE reservoir IS NULL OR reservoir = '' ORDER BY well_name",
-      "explanation": "Finds unassigned reservoir values.",
-      "question": "Find wells without reservoir assigned."
-    },
-    {
-      "category": "layers",
-      "difficulty": "easy",
-      "expected_sql": "SELECT layer_name, layer_type, file_path, enabled FROM v_layer_catalog ORDER BY layer_name",
-      "explanation": "Reads the safe layer catalog view.",
-      "question": "List available map layers."
-    },
-    {
-      "category": "grids",
-      "difficulty": "easy",
-      "expected_sql": "SELECT grid_name, xmin, xmax, ymin, ymax, zmin, zmax, unit FROM v_grid_catalog ORDER BY grid_name",
-      "explanation": "Reads packaged grid extents.",
-      "question": "List available grids and their extents."
-    },
-    {
-      "category": "production",
-      "difficulty": "medium",
-      "expected_sql": "SELECT well_name, date, oil_rate, gas_rate, water_rate, water_cut, pressure FROM v_production_by_well WHERE well_name = 'WELL_NAME' ORDER BY date",
-      "explanation": "Replace WELL_NAME with a real well name before execution.",
-      "question": "Show production records for a selected well."
-    },
-    {
-      "category": "production",
-      "difficulty": "medium",
-      "expected_sql": "SELECT well_name, MAX(date) AS latest_production_date FROM v_production_by_well GROUP BY well_name ORDER BY well_name",
-      "explanation": "Aggregates latest available production record per well.",
-      "question": "Show latest production date per well if data exists."
-    },
-    {
-      "category": "well_tops",
-      "difficulty": "medium",
-      "expected_sql": "SELECT well_name, formation, tvdss, twt, source FROM v_well_tops WHERE well_name = 'WELL_NAME' ORDER BY formation",
-      "explanation": "Replace WELL_NAME with a real well name before execution.",
-      "question": "List tops for a selected well."
-    },
-    {
-      "category": "well_tops",
-      "difficulty": "medium",
-      "expected_sql": "SELECT well_name, formation, tvdss FROM v_well_tops WHERE formation LIKE '%PL6%' ORDER BY well_name",
-      "explanation": "Searches formation names for PL6.",
-      "question": "Find wells with PL6 tops if available."
-    },
-    {
-      "category": "wells",
-      "difficulty": "easy",
-      "expected_sql": "SELECT status, COUNT(*) AS well_count FROM v_well_locations GROUP BY status ORDER BY well_count DESC",
-      "explanation": "Groups wells by lifecycle/status classification.",
-      "question": "Count wells by status."
-    },
-    {
       "category": "production",
       "difficulty": "medium",
       "expected_sql": "SELECT wellname, date, daily_oil_bbl, daily_water_bbl, daily_gas_mscf, pressure_psi FROM v_production_full WHERE wellname = 'WELL_NAME' ORDER BY date",
@@ -146,274 +76,55 @@
   ],
   "tables": [
     {
-      "business_purpose": "Tracks prior AI-assisted questions and generated summaries.",
-      "columns": [],
-      "description": "Historical AI query records and summaries.",
-      "display_name": "AI Queries",
-      "grain": "one row per AI interaction record",
-      "table_name": "ai_queries"
-    },
-    {
-      "business_purpose": "Stores lightweight interpretation notes without changing source geoscience files.",
-      "columns": [],
-      "description": "User or workflow annotations linked to wells or coordinates.",
-      "display_name": "Annotations",
-      "grain": "one row per annotation",
-      "table_name": "annotations"
-    },
-    {
-      "business_purpose": "Supports discovery of available grids and their spatial/depth ranges.",
-      "columns": [
-        {
-          "description": "Local folder or file reference for the packaged grid.",
-          "display_name": "file_path",
-          "name": "file_path",
-          "semantic_type": "file_path",
-          "synonyms": [
-            "grid path",
-            "source path"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Packaged grid name shown in FieldViewer.",
-          "display_name": "grid_name",
-          "name": "grid_name",
-          "semantic_type": "display_name",
-          "synonyms": [
-            "grid",
-            "surface",
-            "map grid"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Maximum UTM Easting extent.",
-          "display_name": "xmax",
-          "name": "xmax",
-          "semantic_type": "coordinate_x_max",
-          "synonyms": [
-            "maximum x",
-            "east extent"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Minimum UTM Easting extent.",
-          "display_name": "xmin",
-          "name": "xmin",
-          "semantic_type": "coordinate_x_min",
-          "synonyms": [
-            "minimum x",
-            "west extent"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Maximum UTM Northing extent.",
-          "display_name": "ymax",
-          "name": "ymax",
-          "semantic_type": "coordinate_y_max",
-          "synonyms": [
-            "maximum y",
-            "north extent"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Minimum UTM Northing extent.",
-          "display_name": "ymin",
-          "name": "ymin",
-          "semantic_type": "coordinate_y_min",
-          "synonyms": [
-            "minimum y",
-            "south extent"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Maximum grid value or depth.",
-          "display_name": "zmax",
-          "name": "zmax",
-          "semantic_type": "z_max",
-          "synonyms": [
-            "maximum z",
-            "maximum value"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Minimum grid value or depth.",
-          "display_name": "zmin",
-          "name": "zmin",
-          "semantic_type": "z_min",
-          "synonyms": [
-            "minimum z",
-            "minimum value"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Catalog of packaged grids and their extents.",
-      "display_name": "Grid Catalog",
-      "grain": "one row per packaged grid per instance",
-      "table_name": "grid_catalog"
-    },
-    {
-      "business_purpose": "Connects project-level data to a specific generated app instance.",
-      "columns": [],
-      "description": "Generated FieldViewer app instances and their local data/app roots.",
-      "display_name": "Instances",
-      "grain": "one row per FieldViewer instance",
-      "table_name": "instances"
-    },
-    {
-      "business_purpose": "Explains which spatial layers are available for display or analysis.",
-      "columns": [
-        {
-          "description": "Local file path for the source layer metadata or payload.",
-          "display_name": "file_path",
-          "name": "file_path",
-          "semantic_type": "file_path",
-          "synonyms": [
-            "source file",
-            "path"
-          ],
-          "unit": null
-        },
-        {
-          "description": "FieldViewer layer label.",
-          "display_name": "layer_name",
-          "name": "layer_name",
-          "semantic_type": "display_name",
-          "synonyms": [
-            "layer",
-            "map layer"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Layer category such as grid source, wells, stations, or polygon.",
-          "display_name": "layer_type",
-          "name": "layer_type",
-          "semantic_type": "category",
-          "synonyms": [
-            "layer type",
-            "data type"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Catalog of map and subsurface layers available to an instance.",
-      "display_name": "Map Layers",
-      "grain": "one row per layer per instance",
-      "table_name": "layers"
-    },
-    {
       "business_purpose": "Supports detailed Text-to-SQL questions over the complete production history, including rates, monthly volumes, cumulative volumes, injection, status, reservoir, and well metadata.",
       "columns": [
         {
-          "description": "Average daily gas production.",
-          "display_name": "daily_gas_mscf",
-          "name": "daily_gas_mscf",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "gas rate",
-            "daily gas",
-            "mcfpd"
-          ],
-          "unit": "Mscf/d"
-        },
-        {
-          "description": "Average daily oil production from source daily-average column.",
-          "display_name": "daily_oil_bbl",
-          "name": "daily_oil_bbl",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "oil rate",
-            "daily oil",
-            "bopd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Average daily water production.",
-          "display_name": "daily_water_bbl",
-          "name": "daily_water_bbl",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "water rate",
-            "daily water",
-            "bwpd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Production record date.",
-          "display_name": "date",
-          "name": "date",
-          "semantic_type": "date",
-          "synonyms": [
-            "production date",
-            "month",
-            "record date"
-          ],
+          "description": "SQLite column record_id.",
+          "display_name": "record_id",
+          "name": "record_id",
+          "semantic_type": null,
+          "synonyms": [],
           "unit": null
         },
         {
-          "description": "Cumulative gas production.",
-          "display_name": "gas_cum_mscf",
-          "name": "gas_cum_mscf",
-          "semantic_type": "cumulative_volume",
-          "synonyms": [
-            "cumulative gas",
-            "gas cum"
-          ],
-          "unit": "Mscf"
+          "description": "SQLite column instance_id.",
+          "display_name": "instance_id",
+          "name": "instance_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
-          "description": "Gas injection volume from the source table.",
-          "display_name": "gas_injection_mscf",
-          "name": "gas_injection_mscf",
-          "semantic_type": "injection_volume",
-          "synonyms": [
-            "gas injection",
-            "ginj"
-          ],
-          "unit": "Mscf"
+          "description": "SQLite column unique_id.",
+          "display_name": "unique_id",
+          "name": "unique_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
-          "description": "Monthly oil volume from the source production table.",
-          "display_name": "monthly_oil_bbl",
-          "name": "monthly_oil_bbl",
-          "semantic_type": "production_volume",
-          "synonyms": [
-            "monthly oil",
-            "oil volume"
-          ],
-          "unit": "bbl"
+          "description": "SQLite column concession.",
+          "display_name": "concession",
+          "name": "concession",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
-          "description": "Cumulative oil production.",
-          "display_name": "oil_cum_bbl",
-          "name": "oil_cum_bbl",
-          "semantic_type": "cumulative_volume",
-          "synonyms": [
-            "cumulative oil",
-            "oil cum"
-          ],
-          "unit": "bbl"
+          "description": "SQLite column sc_field.",
+          "display_name": "sc_field",
+          "name": "sc_field",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
-          "description": "Pressure measurement from the production source when available.",
-          "display_name": "pressure_psi",
-          "name": "pressure_psi",
-          "semantic_type": "pressure",
-          "synonyms": [
-            "pressure",
-            "well pressure"
-          ],
-          "unit": "psi"
+          "description": "SQLite column pool.",
+          "display_name": "pool",
+          "name": "pool",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
           "description": "Reservoir or zone name from the production source table.",
@@ -424,6 +135,58 @@
             "reservoir",
             "zone",
             "res"
+          ],
+          "unit": null
+        },
+        {
+          "description": "SQLite column alias.",
+          "display_name": "alias",
+          "name": "alias",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column source_well_id.",
+          "display_name": "source_well_id",
+          "name": "source_well_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column prod_vect_id.",
+          "display_name": "prod_vect_id",
+          "name": "prod_vect_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column last_id.",
+          "display_name": "last_id",
+          "name": "last_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column true_last_id.",
+          "display_name": "true_last_id",
+          "name": "true_last_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Well name from the production source table.",
+          "display_name": "wellname",
+          "name": "wellname",
+          "semantic_type": "business_identifier",
+          "synonyms": [
+            "well",
+            "well name",
+            "producer"
           ],
           "unit": null
         },
@@ -440,26 +203,186 @@
           "unit": null
         },
         {
-          "description": "Cumulative water production.",
-          "display_name": "water_cum_bbl",
-          "name": "water_cum_bbl",
-          "semantic_type": "cumulative_volume",
+          "description": "SQLite column well_type.",
+          "display_name": "well_type",
+          "name": "well_type",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column xcoor.",
+          "display_name": "xcoor",
+          "name": "xcoor",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column ycoor.",
+          "display_name": "ycoor",
+          "name": "ycoor",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column kb_elevation.",
+          "display_name": "kb_elevation",
+          "name": "kb_elevation",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column total_depth.",
+          "display_name": "total_depth",
+          "name": "total_depth",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column spuddate.",
+          "display_name": "spuddate",
+          "name": "spuddate",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column status.",
+          "display_name": "status",
+          "name": "status",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column class_name.",
+          "display_name": "class_name",
+          "name": "class_name",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column designation.",
+          "display_name": "designation",
+          "name": "designation",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column station.",
+          "display_name": "station",
+          "name": "station",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Production record date.",
+          "display_name": "date",
+          "name": "date",
+          "semantic_type": "date",
           "synonyms": [
-            "cumulative water",
-            "water cum"
+            "production date",
+            "month",
+            "record date"
+          ],
+          "unit": null
+        },
+        {
+          "description": "SQLite column calendar_days.",
+          "display_name": "calendar_days",
+          "name": "calendar_days",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column production_days.",
+          "display_name": "production_days",
+          "name": "production_days",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Average daily oil production from source daily-average column.",
+          "display_name": "daily_oil_bbl",
+          "name": "daily_oil_bbl",
+          "semantic_type": "production_rate",
+          "synonyms": [
+            "oil rate",
+            "daily oil",
+            "bopd"
+          ],
+          "unit": "bbl/d"
+        },
+        {
+          "description": "Monthly oil volume from the source production table.",
+          "display_name": "monthly_oil_bbl",
+          "name": "monthly_oil_bbl",
+          "semantic_type": "production_volume",
+          "synonyms": [
+            "monthly oil",
+            "oil volume"
           ],
           "unit": "bbl"
         },
         {
-          "description": "Water cut as a fraction.",
-          "display_name": "water_cut_frac",
-          "name": "water_cut_frac",
-          "semantic_type": "ratio",
+          "description": "Average daily water production.",
+          "display_name": "daily_water_bbl",
+          "name": "daily_water_bbl",
+          "semantic_type": "production_rate",
           "synonyms": [
-            "water cut",
-            "wcut"
+            "water rate",
+            "daily water",
+            "bwpd"
           ],
-          "unit": "fraction"
+          "unit": "bbl/d"
+        },
+        {
+          "description": "SQLite column monthly_water_bbl.",
+          "display_name": "monthly_water_bbl",
+          "name": "monthly_water_bbl",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Average daily gas production.",
+          "display_name": "daily_gas_mscf",
+          "name": "daily_gas_mscf",
+          "semantic_type": "production_rate",
+          "synonyms": [
+            "gas rate",
+            "daily gas",
+            "mcfpd"
+          ],
+          "unit": "Mscf/d"
+        },
+        {
+          "description": "SQLite column monthly_gas_mscf.",
+          "display_name": "monthly_gas_mscf",
+          "name": "monthly_gas_mscf",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Pressure measurement from the production source when available.",
+          "display_name": "pressure_psi",
+          "name": "pressure_psi",
+          "semantic_type": "pressure",
+          "synonyms": [
+            "pressure",
+            "well pressure"
+          ],
+          "unit": "psi"
         },
         {
           "description": "Water injection volume from the source table.",
@@ -473,15 +396,218 @@
           "unit": "bbl"
         },
         {
-          "description": "Well name from the production source table.",
-          "display_name": "wellname",
-          "name": "wellname",
-          "semantic_type": "business_identifier",
+          "description": "Gas injection volume from the source table.",
+          "display_name": "gas_injection_mscf",
+          "name": "gas_injection_mscf",
+          "semantic_type": "injection_volume",
           "synonyms": [
-            "well",
-            "well name",
-            "producer"
+            "gas injection",
+            "ginj"
           ],
+          "unit": "Mscf"
+        },
+        {
+          "description": "SQLite column oil_rate_pd_bopd.",
+          "display_name": "oil_rate_pd_bopd",
+          "name": "oil_rate_pd_bopd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_rate_pd_bwpd.",
+          "display_name": "water_rate_pd_bwpd",
+          "name": "water_rate_pd_bwpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_rate_pd_mcfpd.",
+          "display_name": "gas_rate_pd_mcfpd",
+          "name": "gas_rate_pd_mcfpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Water cut as a fraction.",
+          "display_name": "water_cut_frac",
+          "name": "water_cut_frac",
+          "semantic_type": "ratio",
+          "synonyms": [
+            "water cut",
+            "wcut"
+          ],
+          "unit": "fraction"
+        },
+        {
+          "description": "SQLite column gor_mscf_bbl.",
+          "display_name": "gor_mscf_bbl",
+          "name": "gor_mscf_bbl",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Cumulative oil production.",
+          "display_name": "oil_cum_bbl",
+          "name": "oil_cum_bbl",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative oil",
+            "oil cum"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Cumulative water production.",
+          "display_name": "water_cum_bbl",
+          "name": "water_cum_bbl",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative water",
+            "water cum"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Cumulative gas production.",
+          "display_name": "gas_cum_mscf",
+          "name": "gas_cum_mscf",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative gas",
+            "gas cum"
+          ],
+          "unit": "Mscf"
+        },
+        {
+          "description": "SQLite column oil_rate_cd_bopd.",
+          "display_name": "oil_rate_cd_bopd",
+          "name": "oil_rate_cd_bopd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_rate_cd_bwpd.",
+          "display_name": "water_rate_cd_bwpd",
+          "name": "water_rate_cd_bwpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_rate_cd_mcfpd.",
+          "display_name": "gas_rate_cd_mcfpd",
+          "name": "gas_rate_cd_mcfpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_cut_percent.",
+          "display_name": "water_cut_percent",
+          "name": "water_cut_percent",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column oil_cum_mbo.",
+          "display_name": "oil_cum_mbo",
+          "name": "oil_cum_mbo",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_cum_mbw.",
+          "display_name": "water_cum_mbw",
+          "name": "water_cum_mbw",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column wor_cum.",
+          "display_name": "wor_cum",
+          "name": "wor_cum",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_cum_mmscf.",
+          "display_name": "gas_cum_mmscf",
+          "name": "gas_cum_mmscf",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gor_cum.",
+          "display_name": "gor_cum",
+          "name": "gor_cum",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column marked_flag.",
+          "display_name": "marked_flag",
+          "name": "marked_flag",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column oil_cut_percent.",
+          "display_name": "oil_cut_percent",
+          "name": "oil_cut_percent",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column liquid_rate_pd_bowpd.",
+          "display_name": "liquid_rate_pd_bowpd",
+          "name": "liquid_rate_pd_bowpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column filtered_flag.",
+          "display_name": "filtered_flag",
+          "name": "filtered_flag",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column wor_stb_stb.",
+          "display_name": "wor_stb_stb",
+          "name": "wor_stb_stb",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column source.",
+          "display_name": "source",
+          "name": "source",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column created_at.",
+          "display_name": "created_at",
+          "name": "created_at",
+          "semantic_type": null,
+          "synonyms": [],
           "unit": null
         }
       ],
@@ -491,257 +617,94 @@
       "table_name": "production_full"
     },
     {
-      "business_purpose": "Supports production rate, water cut, pressure, and latest-date questions.",
-      "columns": [
-        {
-          "description": "Production measurement date.",
-          "display_name": "date",
-          "name": "date",
-          "semantic_type": "date",
-          "synonyms": [
-            "production date",
-            "month",
-            "record date"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Gas production rate.",
-          "display_name": "gas_rate",
-          "name": "gas_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "gas",
-            "gas rate",
-            "mcfpd"
-          ],
-          "unit": "Mscf/d"
-        },
-        {
-          "description": "Oil production rate.",
-          "display_name": "oil_rate",
-          "name": "oil_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "oil",
-            "oil rate",
-            "bopd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Pressure measurement when present in the source.",
-          "display_name": "pressure",
-          "name": "pressure",
-          "semantic_type": "pressure",
-          "synonyms": [
-            "pressure",
-            "well pressure"
-          ],
-          "unit": "psi"
-        },
-        {
-          "description": "Water cut fraction when available.",
-          "display_name": "water_cut",
-          "name": "water_cut",
-          "semantic_type": "ratio",
-          "synonyms": [
-            "water cut",
-            "wcut"
-          ],
-          "unit": "fraction"
-        },
-        {
-          "description": "Water production rate.",
-          "display_name": "water_rate",
-          "name": "water_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "water",
-            "water rate",
-            "bwpd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Well key linked to wells.well_id.",
-          "display_name": "well_id",
-          "name": "well_id",
-          "semantic_type": "foreign_key",
-          "synonyms": [
-            "well id"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Normalized production measurements by well and date.",
-      "display_name": "Production Summary",
-      "grain": "one row per well per production date",
-      "table_name": "production_summary"
-    },
-    {
-      "business_purpose": "Identifies the field or project that owns generated instances.",
-      "columns": [],
-      "description": "FieldViewer project records and engineering CRS context.",
-      "display_name": "Projects",
-      "grain": "one row per FieldViewer project",
-      "table_name": "projects"
-    },
-    {
-      "business_purpose": "Preferred AI view for grid availability and extent questions.",
-      "columns": [
-        {
-          "description": "Local folder or file reference for the packaged grid.",
-          "display_name": "file_path",
-          "name": "file_path",
-          "semantic_type": "file_path",
-          "synonyms": [
-            "grid path"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Packaged grid name shown in FieldViewer.",
-          "display_name": "grid_name",
-          "name": "grid_name",
-          "semantic_type": "display_name",
-          "synonyms": [
-            "grid",
-            "surface"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Safe view of grid names, paths, and extents.",
-      "display_name": "Grid Catalog View",
-      "grain": "one row per packaged grid",
-      "table_name": "v_grid_catalog"
-    },
-    {
-      "business_purpose": "Preferred AI view for layer availability questions.",
-      "columns": [
-        {
-          "description": "FieldViewer layer label.",
-          "display_name": "layer_name",
-          "name": "layer_name",
-          "semantic_type": "display_name",
-          "synonyms": [
-            "layer"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Layer category.",
-          "display_name": "layer_type",
-          "name": "layer_type",
-          "semantic_type": "category",
-          "synonyms": [
-            "layer type"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Safe view of available map layers.",
-      "display_name": "Layer Catalog View",
-      "grain": "one row per map layer",
-      "table_name": "v_layer_catalog"
-    },
-    {
-      "business_purpose": "Preferred AI view for production questions.",
-      "columns": [
-        {
-          "description": "Production measurement date.",
-          "display_name": "date",
-          "name": "date",
-          "semantic_type": "date",
-          "synonyms": [
-            "production date"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Gas production rate.",
-          "display_name": "gas_rate",
-          "name": "gas_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "gas",
-            "mcfpd"
-          ],
-          "unit": "Mscf/d"
-        },
-        {
-          "description": "Oil production rate.",
-          "display_name": "oil_rate",
-          "name": "oil_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "oil",
-            "bopd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Water production rate.",
-          "display_name": "water_rate",
-          "name": "water_rate",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "water",
-            "bwpd"
-          ],
-          "unit": "bbl/d"
-        },
-        {
-          "description": "Official well name.",
-          "display_name": "well_name",
-          "name": "well_name",
-          "semantic_type": "business_identifier",
-          "synonyms": [
-            "well"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Safe joined view of production records with well names.",
-      "display_name": "Production By Well View",
-      "grain": "one row per well per production date",
-      "table_name": "v_production_by_well"
-    },
-    {
       "business_purpose": "Preferred AI view for detailed production history questions when production_summary is too compact.",
       "columns": [
         {
-          "description": "Average daily oil production.",
-          "display_name": "daily_oil_bbl",
-          "name": "daily_oil_bbl",
-          "semantic_type": "production_rate",
-          "synonyms": [
-            "oil rate",
-            "bopd"
-          ],
-          "unit": "bbl/d"
+          "description": "SQLite column record_id.",
+          "display_name": "record_id",
+          "name": "record_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
         },
         {
-          "description": "Production record date.",
-          "display_name": "date",
-          "name": "date",
-          "semantic_type": "date",
+          "description": "SQLite column unique_id.",
+          "display_name": "unique_id",
+          "name": "unique_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column concession.",
+          "display_name": "concession",
+          "name": "concession",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column sc_field.",
+          "display_name": "sc_field",
+          "name": "sc_field",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column pool.",
+          "display_name": "pool",
+          "name": "pool",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Reservoir or zone name from the full production source table.",
+          "display_name": "res_name",
+          "name": "res_name",
+          "semantic_type": "reservoir",
           "synonyms": [
-            "production date",
-            "month"
+            "reservoir",
+            "zone",
+            "res"
           ],
           "unit": null
         },
         {
-          "description": "Monthly oil volume.",
-          "display_name": "monthly_oil_bbl",
-          "name": "monthly_oil_bbl",
-          "semantic_type": "production_volume",
+          "description": "SQLite column alias.",
+          "display_name": "alias",
+          "name": "alias",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column source_well_id.",
+          "display_name": "source_well_id",
+          "name": "source_well_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column prod_vect_id.",
+          "display_name": "prod_vect_id",
+          "name": "prod_vect_id",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Well name from the full production source table.",
+          "display_name": "wellname",
+          "name": "wellname",
+          "semantic_type": "business_identifier",
           "synonyms": [
-            "monthly oil"
+            "well",
+            "well name"
           ],
-          "unit": "bbl"
+          "unit": null
         },
         {
           "description": "UWI or well identifier from the full production source table.",
@@ -755,14 +718,410 @@
           "unit": null
         },
         {
-          "description": "Well name from the full production source table.",
-          "display_name": "wellname",
-          "name": "wellname",
-          "semantic_type": "business_identifier",
+          "description": "SQLite column well_type.",
+          "display_name": "well_type",
+          "name": "well_type",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "UTM Easting coordinate from the production source when available.",
+          "display_name": "xcoor",
+          "name": "xcoor",
+          "semantic_type": "coordinate_x",
           "synonyms": [
-            "well",
-            "well name"
+            "x coordinate",
+            "easting",
+            "x utm"
           ],
+          "unit": "meter"
+        },
+        {
+          "description": "UTM Northing coordinate from the production source when available.",
+          "display_name": "ycoor",
+          "name": "ycoor",
+          "semantic_type": "coordinate_y",
+          "synonyms": [
+            "y coordinate",
+            "northing",
+            "y utm"
+          ],
+          "unit": "meter"
+        },
+        {
+          "description": "SQLite column kb_elevation.",
+          "display_name": "kb_elevation",
+          "name": "kb_elevation",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column total_depth.",
+          "display_name": "total_depth",
+          "name": "total_depth",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column spuddate.",
+          "display_name": "spuddate",
+          "name": "spuddate",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column status.",
+          "display_name": "status",
+          "name": "status",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column class_name.",
+          "display_name": "class_name",
+          "name": "class_name",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column designation.",
+          "display_name": "designation",
+          "name": "designation",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column station.",
+          "display_name": "station",
+          "name": "station",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Production record date.",
+          "display_name": "date",
+          "name": "date",
+          "semantic_type": "date",
+          "synonyms": [
+            "production date",
+            "month"
+          ],
+          "unit": null
+        },
+        {
+          "description": "SQLite column calendar_days.",
+          "display_name": "calendar_days",
+          "name": "calendar_days",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column production_days.",
+          "display_name": "production_days",
+          "name": "production_days",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Average daily oil production.",
+          "display_name": "daily_oil_bbl",
+          "name": "daily_oil_bbl",
+          "semantic_type": "production_rate",
+          "synonyms": [
+            "oil rate",
+            "bopd"
+          ],
+          "unit": "bbl/d"
+        },
+        {
+          "description": "Monthly oil volume.",
+          "display_name": "monthly_oil_bbl",
+          "name": "monthly_oil_bbl",
+          "semantic_type": "production_volume",
+          "synonyms": [
+            "monthly oil"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Average daily water production.",
+          "display_name": "daily_water_bbl",
+          "name": "daily_water_bbl",
+          "semantic_type": "production_rate",
+          "synonyms": [
+            "water rate",
+            "bwpd"
+          ],
+          "unit": "bbl/d"
+        },
+        {
+          "description": "Monthly water volume.",
+          "display_name": "monthly_water_bbl",
+          "name": "monthly_water_bbl",
+          "semantic_type": "production_volume",
+          "synonyms": [
+            "monthly water"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Average daily gas production.",
+          "display_name": "daily_gas_mscf",
+          "name": "daily_gas_mscf",
+          "semantic_type": "production_rate",
+          "synonyms": [
+            "gas rate",
+            "mcfpd"
+          ],
+          "unit": "Mscf/d"
+        },
+        {
+          "description": "Monthly gas volume.",
+          "display_name": "monthly_gas_mscf",
+          "name": "monthly_gas_mscf",
+          "semantic_type": "production_volume",
+          "synonyms": [
+            "monthly gas"
+          ],
+          "unit": "Mscf"
+        },
+        {
+          "description": "Pressure measurement from the production source when available.",
+          "display_name": "pressure_psi",
+          "name": "pressure_psi",
+          "semantic_type": "pressure",
+          "synonyms": [
+            "pressure",
+            "well pressure"
+          ],
+          "unit": "psi"
+        },
+        {
+          "description": "Water injection volume from the source table.",
+          "display_name": "water_injection_bbl",
+          "name": "water_injection_bbl",
+          "semantic_type": "injection_volume",
+          "synonyms": [
+            "water injection",
+            "winj"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Gas injection volume from the source table.",
+          "display_name": "gas_injection_mscf",
+          "name": "gas_injection_mscf",
+          "semantic_type": "injection_volume",
+          "synonyms": [
+            "gas injection",
+            "ginj"
+          ],
+          "unit": "Mscf"
+        },
+        {
+          "description": "SQLite column oil_rate_pd_bopd.",
+          "display_name": "oil_rate_pd_bopd",
+          "name": "oil_rate_pd_bopd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_rate_pd_bwpd.",
+          "display_name": "water_rate_pd_bwpd",
+          "name": "water_rate_pd_bwpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_rate_pd_mcfpd.",
+          "display_name": "gas_rate_pd_mcfpd",
+          "name": "gas_rate_pd_mcfpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Water cut as a fraction.",
+          "display_name": "water_cut_frac",
+          "name": "water_cut_frac",
+          "semantic_type": "ratio",
+          "synonyms": [
+            "water cut",
+            "wcut"
+          ],
+          "unit": "fraction"
+        },
+        {
+          "description": "SQLite column gor_mscf_bbl.",
+          "display_name": "gor_mscf_bbl",
+          "name": "gor_mscf_bbl",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "Cumulative oil production.",
+          "display_name": "oil_cum_bbl",
+          "name": "oil_cum_bbl",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative oil",
+            "oil cum"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Cumulative water production.",
+          "display_name": "water_cum_bbl",
+          "name": "water_cum_bbl",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative water",
+            "water cum"
+          ],
+          "unit": "bbl"
+        },
+        {
+          "description": "Cumulative gas production.",
+          "display_name": "gas_cum_mscf",
+          "name": "gas_cum_mscf",
+          "semantic_type": "cumulative_volume",
+          "synonyms": [
+            "cumulative gas",
+            "gas cum"
+          ],
+          "unit": "Mscf"
+        },
+        {
+          "description": "SQLite column oil_rate_cd_bopd.",
+          "display_name": "oil_rate_cd_bopd",
+          "name": "oil_rate_cd_bopd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_rate_cd_bwpd.",
+          "display_name": "water_rate_cd_bwpd",
+          "name": "water_rate_cd_bwpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_rate_cd_mcfpd.",
+          "display_name": "gas_rate_cd_mcfpd",
+          "name": "gas_rate_cd_mcfpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_cut_percent.",
+          "display_name": "water_cut_percent",
+          "name": "water_cut_percent",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column oil_cum_mbo.",
+          "display_name": "oil_cum_mbo",
+          "name": "oil_cum_mbo",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column water_cum_mbw.",
+          "display_name": "water_cum_mbw",
+          "name": "water_cum_mbw",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column wor_cum.",
+          "display_name": "wor_cum",
+          "name": "wor_cum",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gas_cum_mmscf.",
+          "display_name": "gas_cum_mmscf",
+          "name": "gas_cum_mmscf",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column gor_cum.",
+          "display_name": "gor_cum",
+          "name": "gor_cum",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column marked_flag.",
+          "display_name": "marked_flag",
+          "name": "marked_flag",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column oil_cut_percent.",
+          "display_name": "oil_cut_percent",
+          "name": "oil_cut_percent",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column liquid_rate_pd_bowpd.",
+          "display_name": "liquid_rate_pd_bowpd",
+          "name": "liquid_rate_pd_bowpd",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column filtered_flag.",
+          "display_name": "filtered_flag",
+          "name": "filtered_flag",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column wor_stb_stb.",
+          "display_name": "wor_stb_stb",
+          "name": "wor_stb_stb",
+          "semantic_type": null,
+          "synonyms": [],
+          "unit": null
+        },
+        {
+          "description": "SQLite column source.",
+          "display_name": "source",
+          "name": "source",
+          "semantic_type": null,
+          "synonyms": [],
           "unit": null
         }
       ],
@@ -770,257 +1129,6 @@
       "display_name": "Full Production Records View",
       "grain": "one row per source production record per well/date/vector",
       "table_name": "v_production_full"
-    },
-    {
-      "business_purpose": "Preferred AI view for well-location questions.",
-      "columns": [
-        {
-          "description": "Reservoir assigned to the well when available.",
-          "display_name": "reservoir",
-          "name": "reservoir",
-          "semantic_type": "reservoir",
-          "synonyms": [
-            "reservoir",
-            "zone"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Well status or lifecycle classification.",
-          "display_name": "status",
-          "name": "status",
-          "semantic_type": "category",
-          "synonyms": [
-            "well status"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Official well name used in FieldViewer selection and display.",
-          "display_name": "well_name",
-          "name": "well_name",
-          "semantic_type": "business_identifier",
-          "synonyms": [
-            "well",
-            "borehole"
-          ],
-          "unit": null
-        },
-        {
-          "description": "UTM Easting coordinate in the project engineering CRS.",
-          "display_name": "x_utm",
-          "name": "x_utm",
-          "semantic_type": "coordinate_x",
-          "synonyms": [
-            "easting",
-            "utm x"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "UTM Northing coordinate in the project engineering CRS.",
-          "display_name": "y_utm",
-          "name": "y_utm",
-          "semantic_type": "coordinate_y",
-          "synonyms": [
-            "northing",
-            "utm y"
-          ],
-          "unit": "meter"
-        }
-      ],
-      "description": "Safe view of well names, coordinates, status, and reservoir.",
-      "display_name": "Well Locations View",
-      "grain": "one row per well",
-      "table_name": "v_well_locations"
-    },
-    {
-      "business_purpose": "Preferred AI view for top-pick questions.",
-      "columns": [
-        {
-          "description": "Formation or marker name for the top pick.",
-          "display_name": "formation",
-          "name": "formation",
-          "semantic_type": "formation",
-          "synonyms": [
-            "top",
-            "marker",
-            "horizon"
-          ],
-          "unit": null
-        },
-        {
-          "description": "True vertical depth subsea for the formation top.",
-          "display_name": "tvdss",
-          "name": "tvdss",
-          "semantic_type": "depth",
-          "synonyms": [
-            "depth",
-            "tvdss"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Official well name.",
-          "display_name": "well_name",
-          "name": "well_name",
-          "semantic_type": "business_identifier",
-          "synonyms": [
-            "well"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Safe joined view of wells and formation tops.",
-      "display_name": "Well Tops View",
-      "grain": "one row per well and formation top",
-      "table_name": "v_well_tops"
-    },
-    {
-      "business_purpose": "Supports questions about stratigraphic tops, depths, and source pick files.",
-      "columns": [
-        {
-          "description": "Formation or marker name for the top pick.",
-          "display_name": "formation",
-          "name": "formation",
-          "semantic_type": "formation",
-          "synonyms": [
-            "top",
-            "marker",
-            "horizon",
-            "formation top"
-          ],
-          "unit": null
-        },
-        {
-          "description": "True vertical depth subsea for the formation top.",
-          "display_name": "tvdss",
-          "name": "tvdss",
-          "semantic_type": "depth",
-          "synonyms": [
-            "depth",
-            "tvdss",
-            "subsea depth"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "Two-way time for the formation top when available.",
-          "display_name": "twt",
-          "name": "twt",
-          "semantic_type": "time_depth",
-          "synonyms": [
-            "two way time",
-            "twt"
-          ],
-          "unit": "millisecond"
-        },
-        {
-          "description": "Well key linked to wells.well_id.",
-          "display_name": "well_id",
-          "name": "well_id",
-          "semantic_type": "foreign_key",
-          "synonyms": [
-            "well id"
-          ],
-          "unit": null
-        }
-      ],
-      "description": "Formation top picks tied to wells.",
-      "display_name": "Well Tops",
-      "grain": "one row per well and formation top",
-      "table_name": "well_tops"
-    },
-    {
-      "business_purpose": "Provides official well names, coordinates, status, reservoir, and operator.",
-      "columns": [
-        {
-          "description": "FieldViewer instance that owns the well.",
-          "display_name": "instance_id",
-          "name": "instance_id",
-          "semantic_type": "foreign_key",
-          "synonyms": [
-            "instance",
-            "app instance"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Reservoir assigned to the well when available.",
-          "display_name": "reservoir",
-          "name": "reservoir",
-          "semantic_type": "reservoir",
-          "synonyms": [
-            "reservoir",
-            "zone",
-            "pool"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Well status or lifecycle classification.",
-          "display_name": "status",
-          "name": "status",
-          "semantic_type": "category",
-          "synonyms": [
-            "well status",
-            "state"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Stable numeric well key.",
-          "display_name": "well_id",
-          "name": "well_id",
-          "semantic_type": "primary_key",
-          "synonyms": [
-            "well key",
-            "well id"
-          ],
-          "unit": null
-        },
-        {
-          "description": "Official well name used in FieldViewer selection and display.",
-          "display_name": "well_name",
-          "name": "well_name",
-          "semantic_type": "business_identifier",
-          "synonyms": [
-            "well",
-            "borehole",
-            "well identifier",
-            "well label"
-          ],
-          "unit": null
-        },
-        {
-          "description": "UTM Easting coordinate in the project engineering CRS.",
-          "display_name": "x_utm",
-          "name": "x_utm",
-          "semantic_type": "coordinate_x",
-          "synonyms": [
-            "easting",
-            "x coordinate",
-            "utm x"
-          ],
-          "unit": "meter"
-        },
-        {
-          "description": "UTM Northing coordinate in the project engineering CRS.",
-          "display_name": "y_utm",
-          "name": "y_utm",
-          "semantic_type": "coordinate_y",
-          "synonyms": [
-            "northing",
-            "y coordinate",
-            "utm y"
-          ],
-          "unit": "meter"
-        }
-      ],
-      "description": "Master well location and classification table.",
-      "display_name": "Wells",
-      "grain": "one row per well per FieldViewer instance",
-      "table_name": "wells"
     }
   ]
 }
