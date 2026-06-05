@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string[]]$Paths = @("index.html", "about.html", "projects.html", "resume.html", "fieldviewer-intro.html", "_redirects", "robots.txt", "sitemap.xml", ".assetsignore", "wrangler.jsonc", "assets", "scripts/publish-saherlabs-home.ps1"),
+    [string[]]$Paths = @("index.html", "about.html", "projects.html", "resume.html", "fieldviewer-intro.html", "fieldviewer.html", "fieldviewer-ai-lab.html", "contact.html", "SEO_CLOUDFLARE_NOTES.md", "_headers", "_redirects", "robots.txt", "sitemap.xml", ".assetsignore", "wrangler.jsonc", "assets", "scripts/publish-saherlabs-home.ps1"),
     [string]$CommitMessage = "Update SaherLabs homepage",
     [switch]$NoPush,
     [switch]$AllowDirtyOutsidePaths,
