@@ -1,8 +1,8 @@
-/about /about.html 301
-/fieldviewer-intro /fieldviewer-intro.html 301
-/fieldviewer /fieldviewer.html 301
-/fieldviewer-ai-lab /fieldviewer-ai-lab.html 301
-/projects /projects.html 301
-/resume /resume.html 301
-/contact /contact.html 301
+/about.html /about 301
+/fieldviewer-intro.html /fieldviewer-intro 301
+/fieldviewer.html /fieldviewer 301
+/fieldviewer-ai-lab.html /fieldviewer-ai-lab 301
+/projects.html /projects 301
+/resume.html /resume 301
+/contact.html /contact 301
 /fv https://fieldviewer.saherlabs.dev 302

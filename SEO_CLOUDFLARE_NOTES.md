@@ -20,7 +20,7 @@ The path and query string should be preserved.
 
 ## Current Repository Scope
 
-The root repository now provides SEO-facing pages and clean URL redirects for:
+The root repository now provides SEO-facing pages for:
 
 ```text
 /
@@ -33,7 +33,9 @@ The root repository now provides SEO-facing pages and clean URL redirects for:
 /contact
 ```
 
-The `_redirects` file intentionally uses path-based redirects for pages served by the current Cloudflare Pages project. It does not try to force the `www` hostname from repository code because that only works when the `www` request is already reaching this Pages project.
+Cloudflare Pages serves the clean URLs from the matching root `.html` files. The `_redirects` file intentionally canonicalizes direct `.html` requests back to clean URLs and keeps `/fv` as a short link to the live FieldViewer demo.
+
+The `_redirects` file does not try to force the `www` hostname from repository code because that only works when the `www` request is already reaching this Pages project.
 
 ## Manual Cloudflare Action
 
