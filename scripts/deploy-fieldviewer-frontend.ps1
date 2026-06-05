@@ -9,7 +9,7 @@ param(
     [string]$CommitMessage = "Deploy FieldViewer frontend",
     [switch]$SkipValidate,
     [switch]$SkipRebuild,
-    [switch]$SkipDocs,
+    [switch]$PublishDocs,
     [switch]$NoCommit,
     [switch]$NoPush,
     [switch]$AllowDirty,
@@ -260,7 +260,7 @@ if (Test-Path -LiteralPath $databaseHtml) {
     }
 }
 
-if (-not $SkipDocs) {
+if ($PublishDocs) {
     Invoke-Checked -FilePath "powershell" -Arguments @(
         "-NoProfile",
         "-ExecutionPolicy",
@@ -288,7 +288,14 @@ if ($NoCommit) {
     exit 0
 }
 
-Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "--", "FieldViewer", "fieldviewer-docs") -WorkingDirectory $repoRoot
+Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "-A", "--", "FieldViewer") -WorkingDirectory $repoRoot
+$trackedDocs = & git -C $repoRoot ls-files -- "fieldviewer-docs"
+if ($trackedDocs) {
+    Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "-u", "--", "fieldviewer-docs") -WorkingDirectory $repoRoot
+}
+if (Test-Path -LiteralPath (Join-Path $repoRoot "fieldviewer-docs")) {
+    Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "add", "-A", "--", "fieldviewer-docs") -WorkingDirectory $repoRoot
+}
 Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "commit", "-m", $CommitMessage) -WorkingDirectory $repoRoot
 Invoke-Checked -FilePath "git" -Arguments @("-C", $repoRoot, "pull", "--rebase", "origin", "main") -WorkingDirectory $repoRoot
 

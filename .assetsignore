@@ -14,11 +14,14 @@ venv/
 node_modules/
 AGENTS.md
 DEPLOYMENT_WWW_DIAGNOSIS.md
+SEO_CLOUDFLARE_NOTES.md
 My_info.txt
 New Microsoft Word Document.docx
 logo.pptx
 screenshots.pptx
 docs/
 docs/**
+fieldviewer-docs/
+fieldviewer-docs/**
 scripts/
 scripts/**
