@@ -18,7 +18,7 @@
   },
   "summary": {
     "instance_id": "y1",
-    "instance_name": "Y1 Demo FieldViewer",
+    "instance_name": "FieldViewer",
     "engineering_crs": "EPSG:32640",
     "display_crs": "EPSG:3857",
     "wells": {
