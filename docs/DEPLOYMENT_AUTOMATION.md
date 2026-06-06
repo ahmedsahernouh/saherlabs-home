@@ -1,11 +1,12 @@
 # SaherLabs Deployment Automation
 
-This repo is the GitHub source for two Cloudflare Pages projects:
+This repo is the GitHub source for the public SaherLabs static files and the
+deployment source for two Cloudflare Workers Assets projects:
 
 | Target | Live URL | Local path | Deploy trigger |
 | --- | --- | --- | --- |
-| SaherLabs homepage | `https://saherlabs.dev/` | repo root | commit and push `main` |
-| FieldViewer frontend | `https://fieldviewer.saherlabs.dev/` | `FieldViewer/` | commit and push `main` |
+| SaherLabs homepage | `https://saherlabs.dev/` | repo root | `scripts\publish-saherlabs-home.ps1` |
+| FieldViewer frontend | `https://fieldviewer.saherlabs.dev/` | `FieldViewer/` | `scripts\deploy-fieldviewer-frontend.ps1` |
 
 The backend API is a separate Flask repo:
 
@@ -98,21 +99,58 @@ cd "D:\Libya_Machine_28082025\Code\SaherLabs\saherlabs-home"
 .\scripts\publish-saherlabs-home.ps1 -CommitMessage "Update SaherLabs homepage"
 ```
 
+The script stages the requested files, commits, rebases, pushes, deploys to
+Cloudflare with Wrangler, and verifies the live URL. It prepares a temporary
+deploy copy because the repository `_redirects` file includes external redirect
+rules for browser routing, while Cloudflare Workers Assets accepts only relative
+redirect entries during direct upload. The repository files are not modified by
+that filtering step.
+
 By default it stages only:
 
 ```text
 index.html
 about.html
 fieldviewer-intro.html
+fieldviewer.html
+fieldviewer-ai-lab.html
+projects.html
+resume.html
+contact.html
+SEO_CLOUDFLARE_NOTES.md
 _redirects
+_headers
+robots.txt
+sitemap.xml
+.assetsignore
 wrangler.jsonc
 assets/
+scripts/publish-saherlabs-home.ps1
 ```
 
 To publish specific files:
 
 ```powershell
-.\scripts\publish-saherlabs-home.ps1 -Paths index.html,about.html -CommitMessage "Refresh homepage copy"
+.\scripts\publish-saherlabs-home.ps1 -Paths @("index.html","about.html") -CommitMessage "Refresh homepage copy"
+```
+
+To verify specific live text after deployment:
+
+```powershell
+.\scripts\publish-saherlabs-home.ps1 `
+  -Paths @("projects.html","assets\styles.css") `
+  -CommitMessage "Refresh project links" `
+  -VerifyUrl "https://saherlabs.dev/projects" `
+  -VerifyText @("Seismic_Attributes_3D","stoiip_app")
+```
+
+Useful options:
+
+```powershell
+.\scripts\publish-saherlabs-home.ps1 -NoPush
+.\scripts\publish-saherlabs-home.ps1 -NoDeploy
+.\scripts\publish-saherlabs-home.ps1 -AllowDirtyOutsidePaths
+.\scripts\publish-saherlabs-home.ps1 -DryRun
 ```
 
 ## Verification
@@ -166,7 +204,8 @@ FieldViewer generator/source
 
 saherlabs-home root files
   -> commit/push saherlabs-home
-  -> Cloudflare deploys saherlabs.dev
+  -> publish script deploys Workers Assets with Wrangler
+  -> verify saherlabs.dev
 
 fieldviewer-backend
   -> commit/push backend repo
