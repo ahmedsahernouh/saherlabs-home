@@ -1,5 +1,3 @@
-http://www.saherlabs.dev/* https://saherlabs.dev/:splat 301
-https://www.saherlabs.dev/* https://saherlabs.dev/:splat 301
 /about.html /about 301
 /fieldviewer-intro.html /fieldviewer-intro 301
 /fieldviewer-ai-lab.html /fieldviewer-ai-lab 301

@@ -1,5 +1,7 @@
 ﻿.git/
 .git/**
+.wrangler/
+.wrangler/**
 .env
 *.env
 *.log
@@ -13,6 +15,7 @@ __pycache__/
 venv/
 node_modules/
 AGENTS.md
+wrangler.jsonc
 DEPLOYMENT_WWW_DIAGNOSIS.md
 SEO_CLOUDFLARE_NOTES.md
 My_info.txt
@@ -23,3 +26,5 @@ docs/
 docs/**
 scripts/
 scripts/**
+src/
+src/**
