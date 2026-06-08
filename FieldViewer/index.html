@@ -318,6 +318,17 @@
       border-color: rgba(55,138,221,0.5);
       transform: translateY(-2px);
     }
+    .fv-card.disabled {
+      opacity: 0.42;
+      cursor: default;
+      pointer-events: none;
+      filter: grayscale(0.35);
+    }
+    .fv-card.disabled .fv-arrow { display: none; }
+    .fv-card.disabled .fv-card-desc::after {
+      content: " - under review";
+      color: #8aa0b4;
+    }
     .fv-page.light .fv-card {
       background: #ffffff;
       border-color: rgba(16,37,66,0.15);
@@ -696,7 +707,7 @@
         <a class="active" href="menu.html"><span class="fv-menu-dot"></span><span>Menu</span></a>
         <a href="FieldViewer.html"><span class="fv-menu-dot"></span><span>Map</span></a>
         <a href="FieldViewer_production.html"><span class="fv-menu-dot"></span><span>Production</span></a>
-        <a href="FieldViewer_DCA.html"><span class="fv-menu-dot"></span><span>DCA</span></a>
+        <span class="fv-menu-nav-disabled"><span class="fv-menu-dot"></span><span>DCA</span></span>
         <a href="FieldViewer_timeline.html"><span class="fv-menu-dot"></span><span>Timeline</span></a>
         <a href="FieldViewer_Field_Status_Dashboard.html"><span class="fv-menu-dot"></span><span>Status</span></a>
         <a href="FieldViewer_completions.html"><span class="fv-menu-dot"></span><span>Completion</span></a>
@@ -826,7 +837,7 @@
         </div>
         <span class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
       </a>
-      <a class="fv-card" href="FieldViewer_DCA.html">
+      <div class="fv-card disabled" aria-disabled="true">
         <div class="fv-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19 H20"/>
@@ -841,7 +852,7 @@
           <div class="fv-card-desc">Forecast &amp; EUR</div>
         </div>
         <span class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+      </div>
       <a class="fv-card" href="FieldViewer_timeline.html">
         <div class="fv-icon">
           
@@ -967,7 +978,7 @@
     </main>
   </div>
   <nav class="fv-menu-mobile-bar" aria-label="Mobile app navigation">
-    <a href="menu.html">Menu</a><a href="FieldViewer.html">Map</a><a href="FieldViewer_production.html">Prod</a><a href="FieldViewer_DCA.html">DCA</a><a href="FieldViewer_timeline.html">Time</a><a href="FieldViewer_Field_Status_Dashboard.html">Status</a><a href="FieldViewer_completions.html">Comp</a><a href="FieldViewer_well_testing.html">Test</a><span>ESP</span><a href="FieldViewer_Database.html">DB</a><a href="FieldViewer_AI_Lab.html">AI</a>
+    <a href="menu.html">Menu</a><a href="FieldViewer.html">Map</a><a href="FieldViewer_production.html">Prod</a><span>DCA</span><a href="FieldViewer_timeline.html">Time</a><a href="FieldViewer_Field_Status_Dashboard.html">Status</a><a href="FieldViewer_completions.html">Comp</a><a href="FieldViewer_well_testing.html">Test</a><span>ESP</span><a href="FieldViewer_Database.html">DB</a><a href="FieldViewer_AI_Lab.html">AI</a>
   </nav>
   <script>
     (function () {
