@@ -2,6 +2,7 @@
 .git/**
 .wrangler/
 .wrangler/**
+.assetsignore
 .env
 *.env
 *.log
