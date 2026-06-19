@@ -103,7 +103,7 @@ function Get-RelativeChildPath {
 
 function Clear-Destination {
     param([string]$DestinationPath)
-    $preserve = @("wrangler.jsonc")
+    $preserve = @("wrangler.jsonc", ".assetsignore")
     if (-not (Test-Path -LiteralPath $DestinationPath)) {
         if (-not $DryRun) {
             New-Item -ItemType Directory -Path $DestinationPath | Out-Null
