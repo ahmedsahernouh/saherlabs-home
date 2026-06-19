@@ -191,9 +191,55 @@
     overflow-x: hidden !important;
     position: sticky !important;
     top: 86px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-side-panel *,
+  .fieldviewer-well-search-input,
+  .fieldviewer-well-highlight-select,
+  .fieldviewer-clear-highlights-btn {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-side-panel .bk-Button,
+  .fieldviewer-side-panel .bk-Toggle,
+  .fieldviewer-side-panel .bk-Select,
+  .fieldviewer-side-panel .bk-TextInput,
+  .fieldviewer-side-panel .bk-MultiChoice,
+  .fieldviewer-side-panel .bk-MultiSelect,
+  .fieldviewer-side-panel .bk-CheckboxGroup,
+  .fieldviewer-side-panel .fieldviewer-nav-button,
+  .fieldviewer-side-panel .fieldviewer-section-toggle,
+  .fieldviewer-side-panel .fieldviewer-section-content {
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-well-search-input,
+  .fieldviewer-well-highlight-select,
+  .fieldviewer-clear-highlights-btn {
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+  }
+  .fieldviewer-well-search-input input,
+  .fieldviewer-well-highlight-select select,
+  .fieldviewer-clear-highlights-btn button,
+  .fieldviewer-clear-highlights-btn .bk-btn {
+    width: 100% !important;
+  }
+  .fieldviewer-side-panel label,
+  .fieldviewer-clear-highlights-btn button,
+  .fieldviewer-clear-highlights-btn .bk-btn {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.2 !important;
   }
   .fieldviewer-section-block {
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
   }
   .fieldviewer-section-toggle .bk-btn,
@@ -1006,7 +1052,66 @@
     .fieldviewer-section-content {
       overflow-y: auto !important;
       overflow-x: hidden !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       box-sizing: border-box !important;
+    }
+    :host-context(.fieldviewer-side-panel) {
+      width: calc(100% - 16px) !important;
+      max-width: calc(100% - 16px) !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+    :host-context(.fieldviewer-side-panel) .bk-input,
+    :host-context(.fieldviewer-side-panel) .bk-btn,
+    :host-context(.fieldviewer-side-panel) .bk-btn-group,
+    :host-context(.fieldviewer-side-panel) select,
+    :host-context(.fieldviewer-side-panel) input,
+    :host-context(.fieldviewer-side-panel) textarea {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+    :host-context(.fieldviewer-side-panel) button,
+    :host-context(.fieldviewer-side-panel) label {
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      line-height: 1.2 !important;
+    }
+    :host(.fieldviewer-well-search-input),
+    :host(.fieldviewer-well-highlight-select),
+    :host(.fieldviewer-clear-highlights-btn),
+    .fieldviewer-well-search-input,
+    .fieldviewer-well-highlight-select,
+    .fieldviewer-clear-highlights-btn {
+      width: calc(100% - 16px) !important;
+      max-width: calc(100% - 16px) !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+    :host(.fieldviewer-well-search-input) input,
+    :host(.fieldviewer-well-search-input) .bk-input,
+    :host(.fieldviewer-well-highlight-select) select,
+    :host(.fieldviewer-well-highlight-select) .bk-input,
+    :host(.fieldviewer-clear-highlights-btn) button,
+    :host(.fieldviewer-clear-highlights-btn) .bk-btn,
+    .fieldviewer-well-search-input input,
+    .fieldviewer-well-highlight-select select,
+    .fieldviewer-clear-highlights-btn button,
+    .fieldviewer-clear-highlights-btn .bk-btn {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+    :host(.fieldviewer-well-search-input) label,
+    :host(.fieldviewer-well-highlight-select) label,
+    :host(.fieldviewer-clear-highlights-btn) button,
+    :host(.fieldviewer-clear-highlights-btn) .bk-btn {
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      line-height: 1.2 !important;
     }
     :host(.fieldviewer-chart-legend),
     .fieldviewer-chart-legend {
@@ -1151,7 +1256,7 @@
   }
 
   function moduleLinks() {
-    return [["Menu", "menu.html", "menu"], ["Map", "FieldViewer.html", "map"], ["Time", "FieldViewer_timeline.html", "timeline"], ["Prod", "FieldViewer_production.html", "production"], ["Status", "FieldViewer_Field_Status_Dashboard.html", "status"], ["Completion", "FieldViewer_completions.html", "completion"], ["Test", "FieldViewer_well_testing.html", "well_testing"], ["Database", "FieldViewer_Database.html", "database"], ["AI Lab", "FieldViewer_AI_Lab.html", "ai_lab"]];
+    return [["Menu", "menu.html", "menu"], ["Map", "FieldViewer.html", "map"], ["Time", "FieldViewer_timeline.html", "timeline"], ["Prod", "FieldViewer_production.html", "production"], ["DCA", "FieldViewer_DCA.html", "dca"], ["Status", "FieldViewer_Field_Status_Dashboard.html", "status"], ["Completion", "FieldViewer_completions.html", "completion"], ["Test", "FieldViewer_well_testing.html", "well_testing"], ["Database", "FieldViewer_Database.html", "database"], ["AI Lab", "FieldViewer_AI_Lab.html", "ai_lab"]];
   }
 
   function currentModule() {

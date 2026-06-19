@@ -1,9 +1,0 @@
-.git/
-.git/**
-.wrangler/
-.wrangler/**
-.env
-*.env
-*.log
-*.jsonl
-wrangler.jsonc
