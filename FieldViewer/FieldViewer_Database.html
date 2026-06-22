@@ -229,12 +229,35 @@
   .fieldviewer-clear-highlights-btn .bk-btn {
     width: 100% !important;
   }
-  .fieldviewer-side-panel label,
   .fieldviewer-clear-highlights-btn button,
   .fieldviewer-clear-highlights-btn .bk-btn {
     white-space: normal !important;
     overflow-wrap: anywhere !important;
     line-height: 1.2 !important;
+  }
+  .fieldviewer-side-panel .bk-CheckboxGroup .bk-input-group,
+  .fieldviewer-side-panel .fieldviewer-checkbox-group .bk-input-group {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .fieldviewer-side-panel .bk-CheckboxGroup label,
+  .fieldviewer-side-panel .fieldviewer-checkbox-group label {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 7px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.25 !important;
+  }
+  .fieldviewer-side-panel .bk-CheckboxGroup input[type="checkbox"],
+  .fieldviewer-side-panel .fieldviewer-checkbox-group input[type="checkbox"] {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 13px !important;
+    flex: 0 0 auto !important;
+    margin: 2px 6px 0 0 !important;
+    box-sizing: content-box !important;
   }
   .fieldviewer-section-block {
     width: 100% !important;
@@ -1066,18 +1089,35 @@
     :host-context(.fieldviewer-side-panel) .bk-btn,
     :host-context(.fieldviewer-side-panel) .bk-btn-group,
     :host-context(.fieldviewer-side-panel) select,
-    :host-context(.fieldviewer-side-panel) input,
+    :host-context(.fieldviewer-side-panel) input:not([type="checkbox"]):not([type="radio"]),
     :host-context(.fieldviewer-side-panel) textarea {
       width: 100% !important;
       max-width: 100% !important;
       min-width: 0 !important;
       box-sizing: border-box !important;
     }
-    :host-context(.fieldviewer-side-panel) button,
-    :host-context(.fieldviewer-side-panel) label {
+    :host-context(.fieldviewer-side-panel) button {
       white-space: normal !important;
       overflow-wrap: anywhere !important;
       line-height: 1.2 !important;
+    }
+    :host-context(.fieldviewer-side-panel) .bk-input-group label {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 7px !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      line-height: 1.25 !important;
+    }
+    :host-context(.fieldviewer-side-panel) .bk-input-group input[type="checkbox"],
+    :host-context(.fieldviewer-side-panel) input[type="checkbox"],
+    :host-context(.fieldviewer-side-panel) input[type="radio"] {
+      width: auto !important;
+      max-width: none !important;
+      min-width: 13px !important;
+      flex: 0 0 auto !important;
+      margin: 2px 6px 0 0 !important;
+      box-sizing: content-box !important;
     }
     :host(.fieldviewer-well-search-input),
     :host(.fieldviewer-well-highlight-select),
