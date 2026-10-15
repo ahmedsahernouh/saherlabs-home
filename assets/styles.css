@@ -546,6 +546,33 @@ h3 {
   white-space: nowrap;
 }
 
+.project-heading-visual {
+  display: grid;
+  grid-template-columns: 196px minmax(0, 1fr) auto;
+}
+
+.project-thumbnail {
+  display: block;
+  width: 196px;
+  height: 118px;
+  object-fit: contain;
+  background: #edf6fa;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.project-heading-copy {
+  min-width: 0;
+}
+
+.project-heading-copy h2 {
+  margin-bottom: 0;
+}
+
+.project-heading-copy .eyebrow {
+  margin-bottom: 10px;
+}
+
 .project-links {
   display: flex;
   flex-wrap: wrap;
@@ -749,6 +776,22 @@ footer {
     flex-direction: column;
   }
 
+  .project-heading-visual {
+    grid-template-columns: 156px minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+  }
+
+  .project-heading-visual .button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .project-thumbnail {
+    width: 156px;
+    height: 94px;
+  }
+
   .section-title {
     display: block;
   }
@@ -765,6 +808,16 @@ footer {
 }
 
 @media (max-width: 540px) {
+  .project-heading-visual {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-thumbnail {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 3;
+  }
+
   .nav,
   .hero,
   .section-inner,
