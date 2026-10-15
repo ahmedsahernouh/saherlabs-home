@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects | SaherLabs.dev</title>
-  <meta name="description" content="Selected SaherLabs.dev projects in digital geoscience, field visualization, seismic interpretation automation, machine learning, ZMAP workflows, and upstream decision-support tools.">
+  <meta name="description" content="Explore SaherLabs projects: FieldViewer, the FieldViewer Data Extractor for Petrel, desktop GUI development, applied ML, seismic interpretation, and geoscience automation.">
   <link rel="canonical" href="https://saherlabs.dev/projects">
   <meta property="og:title" content="Projects | SaherLabs">
-  <meta property="og:description" content="Selected projects in digital geoscience, FieldViewer, seismic interpretation automation, machine learning, ZMAP workflows, and upstream decision support.">
+  <meta property="og:description" content="FieldViewer, Petrel data extraction, desktop GUI development, applied ML, and practical digital geoscience projects.">
   <meta property="og:url" content="https://saherlabs.dev/projects">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SaherLabs">
   <meta property="og:image" content="https://saherlabs.dev/assets/ppt-slides/Slide4.PNG">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Projects | SaherLabs">
-  <meta name="twitter:description" content="FieldViewer, applied ML, reservoir analytics, and digital geoscience projects by Ahmed Saher Nouh.">
+  <meta name="twitter:description" content="FieldViewer, the FieldViewer Data Extractor, desktop GUI development, applied ML, and digital geoscience projects by Ahmed Saher Nouh.">
   <meta name="twitter:image" content="https://saherlabs.dev/assets/ppt-slides/Slide4.PNG">
   <link rel="stylesheet" href="assets/styles.css?v=20260606-project-repos">
 </head>
@@ -69,8 +69,31 @@
             </div>
           </article>
 
+          <article class="project-card" id="fieldviewer-data-extractor">
+            <div class="project-heading">
+              <div>
+                <p class="eyebrow small">2. Data extraction and desktop GUI</p>
+                <h2>FieldViewer Data Extractor - Petrel Data Recovery</h2>
+              </div>
+              <a class="button primary" href="https://github.com/ahmedsahernouh/petrel-headless-extractor/releases/tag/v1.0.0-beta.1">Get the Windows beta</a>
+            </div>
+            <p>An open-source Windows tool for inspecting Petrel projects and recovering supported native data into open formats without opening Petrel or using Ocean. Source projects remain read-only, with separate outputs for recovered datasets, HTML reports, checksums, and QC findings.</p>
+            <p>The planned desktop GUI brings project and output selection, progress monitoring, and quick access to reports and exported files into one window. The published beta provides the headless tools; the GUI is in development and is not included in this download.</p>
+            <dl class="project-meta">
+              <div><dt>Problem addressed</dt><dd>Making supported data in Petrel projects accessible for review, reuse, analytics, and automation outside the original application.</dd></div>
+              <div><dt>Workflow</dt><dd>Select an exact .pet project and its matching .ptd folder, choose a separate output location, then review recovered data, reports, integrity checks, and coverage gaps.</dd></div>
+              <div><dt>Supported outputs</dt><dd>Supported well logs, grids, points, polygons, well heads, trajectories, and ZGY-to-SEG-Y conversion. Recovery depends on the observed native data profile; unsupported objects and unknown units remain explicit.</dd></div>
+              <div><dt>Availability</dt><dd>Headless beta 1.0.0-beta.1 for Windows 10/11 x64, with bundled Python and dependencies. Desktop GUI + CLI and Headless CLI / AI-agent editions are planned around the same extraction engine. Apache-2.0 license.</dd></div>
+            </dl>
+            <div class="project-links" aria-label="FieldViewer Data Extractor project links">
+              <a class="button" href="https://github.com/ahmedsahernouh/petrel-headless-extractor">Source and documentation</a>
+              <a class="button" href="https://github.com/ahmedsahernouh/petrel-headless-extractor/blob/main/Start%20Here.pdf">Start Here guide</a>
+              <a class="button" href="https://github.com/ahmedsahernouh/petrel-headless-extractor/blob/main/docs/NEXT_RELEASE_GUI_PLAN_20261012.md">Desktop GUI roadmap</a>
+            </div>
+          </article>
+
           <article class="project-card">
-            <p class="eyebrow small">2. Applied ML</p>
+            <p class="eyebrow small">3. Applied ML</p>
             <h2>Seismic Attribute ML - Reservoir Property Prediction and Interpretation QC</h2>
             <p>Python-based workflows for seismic-attribute-driven reservoir property prediction using well-calibrated data, feature testing, blind-well validation, model QC, and geological consistency checks.</p>
             <dl class="project-meta">
@@ -86,7 +109,7 @@
           </article>
 
           <article class="project-card">
-            <p class="eyebrow small">3. Interpretation automation</p>
+            <p class="eyebrow small">4. Interpretation automation</p>
             <h2>OpendTect + Python - ML-Assisted Seismic Interpretation Automation</h2>
             <p>Developing workflows using open-source seismic interpretation packages such as OpendTect and Python-based geoscience libraries to enhance automation of structural and stratigraphic seismic interpretation through machine learning, geometric analysis, and geophysical attribute workflows.</p>
             <dl class="project-meta">
@@ -102,7 +125,7 @@
           </article>
 
           <article class="project-card">
-            <p class="eyebrow small">4. Reservoir uncertainty</p>
+            <p class="eyebrow small">5. Reservoir uncertainty</p>
             <h2>STOIIP Monte Carlo App - Reservoir Uncertainty and ZMAP Grid Integration</h2>
             <p>Streamlit-based reservoir volumetrics workflow for STOIIP estimation using Monte Carlo simulation, uncertainty handling, ZMAP reservoir grid input, spatial mapping, and 3D visualization concepts.</p>
             <dl class="project-meta">
@@ -117,7 +140,7 @@
           </article>
 
           <article class="project-card">
-            <p class="eyebrow small">5. Structural QC</p>
+            <p class="eyebrow small">6. Structural QC</p>
             <h2>Fault Damage and Amplitude Profile Analysis</h2>
             <p>Python/Jupyter workflow for extracting fault-normal seismic or grid profiles, analyzing amplitude variation around interpreted fault segments, and supporting structural interpretation QC.</p>
             <dl class="project-meta">
@@ -133,7 +156,7 @@
           </article>
 
           <article class="project-card">
-            <p class="eyebrow small">6. Geoscience utilities</p>
+            <p class="eyebrow small">7. Geoscience utilities</p>
             <h2>ZMAP / GeoTIFF / Geoscience Data Automation Utilities</h2>
             <p>Utilities and workflows for ZMAP grid handling, GeoTIFF processing, Excel-to-LAS conversion, report building, visualization, and repetitive geoscience data preparation tasks.</p>
             <dl class="project-meta">
