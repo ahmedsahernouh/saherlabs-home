@@ -878,3 +878,30 @@ footer {
 @media(max-width:900px) { .portfolio-grid { grid-template-columns:1fr; } [id] { scroll-margin-top:180px; } }
 @media(max-width:540px) { .portfolio-card { padding:20px; } .portfolio-heading { grid-template-columns:72px minmax(0,1fr); gap:14px; } .portfolio-heading img { width:72px; height:60px; } .portfolio-heading h2 { font-size:22px; } .portfolio-heading .eyebrow::before { display:none; } .case-figure { padding:12px; } .project-links { width:100%; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .button,.shot { transition:none; } .slide { animation:none; } .slide:first-child { opacity:1; } }
+
+/* Curated modeling gallery and aggregate-only audit case study. */
+.scene-controls { display:flex; flex-wrap:wrap; gap:12px; }
+.scene-controls[hidden], [data-scene][hidden] { display:none; }
+.scene-controls button { cursor:pointer; font-family:inherit; }
+.scene-controls [aria-pressed="true"] { color:white; background:var(--brand-dark); border-color:var(--brand-dark); }
+.media-credit { margin:0; font-size:14px; color:var(--muted); }
+.media-credit a, .case-figure figcaption a { color:var(--brand-dark); text-decoration:underline; text-underline-offset:3px; }
+.geometry-gallery, .showcase-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.geometry-gallery figure, .content-stack > * { min-width:0; }
+.case-figure > a { display:block; }
+.case-figure img { height:auto; }
+.case-figure figcaption strong { display:block; color:var(--ink); margin-bottom:8px; }
+.table-scroll { max-width:100%; overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:white; }
+.coverage-table { border-collapse:collapse; width:100%; color:var(--muted); font-size:16px; }
+.coverage-table caption { text-align:left; padding:18px; color:var(--ink); font-weight:700; background:var(--soft); }
+.coverage-table th, .coverage-table td { text-align:left; vertical-align:top; padding:16px 18px; border-bottom:1px solid var(--line); }
+.coverage-table thead { background:var(--soft); color:var(--ink); }
+.coverage-table tbody th { color:var(--ink); font-weight:650; }
+.showcase-card { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:white; }
+.showcase-card > a { display:block; background:var(--soft); }
+.showcase-card img { width:100%; height:auto; aspect-ratio:16/9; object-fit:contain; }
+.showcase-card > div { padding:24px; }
+.showcase-card h3 { font-size:24px; line-height:1.2; }
+.showcase-card p { color:var(--muted); }
+@media(max-width:900px) { .geometry-gallery, .showcase-grid { grid-template-columns:1fr; } }
+@media(max-width:540px) { .coverage-table th,.coverage-table td { padding:12px; overflow-wrap:anywhere; } .coverage-table { font-size:14px; } }

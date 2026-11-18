@@ -1,0 +1,12 @@
+{
+  "schema": "saherlabs.portfolio-audit.public-summary/1",
+  "recorded_run": "November 2026",
+  "selected_project_entries": 98,
+  "metadata_coverage": {
+    "Registry + Model": 81,
+    "Registry only": 4,
+    "Unavailable": 13
+  },
+  "scope": "Metadata availability for selected entries; not complete extraction, native receiving or scientific correctness.",
+  "publication": "Aggregate counts only. Project-level identities, paths, coordinates and records are omitted."
+}
