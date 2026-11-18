@@ -2,24 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://saherlabs.dev/</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://saherlabs.dev/about</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://saherlabs.dev/projects</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://saherlabs.dev/fieldviewer-ai-lab</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://saherlabs.dev/resume</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
   <url>
     <loc>https://saherlabs.dev/contact</loc>
   </url>
   <url>
     <loc>https://saherlabs.dev/fieldviewer-intro</loc>
+  </url>
+  <url>
+    <loc>https://saherlabs.dev/projects/fieldviewer-extractor</loc>
+    <lastmod>2026-11-18</lastmod>
+  </url>
+  <url>
+    <loc>https://saherlabs.dev/projects/petrel-agent-mcp</loc>
+    <lastmod>2026-11-18</lastmod>
+  </url>
+  <url>
+    <loc>https://saherlabs.dev/projects/petroleum-text-to-sql</loc>
+    <lastmod>2026-11-18</lastmod>
   </url>
 </urlset>

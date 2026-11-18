@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controlled Petroleum Text-to-SQL | SaherLabs.dev</title>
+  <meta name="description" content="An inspectable petroleum query demonstration with approved schema views, SELECT-only checks and an offline deterministic example.">
+  <link rel="canonical" href="https://saherlabs.dev/projects/petroleum-text-to-sql">
+  <meta property="og:title" content="Controlled Petroleum Text-to-SQL | SaherLabs">
+  <meta property="og:description" content="An inspectable petroleum query demonstration with approved schema views, SELECT-only checks and an offline deterministic example.">
+  <meta property="og:url" content="https://saherlabs.dev/projects/petroleum-text-to-sql"><meta property="og:type" content="website">
+  <meta property="og:site_name" content="SaherLabs"><meta property="og:image" content="https://saherlabs.dev/assets/case-studies/petroleum-query.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Controlled Petroleum Text-to-SQL | SaherLabs">
+  <meta name="twitter:description" content="An inspectable petroleum query demonstration with approved schema views, SELECT-only checks and an offline deterministic example.">
+  <meta name="twitter:image" content="https://saherlabs.dev/assets/case-studies/petroleum-query.png">
+  <link rel="stylesheet" href="/assets/styles.css?v=20261118-portfolio">
+</head><body><div class="shell">
+    <header>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="/"><span class="mark" aria-hidden="true">SL</span><span>SaherLabs.dev</span></a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+          <a href="/fieldviewer-intro">FieldViewer</a>
+          <a href="/projects">Projects</a>
+          <a href="/resume">Resume</a>
+          <a href="/contact">Contact</a>
+          <a href="https://fieldviewer.saherlabs.dev/">Live FieldViewer Demo</a>
+        </div>
+      </nav>
+    </header>
+<main><section class="hero compact case-hero"><a class="back-link" href="/projects">All projects</a><p class="eyebrow">AI-assisted petroleum review</p><h1>Controlled text-to-SQL</h1><p class="lead">Make the query visible, check it against approved views, then summarize the rows it actually returns.</p><p class="project-status">Public-source offline demo · deterministic SQL generation</p><div class="actions"><a class="button primary" href="https://github.com/ahmedsahernouh/LLM-assisted-petroleum-review">Explore the source</a><a class="button" href="/fieldviewer-ai-lab">FieldViewer AI Lab</a></div></section><section class="section"><div class="section-inner content-stack"><article class="prose-panel"><h2>A question with a checkable path to the data</h2><p>The demonstration builds an in-memory SQLite database from compact public Y1-style context files. A question maps to a candidate query using schema context. The SQL validator checks the candidate before execution, and the answer is derived from the returned rows.</p><p>The supplied notebook and core module use deterministic generation so reviewers can inspect the workflow without API credentials or paid model calls. They demonstrate the validation boundary for an LLM-assisted workflow; connecting a live model provider remains future work.</p></article><figure class="case-figure"><a href="/assets/case-studies/petroleum-query.png" aria-label="Open full-size image"><img src="/assets/case-studies/petroleum-query.png" alt="Public demo screen showing a reservoir-count question, validated SELECT query and returned rows" width="1440" height="950" loading="lazy" decoding="async"></a><figcaption>Representative workflow image from the public repository. The example shows the offline deterministic fallback. <a href="/assets/case-studies/petroleum-query.png">Open full-size image</a>.</figcaption></figure></div></section><section class="section alt"><div class="section-inner content-stack"><article class="prose-panel"><h2>Checks before execution</h2><p>The example validator restricts reads to AI-visible views, rejects write/admin statements and multiple statements, checks hidden-table access, and applies a default row limit. A result-only summary keeps the answer tied to the actual query output.</p><p>The standalone schema diagnostic passed on 18 November 2026: declared views and columns, generated query patterns, rejected unsafe examples and a permitted CTE query were consistent. This is a focused demonstration check, not a production security assessment.</p><p>The compact demo context is not an operating database. The workflow supports inspectable technical review; it does not validate petroleum interpretations or establish production deployment readiness.</p></article><article class="prose-panel"><h2>Inspect the example</h2><p>Start with the notebook and read the database, SQL guard and text-to-SQL modules together. The repository includes the public context files and a diagnostic that can be rerun after schema or query changes.</p><div class="project-links"><a class="button" href="https://github.com/ahmedsahernouh/LLM-assisted-petroleum-review/blob/main/README.md">Read the workflow</a><a class="button" href="https://github.com/ahmedsahernouh/LLM-assisted-petroleum-review/blob/main/tools/check_demo_sql_schema.py">Schema diagnostic</a></div></article></div></section></main>
+    <footer>
+      <div class="footer-inner">
+        <span>&copy; 2026 SaherLabs.dev - Digital geoscience, ML, AI-assisted workflows, and upstream digital transformation.</span>
+        <span><a href="/contact">Contact</a> | <a href="https://www.linkedin.com/in/ahmedsahernouh">LinkedIn</a> | <a href="https://github.com/ahmedsahernouh">GitHub</a></span>
+      </div>
+    </footer>
+</div></body></html>
