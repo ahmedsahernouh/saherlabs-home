@@ -69,7 +69,7 @@ foreach ($file in $files) {
     $text = $text -replace "key\\\.env", "[local server-only env file]"
 
     $banner = @"
-> Public documentation snapshot: $DocsStamp. Sanitized from the private FieldViewer repository docs for the public Y1 demo. Private engineering instance names, local paths, internal server addresses, and server-only environment paths were redacted.
+> FieldViewer Y1 technical documentation · $DocsStamp.
 
 "@
     $target = Join-Path $destination $file.Name
@@ -118,13 +118,13 @@ $index = @"
   <header>
     <div class="wrap hero">
       <h1>FieldViewer Public Documentation</h1>
-      <p>Dated documentation snapshot for the public Y1 FieldViewer demo. These files are copied from the private FieldViewer documentation set and sanitized for public access.</p>
-      <div class="meta"><span class="pill">Snapshot: $DocsStamp</span><span class="pill">Public demo: Y1</span><span class="pill">Private operational details redacted</span></div>
+      <p>Guides and technical documentation for the Y1 FieldViewer demonstration.</p>
+      <div class="meta"><span class="pill">Snapshot: $DocsStamp</span><span class="pill">Public demo: Y1</span><span class="pill">Y1 demonstration</span></div>
     </div>
   </header>
   <main>
     <div class="wrap">
-      <div class="note">This public snapshot is intended for visitors who cannot access the private FieldViewer repository. For source-level engineering work, use the private repository docs.</div>
+      <div class="note">Browse the user guides, module descriptions and technical references below.</div>
       <section class="grid" aria-label="Documentation files">
 $($cards -join "`n")
       </section>

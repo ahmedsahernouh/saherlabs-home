@@ -7,6 +7,5 @@
     "Registry only": 4,
     "Unavailable": 13
   },
-  "scope": "Metadata availability for selected entries; not complete extraction, native receiving or scientific correctness.",
-  "publication": "Aggregate counts only. Project-level identities, paths, coordinates and records are omitted."
+  "scope": "Availability of Registry and Model metadata across selected project entries. Dataset extraction and coordinate validation are separate tasks."
 }
